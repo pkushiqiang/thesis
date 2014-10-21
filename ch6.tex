@@ -148,5 +148,36 @@ The other measure we used is NDCG, which is explained in last section. Table ~\r
 \label{tab:job_ndcg} % is used to refer this table in the text
 \end{table}
 
+\section{User Study}
+
+We evaluated the system by user studies. The purpose of the evaluation is to test the hypothesis that resume-job matching approach could return better results than keywords searching approach.
+
+\subsection{Procedure of User Study}
+
+At the start of the study, the experimenter introduced the system to the users. He introduced the features of the system, and gave a demo of how to the three different methods in the system to search the jobs. Then a subject was given a resume, all the resumes were download from the internet randomly. The user spent approximately 10 minutes to familiar with it, and got initial idea of what jobs are appropriate to the resume. The subject was asked to search a specific kind of job, like web developer or software engineer with the three methods. During the searching process, the time they used to search and the number of jobs they had reviewed for each method were recorded.  At the end of the study, the subject was asked to take a survey that asked  the personal judgment about the results accuracy of the three methods.
+
+
+\subsection{Results}
+
+
+Ten users participated user study, they are graduate and undergraduate students of Computer Science department of Texas A\&M University. The basic requirement of the users is that they can understand the meanings of technical terms of job description. The results of the study are shown in Table~\ref{tab:methodcompare}.
+
+
+\begin{table}[ht]
+\caption{Comparatione of Three Searching Methods } % title of Table
+\centering % used for centering
+\begin{tabular}{  | c | c | c | c | }
+ \hline
+ Method                    &  Time Used(Minutes)    & Job Reviewed & Accuracy Score  \\
+ \hline
+ Keyword                   & 6.3                    & 15.8         &       3.2         \\
+ \hline
+ Resume Matching           & 5.2                    & 14.6         &       4.1         \\
+  \hline
+ Keyword + Resume Matching & 4.3                    & 13.2         &       4.1       \\
+  \hline
+\end{tabular}
+\label{tab:methodcompare} % is used to refer this table in the text\section{Pipeline of Information Extraction}
+\end{table}
 
 
