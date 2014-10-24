@@ -1,9 +1,12 @@
 \chapter{Information Extraction}
 
-The content-based recommender systems need the structured information of items, but the items in JRSs are resumes and job descriptions are written in natural language, so how to get information from the documents is a big challenge. In some JRSs the users are asked to input personal information, like education and experience details, skills to the system. However, in real life, the job seekers do not input a lot information in the on-line form ~\cite{singh2010prospect}, but like to upload their resumes. To the company's side, the recruiters do not like input the job information in the web form either, but prefer to post the whole job description to the web site. Information extraction (IE) is the task of automatically extracting structured information from unstructured and/or semi-structured machine-readable documents.
+To calculate the similarity between a job and a resume, JobFinder system need the models of them, which are  structured data. To get the structured data, some JRSs ask the job seekers input their profiles in forms field by field, and the recruiter input their job description in the same way as well. However, as we discussed in chapter 2, the users are reluctant to take the tedious process ~\cite{singh2010prospect}. Job seekers prefer upload their resumes directly, and recruiters prefer to post the whole job description to web sites. In this chapter we will explain how the Information Extraction module of the system extracts information from these unstructured data source. 
+ 
+Information Extraction is the task of automatically extracting structured information such as entities, relationships between entities, and attributes describing entities from unstructured sources. ~\cite{sarawagi2008information}.  The IE framework will be introduced below by example of processing the job descriptions.   
 
 \section{Text Processing Pipeline}
 
+The IE module uses five ? six stages in order to extract the information 
 
 In Nature Language Processing, especially in Information Extraction, pipeline is a well adopted architecture~\cite{sarawagi2008information}. The pipeline to process the job descriptions in the system has eight stages, which is shown in Figure~\ref{fig:Pipeline}:
 
