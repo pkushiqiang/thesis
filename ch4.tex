@@ -1,29 +1,32 @@
 \chapter{Information Extraction}
 
-To calculate the similarity between a job and a resume, JobFinder system need the models of them, which are  structured data. To get the structured data, some JRSs ask the job seekers input their profiles in forms field by field, and the recruiter input their job description in the same way as well. However, as we discussed in chapter 2, the users are reluctant to take the tedious process ~\cite{singh2010prospect}. Job seekers prefer upload their resumes directly, and recruiters prefer to post the whole job description to web sites. In this chapter we will explain how the Information Extraction module of the system extracts information from these unstructured data source. 
- 
-Information Extraction is the task of automatically extracting structured information such as entities, relationships between entities, and attributes describing entities from unstructured sources. ~\cite{sarawagi2008information}.  The IE framework will be introduced below by example of processing the job descriptions.   
+To calculate the similarity between a job and a resume, JobFinder system need the models of them, which are  structured data. To get the structured data, some JRSs ask the job seekers input their profiles in forms field by field, and the recruiter input their job description in the same way as well. However, as we discussed in chapter 2, the users are reluctant to take the tedious process ~\cite{singh2010prospect}. Job seekers prefer upload their resumes directly, and recruiters prefer to post the whole job description to web sites. In this chapter we will explain how the Information Extraction module of the system extracts information from these unstructured data source.
 
-\section{Text Processing Pipeline}
+Information Extraction is the task of automatically extracting structured information such as entities, relationships between entities, and attributes describing entities from unstructured sources. ~\cite{sarawagi2008information}.  The IE framework will be introduced below by example of processing the job descriptions.
 
-The IE module uses five ? six stages in order to extract the information 
+\section{Text Processing Stages}
+
+The IE framework uses six stages in order to extract the information from job descriptions: HTML parsing, segmenting, preprocessing, tokenizing, labeling and pattern matching, which is show in Figure~\ref{fig:Pipeline}.
 
 In Nature Language Processing, especially in Information Extraction, pipeline is a well adopted architecture~\cite{sarawagi2008information}. The pipeline to process the job descriptions in the system has eight stages, which is shown in Figure~\ref{fig:Pipeline}:
 
-\begin{enumerate}
-    \item The HTML parser will parse the web pages of job descriptions, which are obtained from web crawler. The parser will get the HTML element that contains the main content of the job description.
-    \item Segment module will separate the job description into paragraphs according to HTML tags at first, then separate each paragraph into sentences.
-    \item The sentences will be tokenized into string arrays, and be sent to the classification module. The classification module will determine the category of the sentence, and give the sentence a category mark.
-    \item The preprocessing module will delete unreadable characters, and correct some tokens spelling.
-    \item The annotation module will annotate the tokens with semantic and ontology labels. After labeling, the sentences will have a multi-layered data structure.
-    \item The layered sentences will be matched with pre-defined patterns with the FST library. If any pattern could be matched, the ontology information will be extract and stored in the job model.
-    \item After every sentence has be processed with the pipeline, the job model will be created and stored into the database.
-\end{enumerate}
+1) The HTML parser will parse the web pages that contain job descriptions, which are obtained from web crawler. The parser uses HTML tag template to extract attributes of the jobs, like job title, location, company name and content. A job will be saved as a record with these attributes in the database. In the record, the field content contains the text part of the job description, which will be the processed in later stages.
+
+2) In the segmenting stage, the content field of the job description is be separated into paragraphs according HTML tags. Then paragraphs are separated into sentences by either HTML tags or punctuations, and after this step, all HTML tags will be removed.
+
+3) The web pages of job description are created in different character sets, e.g. UTF8 and ISO 8859-1, and always contain some unreadable characters. In the prepossessing stage, characters in the sentences are converted to the ASCII characters, unreadable characters will be deleted, some punctuations will be replaced by spaces e.g. / and -.
+
+4)In the tokenizing stage, the sentences will be tokenized into arrays of tokens by NLTK \cite{bird2006nltk}.
+
+5) In the labeling stage, the sentences will be given two layers of labels by a dictionary matching approach. The labels in the first layer are the semantic value of the text, and the labels in the second layer are the ontology hypernym of the first layers.
+
+6) In the pattern matching stage, if a layered sentence match any pre-defined pattern with the FST library, the information will be extracted and added to the job model. After every sentence of a job description has be processed, the job model will be saved into the database.
+
 
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[scale=0.4]{images/pipeline.png}
+  \includegraphics[scale=0.4]{images/pipeline2.png}
   \caption{Job Description Process Pipeline}
   \label{fig:Pipeline}
 \end{figure}
