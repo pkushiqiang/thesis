@@ -50,9 +50,11 @@ $$ (~Baccalaureate~\mid~bachelors~\mid~bachelor~~\mid~B.S~\mid~BS~\mid~BA~)~~deg
 
 If all words in Table~\ref{tab:multispelling} are added to the pattern, the FST will have too many states, and the matching process will be very slow because of the problem of combinatorial explosion.
 
-To resolve this problem, we proposed an approach to use the patterns match the labels of the sentences, not the the original text. Because in the system, we don't care what the words the sentences really use, but want to extract the semantic value of the tokens which match the pattern.
+To resolve this problem, we proposed an approach to use the patterns match the labels of the tokens, not the the original text. Because in the system, we don't care what the words the sentences really use, but want to extract the semantic value of the tokens which match the pattern. The details of the approach is described below:  
 
-We transfer the sentences will be matched to a structure with two layers labels. In the first layer, we labeled the word with its semantic value, which is the value that we want to extract from the sentence. In the second layer, the labels are the ontology super class of the first layer labels. For example the word "bachelors" is labeled in the first layer with label "BS LEVEL", which means bachelors degree level, and the word "PhD" is labeled as "PHD LEVEL". In the second layer, they both are labeled with "DEGREE LEVEL", which is the ontology super class of the two labels. A labeled sentence is shown in ~\ref{tab:labeldsent}.
+At first, we created two dictionaries, which are used to labeling the tokens. In the first dictionary, the keys are the tokens, like words in Table~\ref{tab:multispelling}, and the values are the symbols for semantic values, like ``BS LEVEL'' for ``bachelor's degree'', or ``MS LEVEL'' for ``master's degree''. In the second dictionary, the keys are semantic values, which are the values of first dictionary. The values of the the second dictionary are the ontology hypernym of their keys, like keys ``BS LEVEL'' and  ``MS LEVEL'' both have value ``DE LEVEL'', which means that bachelor's degree and master's degree are both one kind of degree level.
+
+With the two dictionaries, we can labeling the tokens with two layers. In the first layer, we labeled the tokens with its semantic values, which are the values that we want to extract from the sentence. In the second layer, the labels, which will be matched with patterns, are the ontology hypernyms of the labels in first layer. Table~\ref{tab:labeldsent} shows how the sentence ``Bachelors  degree  in computer science or information systems. '' is labeled. 
 
 \begin{table}[ht]
 \caption{Labeled sentence } % title of Table
