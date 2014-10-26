@@ -2,7 +2,7 @@
 
 To calculate the similarity between a job and a resume, JobFinder system need the models of them, which are  structured data. To get the structured data, some JRSs ask the job seekers input their profiles in forms field by field, and the recruiter input their job description in the same way as well. However, as we discussed in chapter 2, the users are reluctant to take the tedious process ~\cite{singh2010prospect}. Job seekers prefer upload their resumes directly, and recruiters prefer to post the whole job description to web sites. In this chapter we will explain how the Information Extraction module of the system extracts information from these unstructured data source.
 
-Information Extraction is the task of automatically extracting structured information such as entities, relationships between entities, and attributes describing entities from unstructured sources. ~\cite{sarawagi2008information}.  The IE framework will be introduced below by example of processing the job descriptions.
+Information Extraction is the task of automatically extracting structured information such as entities, relationships between entities, and attributes describing entities from unstructured sources. ~\cite{sarawagi2008information}.  The IE framework will be introduced below by example of processing the job descriptions, and the FST library, which is used as pattern matching tools, will be introduced as well.
 
 \section{Text Processing Stages}
 
@@ -20,9 +20,7 @@ In Nature Language Processing, especially in Information Extraction, pipeline is
 
 5) In the labeling stage, the sentences will be given two layers of labels by a dictionary matching approach. The labels in the first layer are the semantic value of the text, and the labels in the second layer are the ontology hypernym of the first layers.
 
-6) In the pattern matching stage, if a layered sentence match any pre-defined pattern with the FST library, the information will be extracted and added to the job model. After every sentence of a job description has be processed, the job model will be saved into the database.
-
-
+6) In the pattern matching stage,  the FST library is used to matching the labels of the labeled sentences.  If a layered sentence match any pre-defined pattern, the information will be extracted and added to the job model. After every sentence of a job description has be processed, a job model will be created and saved in the database.
 
 \begin{figure}[htbp]
   \centering
@@ -31,6 +29,64 @@ In Nature Language Processing, especially in Information Extraction, pipeline is
   \label{fig:Pipeline}
 \end{figure}
 
+\section{Semantic Labeling}
+
+In this section, we will introduce why and how we add two layers of label to the tokenized sentences. In natural language, one concept always have some different expressions. For example, the simple concept bachelor's degree,  has several expressions in job descriptions, e.g. B.S., BA/BS, 4 years degree, and so on. The Table \ref{tab:multispelling} shows the words that if followed with word ``degree'' have the semantic value of ``bachelor's degree''.
+
+\begin{table}[ht]
+\caption{All words have meaning bachelors } % title of Table
+\centering % used for centering table
+\begin{tabular}{  | p{15cm} |  }
+ \hline
+ "Baccalaureate","bachelors", "bachelor" ,"B.S.", "B.S","BS","BA","BA/BS", "BABS", "BSBA", "B.A." ,"4-year","4-year", "4 year", "four year","college","Undergraduate" , "University" \\
+  \hline
+\end{tabular}
+\label{tab:multispelling} % is used to refer this table in the text\section{Pipeline of Information Extraction}
+\end{table}
+
+The regular expression over tokens is a finite state transducer(FST) with states that are the tokens need to be matched with. If we use all the expressions of a semantic value to create a pattern, the pattern will be very large, or there are too many states in the FST. For example, if we use some words in Table~\ref{tab:multispelling} to create the pattern of semantic value ``bachelor's degree'', the pattern is will like below:  
+
+$$ (~Baccalaureate~\mid~bachelors~\mid~bachelor~~\mid~B.S~\mid~BS~\mid~BA~)~~degree $$
+
+If all above words in Table~\ref{tab:multispelling} are added to the pattern, the FST will have too many states, and the matching process will be very slow because of the problem of combinatorial explosion.
+
+To resolve this problem, we proposed an approach to use the patterns match the semantic label of the sentences, not the the original text. Because in this system, we don't care what the words the sentences really use, we want to extract the semantic value from the matching phrases.
+
+We transfer the sentences will be matched to a structure with two layers labels. In the first layer, we labeled the word with its semantic value, which is the value that we want to extract from the sentence. In the second layer, the labels are the ontology super class of the first layer labels. For example the word "bachelors" is labeled in the first layer with label "BS LEVEL", which means bachelors degree level, and the word "PhD" is labeled as "PHD LEVEL". In the second layer, they both are labeled with "DEGREE LEVEL", which is the ontology super class of the two labels. A labeled sentence is shown in ~\ref{tab:labeldsent}.
+
+\begin{table}[ht]
+\caption{Labeled sentence } % title of Table
+\centering % used for centering table
+\begin{tabular}{  | c | c | c | c | c |c | c |c | c | c |  }
+ \hline
+ layer 2 & DE LEVEL   & DEGREE & IN & MAJOR            & OR & MAJOR  &.  \\
+ \hline
+ layer 1 &  BS LEVEL   & DEGREE & IN & MAJOR CS         & OR & MAJOR INFO & .      \\
+ \hline
+   words & bachelors   & degree & in & computer science & or & information systems & .     \\
+  \hline
+\end{tabular}
+\label{tab:labeldsent} % is used to refer this table in the text\section{Pipeline of Information Extraction}
+\end{table}
+
+We use a dictionary to store the words in sentences and their labels, in which the key is the different spellings an expressions, and the value is the meaning of the concept. For example the Table~\ref{tab:multispelling} shows all keys in the dictionary with and the values ``bachelors''.
+
+After labeling, the sentence become a sequence of arrays, each array includes the original token and its labels in the other two layers. The flexibility of the tool also comes from that developers could determine which layer of the array should be matched, the original text or labels in the first or second layer.  Developers can assign lambda expressions to the matcher's catching function, which defines how to get the matching input,  and out function, which defines what should be outputed. For example, to match the labeled sentence, we set the lambda expression for catching function to ``lambda x:x[2]'', and the out function to ``lambda x:x[1]'', which make the matcher match the label in second layer, and output the the value of semantic value in the first layer. We show some patterns used to match degree phases in Table ~\ref{tab:patterns}.
+
+\begin{table}[ht]
+\small
+\caption{Patterns match degree} % title of Table
+\centering % used for centering table
+\begin{tabular}{  | l  |  }
+ \hline
+ DE\_LEVEL,  DE\_LEVEL, OR  DE\_LEVEL DEGREE   \\
+ DE\_LEVEL DEGREE ( IN  $\vert$  OF ) DT MAJOR   \\
+ MAJOR\_DEGREE  ,  MAJOR\_DEGREE OR MAJOR \\
+ DE\_LEVEL (, DE\_LEVEL)* (OR DE\_LEVEL)? BE? PERFER\_VBD   \\
+ \hline
+\end{tabular}
+\label{tab:patterns} % is used to refer this table in the text\section{Pipeline of Information Extraction}
+\end{table}
 
 \section{Machine learning and Rule-based IE technologies}
 
@@ -224,58 +280,4 @@ The expression like ``DL (, DL])*  (or DL)? DEGREE'' could be transferred to an 
   \label{fig:fst}
 \end{figure}
 
-\section{Semantic Label}
 
-In the text of natural language, one concept always have some different expressions. For example, the simple concept bachelor's degree,  has several expression in job descriptions, like B.S., BA/BS, 4 years degree, and so on. The Table~\ref{tab:multispelling} shows the words that if followed with word "degree", have the semantic value of ``bachelor's degree''.
-
-\begin{table}[ht]
-\caption{All words have meaning bachelors } % title of Table
-\centering % used for centering table
-\begin{tabular}{  | p{15cm} |  }
- \hline
- "Baccalaureate","bachelors", "bachelor" ,"B.S.", "B.S","BS","BA","BA/BS", "BABS", "BSBA", "B.A." ,"4-year","4-year", "4 year", "four year","college","Undergraduate" , "University" \\
-  \hline
-\end{tabular}
-\label{tab:multispelling} % is used to refer this table in the text\section{Pipeline of Information Extraction}
-\end{table}
-
-
-The regular expression over tokens is a finite state transducer (FST) with states that are the tokens need to be matched with. If all above words are added to the regular expression, the FST will have too many states, and the matching process will be very slow because of the problem of combinatorial explosion.
-
-To resolve this problem, we proposed an approach to use the patterns match the semantic label of the sentences, not the the original text. Because in this system, we don't care what the words the sentences really use, we want to extract the semantic value from the matching phrases.
-
-We transfer the sentences will be matched to a structure with two layers labels. In the first layer, we labeled the word with its semantic value, which is the value that we want to extract from the sentence. In the second layer, the labels are the ontology super class of the first layer labels. For example the word "bachelors" is labeled in the first layer with label "BS LEVEL", which means bachelors degree level, and the word "PhD" is labeled as "PHD LEVEL". In the second layer, they both are labeled with "DEGREE LEVEL", which is the ontology super class of the two labels. A labeled sentence is shown in ~\ref{tab:labeldsent}.
-
-\begin{table}[ht]
-\caption{Labeled sentence } % title of Table
-\centering % used for centering table
-\begin{tabular}{  | c | c | c | c | c |c | c |c | c | c |  }
- \hline
- layer 2 & DE LEVEL   & DEGREE & IN & MAJOR            & OR & MAJOR  &.  \\
- \hline
- layer 1 &  BS LEVEL   & DEGREE & IN & MAJOR CS         & OR & MAJOR INFO & .      \\
- \hline
-   words & bachelors   & degree & in & computer science & or & information systems & .     \\
-  \hline
-\end{tabular}
-\label{tab:labeldsent} % is used to refer this table in the text\section{Pipeline of Information Extraction}
-\end{table}
-
-We use a dictionary to store the words in sentences and their labels, in which the key is the different spellings an expressions, and the value is the meaning of the concept. For example the Table~\ref{tab:multispelling} shows all keys in the dictionary with and the values ``bachelors''.
-
-After labeling, the sentence become a sequence of arrays, each array includes the original token and its labels in the other two layers. The flexibility of the tool also comes from that developers could determine which layer of the array should be matched, the original text or labels in the first or second layer.  Developers can assign lambda expressions to the matcher's catching function, which defines how to get the matching input,  and out function, which defines what should be outputed. For example, to match the labeled sentence, we set the lambda expression for catching function to ``lambda x:x[2]'', and the out function to ``lambda x:x[1]'', which make the matcher match the label in second layer, and output the the value of semantic value in the first layer. We show some patterns used to match degree phases in Table ~\ref{tab:patterns}.
-
-\begin{table}[ht]
-\small
-\caption{Patterns match degree} % title of Table
-\centering % used for centering table
-\begin{tabular}{  | l  |  }
- \hline
- DE\_LEVEL,  DE\_LEVEL, OR  DE\_LEVEL DEGREE   \\
- DE\_LEVEL DEGREE ( IN  $\vert$  OF ) DT MAJOR   \\
- MAJOR\_DEGREE  ,  MAJOR\_DEGREE OR MAJOR \\
- DE\_LEVEL (, DE\_LEVEL)* (OR DE\_LEVEL)? BE? PERFER\_VBD   \\
- \hline
-\end{tabular}
-\label{tab:patterns} % is used to refer this table in the text\section{Pipeline of Information Extraction}
-\end{table}
