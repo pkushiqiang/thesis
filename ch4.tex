@@ -44,13 +44,13 @@ In this section, we will introduce why and how we add two layers of label to the
 \label{tab:multispelling} % is used to refer this table in the text\section{Pipeline of Information Extraction}
 \end{table}
 
-The regular expression over tokens is a finite state transducer(FST) with states that are the tokens need to be matched with. If we use all the expressions of a semantic value to create a pattern, the pattern will be very large, or there are too many states in the FST. For example, if we use some words in Table~\ref{tab:multispelling} to create the pattern of semantic value ``bachelor's degree'', the pattern is will like below:  
+The regular expression over tokens will transfer a patten to a finite state transducer(FST), and every token of the pattern will be transferred to a state of FST. If we use all the expressions of a semantic value to create a pattern, the pattern will be very large, and there are too many states in the FST. For example, if we use some words in Table~\ref{tab:multispelling} to create the pattern of semantic value ``bachelor's degree'', the pattern will like below:
 
 $$ (~Baccalaureate~\mid~bachelors~\mid~bachelor~~\mid~B.S~\mid~BS~\mid~BA~)~~degree $$
 
-If all above words in Table~\ref{tab:multispelling} are added to the pattern, the FST will have too many states, and the matching process will be very slow because of the problem of combinatorial explosion.
+If all words in Table~\ref{tab:multispelling} are added to the pattern, the FST will have too many states, and the matching process will be very slow because of the problem of combinatorial explosion.
 
-To resolve this problem, we proposed an approach to use the patterns match the semantic label of the sentences, not the the original text. Because in this system, we don't care what the words the sentences really use, we want to extract the semantic value from the matching phrases.
+To resolve this problem, we proposed an approach to use the patterns match the labels of the sentences, not the the original text. Because in the system, we don't care what the words the sentences really use, but want to extract the semantic value of the tokens which match the pattern.
 
 We transfer the sentences will be matched to a structure with two layers labels. In the first layer, we labeled the word with its semantic value, which is the value that we want to extract from the sentence. In the second layer, the labels are the ontology super class of the first layer labels. For example the word "bachelors" is labeled in the first layer with label "BS LEVEL", which means bachelors degree level, and the word "PhD" is labeled as "PHD LEVEL". In the second layer, they both are labeled with "DEGREE LEVEL", which is the ontology super class of the two labels. A labeled sentence is shown in ~\ref{tab:labeldsent}.
 
