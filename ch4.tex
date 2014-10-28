@@ -178,46 +178,54 @@ For example, the FST $T_{d3} = \left(     \{ 0, 1 \} ,  \{ 0, 1 \} , \{ 0, 1 , 2
 
 
 \subsection{Flexibility of the library}
-The framework supports three styles to create patterns, which gives developers great flexibility. The most common style is defining pattern expression in a string, which is much like traditional regular expression. We use pattern "DE-LEVEL DEGREE ( IN  $\vert$  OF ) DT? MAJOR" as an example to show how the three styles works:
+The framework supports three styles to create patterns, which gives developers great flexibility. The most common style is defining pattern expression in a string, which is much like traditional regular expression. We use examples to show how the three styles works:
+
+
 
 \begin{framed}
 \small
-\begin{lstlisting}[language=Python]
+\noindent
+The pattern is:  DE-LEVEL DEGREE ( IN  $\vert$  OF ) DT? MAJOR \\
+The code is: \\
 seqMatcher =parser.parse("DE-LEVEL DEGREE ( IN  $\vert$  OF ) DT? MAJOR")
-\end{lstlisting}
+ 
 \end{framed}
 
-The seconde style is using algebra operator to connect matchers, as follows:
+The second style is using algebra operator to connect matchers, as follows:
 \begin{framed}
 \small
-\begin{lstlisting}[language=Python]
-
-seqMatcher =  TokenMatcher("DE-LEVEL") +  DE-LEVEL DEGREE ( IN  $\vert$  OF ) DT? MAJOR
-    QuestionMatcher ( TokenMatcher(",") + TokenMatcher("DE-LEVEL") ) + TokenMatcher("ccc")
-
-\end{lstlisting}
+\noindent
+The pattern is:  "DE-LEVEL DEGREE (IN $\vert$ OF) MAJOR" \\
+The code is: \\
+seqMatcher =  UnitMatcher("DE-LEVEL") +  UnitMatcher("DEGREE") + \\
+\hspace{3cm} ( UnitMatcher("IN") $\vert$ UnitMatcher("OF" ) ) + UnitMatcher("MAJOR")
+ 
 \end{framed}
 
 We also could create complex matcher in programming style, which is like we creating and using some objects when programming, as follows:
 
 \begin{framed}
 \small
-\begin{lstlisting}[language=Python]
-Pattern: " ( aaa | bbb ) cccc "
-matcher1 = TokenMatcher("aaa")
-matcher2 = TokenMatcher("bbb")
-matcher3 = TokenMatcher("ccc")
-matcher4 = AlternateMatcher([matcher1,matcher2])
-seqMatcher = SeqMatcher([matcher3,matcher4])
-\end{lstlisting}
+\noindent
+The pattern is:  "DE-LEVEL DEGREE (IN $\vert$ OF) MAJOR" \\
+The code is: \\
+matcher1 = UnitMatcher("DE-LEVEL") \\
+matcher2 = UnitMatcher("DEGREE")  \\
+matcher3 = UnitMatcher("IN")   \\
+matcher4 = UnitMatcher("OF")   \\
+matcher5 = UnitMatcher("MAJOR")  \\
+matcher6 = AlternateMatcher([matcher3,matcher4])   \\
+seqMatcher = SeqMatcher([matcher1, matcher2, matcher6, matcher5])
+ 
 \end{framed}
 
+The developers could define their our matcher class to extend the feature of the library.
 
-After labeling, the sentence become a sequence of arrays, each array includes the original token and its labels in the other two layers. The flexibility of the tool also comes from that developers could determine which layer of the array should be matched, the original text or labels in the first or second layer.  Developers can assign lambda expressions to the matcher's catching function, which defines how to get the matching input,  and out function, which defines what should be outputed. For example, to match the labeled sentence, we set the lambda expression for catching function to ``lambda x:x[2]'', and the out function to ``lambda x:x[1]'', which make the matcher match the label in second layer, and output the the value of semantic value in the first layer.
+After labeling, the sentence become a sequence of arrays, each array includes the original token and its labels in the other two layers, like in table~\ref{tab:labeldsent}. The flexibility of the tool also comes from that developers could determine which layer of the array should be matched, the original text or labels in the first or second layer.  Developers can assign lambda expressions to the matcher's catching function, which defines how to get the matching input,  and out function, which defines what should be outputed. For example, to match the labeled sentence, we set the lambda expression for catching function to ``lambda x:x[2]'', and the out function to ``lambda x:x[1]'', which make the matcher match the label in second layer, and output the the value of semantic value in the first layer.
 
 \subsection{Implementation of FST Library }
 
-To transfer a token regular expression to a Finite Automata Transducers(FST), we need two steps: The first is parsing the expression to a tree of matchers, the second is transfer the tree of matchers to the Finite Automata Transducers.
+To transfer a token regular expression to a FST we need two steps: The first is parsing the expression to a tree of matchers, the second is transfer the tree of matchers to the FST.
 
 We use PLY(Python Lex-Yacc) as the grammar parser, which  is a pure-Python implementation of the popular compiler construction tools lex and yacc. We defined  grammars of token regular expression in the parser, which can parse the token regular expression to the tree structure.
 
