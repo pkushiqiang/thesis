@@ -178,9 +178,7 @@ For example, the FST $T_{d3} = \left(     \{ 0, 1 \} ,  \{ 0, 1 \} , \{ 0, 1 , 2
 
 
 \subsection{Flexibility of the library}
-The framework supports three styles to create patterns, which gives developers great flexibility. The most common style is defining pattern expression in a string, which is much like traditional regular expression. We use examples to show how the three styles works:
-
-
+The framework supports three styles to create patterns, regular expression style., operator style and  object style. The flexibility of second and third style is that developers could create their own matcher class to extend the feature of the library. We use examples to show how the three styles works. The most common style is defining pattern expression in a string, which is much like traditional regular expression.
 
 \begin{framed}
 \small
@@ -218,8 +216,6 @@ matcher6 = AlternateMatcher([matcher3,matcher4])   \\
 seqMatcher = SeqMatcher([matcher1, matcher2, matcher6, matcher5])
  
 \end{framed}
-
-The developers could define their our matcher class to extend the feature of the library.
 
 After labeling, the sentence become a sequence of arrays, each array includes the original token and its labels in the other two layers, like in table~\ref{tab:labeldsent}. The flexibility of the tool also comes from that developers could determine which layer of the array should be matched, the original text or labels in the first or second layer.  Developers can assign lambda expressions to the matcher's catching function, which defines how to get the matching input,  and out function, which defines what should be outputed. For example, to match the labeled sentence, we set the lambda expression for catching function to ``lambda x:x[2]'', and the out function to ``lambda x:x[1]'', which make the matcher match the label in second layer, and output the the value of semantic value in the first layer.
 
