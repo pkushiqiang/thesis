@@ -226,8 +226,7 @@ Regular expressions can be converted to automata \cite{aho1992foundations}, and 
 
 We use PLY(Python Lex-Yacc) as the grammar parser, which is a pure-Python implementation of the popular compiler construction tools lex and yacc. We defined  syntaxes of regular expression over token in the parser, which can parse the token regular expression to the tree structure of matchers.
 
-We use the algorithm proposed by Thompson and Ken\cite{thompson1968programming} to construct the FST from the tree of matchers.
-. The state for a regular expression is built up from partial Nondeterministic Finite Automaton (NFA)  for each subexpression, with a different construction for each operator. The partial NFAs have no matching states: instead they have one or more dangling arrows, pointing to nothing. The construction process will finish by connecting these arrows to a matching state.
+We use the algorithm proposed by Thompson and Ken\cite{thompson1968programming} to construct the FST from the tree of matchers. Each matcher is a partial Nondeterministic Finite Automaton (NFA), which have one or more dangling arrows, pointing to nothing. We build the whole NFA by connecting the arrows of the partial NFAs. Different operator will have different structures of NFA, which is shown below:
 
 The NFAs for matching single token is shown in Figure \ref{fig:nfa_single}.
 
