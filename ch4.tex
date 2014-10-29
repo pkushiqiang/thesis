@@ -186,7 +186,7 @@ The framework supports three styles to create patterns, regular expression style
 The pattern is:  DE-LEVEL DEGREE ( IN  $\vert$  OF ) DT? MAJOR \\
 The code is: \\
 seqMatcher =parser.parse("DE-LEVEL DEGREE ( IN  $\vert$  OF ) DT? MAJOR")
- 
+
 \end{framed}
 
 The second style is using algebra operator to connect matchers, as follows:
@@ -197,7 +197,7 @@ The pattern is:  "DE-LEVEL DEGREE (IN $\vert$ OF) MAJOR" \\
 The code is: \\
 seqMatcher =  UnitMatcher("DE-LEVEL") +  UnitMatcher("DEGREE") + \\
 \hspace{3cm} ( UnitMatcher("IN") $\vert$ UnitMatcher("OF" ) ) + UnitMatcher("MAJOR")
- 
+
 \end{framed}
 
 We also could create complex matcher in programming style, which is like we creating and using some objects when programming, as follows:
@@ -214,7 +214,7 @@ matcher4 = UnitMatcher("OF")   \\
 matcher5 = UnitMatcher("MAJOR")  \\
 matcher6 = AlternateMatcher([matcher3,matcher4])   \\
 seqMatcher = SeqMatcher([matcher1, matcher2, matcher6, matcher5])
- 
+
 \end{framed}
 
 The flexibility of the tool also comes from that developers could determine which layer of the array should be matched, the original text or labels in the first or second layer. Developers can assign lambda expressions to the matcher's catching function, which defines how to get the matching input, and out function, which defines what should be outputed. For example,  the labeled sentence is a sequence of arrays, each array includes the original text token and its labels in the other two layers, which is shown in table~\ref{tab:labeldsent}. To match the labeled sentence, we set the lambda expression for catching function to ``lambda x:x[2]'', and the out function to ``lambda x:x[1]'', which make the matcher match the label in second layer, and output the the value of semantic value in the first layer.
@@ -222,11 +222,12 @@ The flexibility of the tool also comes from that developers could determine whic
 
 \subsection{Implementation of FST Library}
 
-To transfer a token regular expression to a FST we need two steps: The first is parsing the expression to a tree of matchers, the second is transfer the tree of matchers to the FST.
+Regular expressions can be converted to automata \cite{aho1992foundations}, and FST is also an automata. To convert a regular expression over token to a FST we need two steps: The first is parsing the expression to a tree of matchers, the second is transfer the tree of matchers to the FST.
 
-We use PLY(Python Lex-Yacc) as the grammar parser, which  is a pure-Python implementation of the popular compiler construction tools lex and yacc. We defined  grammars of token regular expression in the parser, which can parse the token regular expression to the tree structure.
+We use PLY(Python Lex-Yacc) as the grammar parser, which is a pure-Python implementation of the popular compiler construction tools lex and yacc. We defined  syntaxes of regular expression over token in the parser, which can parse the token regular expression to the tree structure of matchers.
 
-We use the algorithm proposed by Thompson and Ken\cite{thompson1968programming} to construct the FST from the tree. The state for a regular expression is built up from partial Nondeterministic Finite Automaton (NFA)  for each subexpression, with a different construction for each operator. The partial NFAs have no matching states: instead they have one or more dangling arrows, pointing to nothing. The construction process will finish by connecting these arrows to a matching state.
+We use the algorithm proposed by Thompson and Ken\cite{thompson1968programming} to construct the FST from the tree of matchers.
+. The state for a regular expression is built up from partial Nondeterministic Finite Automaton (NFA)  for each subexpression, with a different construction for each operator. The partial NFAs have no matching states: instead they have one or more dangling arrows, pointing to nothing. The construction process will finish by connecting these arrows to a matching state.
 
 The NFAs for matching single token is shown in Figure \ref{fig:nfa_single}.
 
@@ -284,9 +285,7 @@ The NFA for e+ also creates a loop, but one that requires passing through e at l
   \label{fig:nfa_plus}
 \end{figure}
 
-
-
-The expression like ``DL (, DL])*  (or DL)? DEGREE'' could be transferred to an FST in Figure ~\ref{fig:fst}.
+The expression ``DL (, DL])*  (or DL)? DEGREE'' could be converted to an FST in Figure ~\ref{fig:fst}.
 
 \begin{figure}[htbp]
   \centering
