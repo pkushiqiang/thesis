@@ -217,9 +217,10 @@ seqMatcher = SeqMatcher([matcher1, matcher2, matcher6, matcher5])
  
 \end{framed}
 
-After labeling, the sentence become a sequence of arrays, each array includes the original token and its labels in the other two layers, like in table~\ref{tab:labeldsent}. The flexibility of the tool also comes from that developers could determine which layer of the array should be matched, the original text or labels in the first or second layer.  Developers can assign lambda expressions to the matcher's catching function, which defines how to get the matching input,  and out function, which defines what should be outputed. For example, to match the labeled sentence, we set the lambda expression for catching function to ``lambda x:x[2]'', and the out function to ``lambda x:x[1]'', which make the matcher match the label in second layer, and output the the value of semantic value in the first layer.
+The flexibility of the tool also comes from that developers could determine which layer of the array should be matched, the original text or labels in the first or second layer. Developers can assign lambda expressions to the matcher's catching function, which defines how to get the matching input, and out function, which defines what should be outputed. For example,  the labeled sentence is a sequence of arrays, each array includes the original text token and its labels in the other two layers, which is shown in table~\ref{tab:labeldsent}. To match the labeled sentence, we set the lambda expression for catching function to ``lambda x:x[2]'', and the out function to ``lambda x:x[1]'', which make the matcher match the label in second layer, and output the the value of semantic value in the first layer.
 
-\subsection{Implementation of FST Library }
+
+\subsection{Implementation of FST Library}
 
 To transfer a token regular expression to a FST we need two steps: The first is parsing the expression to a tree of matchers, the second is transfer the tree of matchers to the FST.
 
