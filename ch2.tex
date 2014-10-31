@@ -1,17 +1,17 @@
 \chapter{BACKGROUND}
 
-Some scholars found that current Boolean search and filtering techniques cannot satisfy the complexity of candidate-job matching requirement~\cite{malinowski2006matching}. They hope the system could understand the job requirement, determine which requirements are mandatory and which are optional but preferable. So they moved to use recommender systems technique to address the problem of information overflow. Recommender systems are broadly accepted in
+Some scholars found that current Boolean search and filtering techniques cannot satisfy the complexity of candidate-job matching requirement~\cite{malinowski2006matching}. They hope the system can understand the job requirement, determine which requirements are mandatory and which are optional, but preferable. So they moved to use recommender systems technique to address the problem of information overflow. Recommender systems are broadly accepted in
 various areas to suggest products, services, and information items to latent customers.
 
 
 \section{Recommender System}
 
-Job searching is not a new topic in information retrieval, which has been the focus of some commercial job finding web sites and research papers. Usually scholars called them Job Recommender Systems (JRS), because most of them used technologies from recommender systems. Wei et al. classified Recommender Systems into four categories~\cite{wei2007survey}: Collaborative Filtering, Content-based filtering, Knowledge-based and Hybrid approaches. Some of these techniques had been applied into JRS; Zheng et al.~\cite{siting2012job} and AlOtaibi et al.~\cite{al2012survey} summarized the categories of existing online recruiting platforms and listed the advantages and disadvantages of technical approaches in different JRSs. The categories include:
+Job searching, which has been the focus of some commercial job finding web sites and research papers is not a new topic in information retrieval. Usually scholars called them Job Recommender Systems (JRS), because most of them used technologies from recommender systems. Wei et al. classified Recommender Systems into four categories~\cite{wei2007survey}: Collaborative Filtering, Content-based filtering, Knowledge-based and Hybrid approaches. Some of these techniques had been applied into JRS; Zheng et al.~\cite{siting2012job} and AlOtaibi et al.~\cite{al2012survey} summarized the categories of existing online recruiting platforms and listed the advantages and disadvantages of technical approaches in different JRSs. The categories include:
 
 \begin{enumerate}
     \item Content-based Recommendation (CBR). The principle of a content-based recommendation is to suggest items that have similar content information to the corresponding users, like Prospect \cite{singh2010prospect}.
 
-    \item Collaborative Filtering Recommendation (CFR). Collaborative filtering recommendation, which finds  similar  users  who have  the same taste with the target user and recommends items based on what the similar users, like CASPER~\cite{rafter2000personalised}.
+    \item Collaborative Filtering Recommendation (CFR). Collaborative filtering recommendation finds similar  users  who have  the same taste with the target user and recommends items based on what the similar users, like CASPER~\cite{rafter2000personalised}.
 
     \item Knowledge-based Recommendation (KBR). In the knowledge-based recommendation, rules and patterns obtained from the functional knowledge of how a specific item  meets the requirement of a particular user, are used for recommending items, like  Proactive~\cite{lee2007fighting}.
 
@@ -21,14 +21,13 @@ Job searching is not a new topic in information retrieval, which has been the fo
 
 \section{Job Recommender Systems}
 
-Rafter et al. began to use ACF (Automated Collaborative Filtering) in their Job Recommender System, ``CASPER''  \cite{rafter2000personalised}. In the system user profiles are gotten from server logs, that included: revisit data, read time data, and activity data. All these factors were viewed as measure of relevance among users. The system recommend jobs in two steps. First the system find a set of user related to the target user, second the jobs that related users liked will be recommend to the target user. The system use cluster-based Collaborative Filtering strategy. The similarity between users are based on how many jobs they both reviewed, or applied.
+Rafter et al. began to use ACF (Automated Collaborative Filtering) in their Job Recommender System, ``CASPER''  \cite{rafter2000personalised}. In the system user profiles are gotten from server logs, that included: revisit data, read time data, and activity data. All these factors were viewed as measure of relevance among users. The system recommend jobs in two steps. First the system find a set of users related to the target user, second the jobs that related users liked will be recommend to the target user. The system use cluster-based Collaborative Filtering strategy. The similarity between users are based on how many jobs they both reviewed, or applied.
 
-The CASPER also allows user search jobs by a query which is a combination of some fields, like location, salary, and skill etc. The system use such query to find jobs, and the returned jobs will be ranked with above collaborative filtering algorithm.
-In their paper, they didn't give a detail description on how to detect the related fields they need and how to the transfer semi-structured job description to structured one.
+The CASPER also allows users to search jobs by a query which is a combination of some fields, like location, salary, skill and so on. The system use such query to find jobs, and the returned jobs will be ranked with above collaborative filtering algorithm. In their paper, they didn't give a detail description on how to detect the related fields they need and how to the transfer semi-structured job description to structured one.
 
-The shortages of Collaborative Filtering: First since the searching the number of searching result is huge, and the result is sorted randomly, even two very similar users may review different jobs,  or say the probability of two similar users reviewing the same job is low. The authors also noticed the such sparseness problem in users profile, so they try to user cluster-based solution to resolve this problem. Second because recommended jobs are from others users searching result, since the current quality of current searching result is low, so the quality of recommendation cannot be high.
+The shortages of Collaborative Filtering: First, since the number of search results is huge, and the results are sorted randomly, the probability of two similar users reviewing the same jobs is low, which causes the sparsity problem of Collaborative Filtering. The authors also noticed the sparseness problem caused by few in users profile, so they try to user cluster-based solution to resolve this problem. Second, because recommended jobs are from others users' search results, since the quality of current searching result are low, the quality of recommendation cannot be high.
 
-F{\"a}rber et al \cite{farber2003automated}. presented a recommender system built on a hybrid approach. The system integrated two methods, content-based filtering and collaborative filtering, and tried to overcome the problem of rating data sparsity by leveraging synergies of a combined model, et. the  latent aspect model. The data they used were synthetic resume. The model they are shown in Figure~\ref{fig:la}.
+F{\"a}rber et al. \cite{farbr2003automated}. presented a recommender system built on a hybrid approach. The system integrated two methods, content-based filtering and collaborative filtering, and tried to overcome the problem of rating data sparsity by leveraging synergies of a combined model, et al. the  latent aspect model. The data they used were synthetic resume. The latent aspect model is shown in Figure~\ref{fig:la}.
 
 
 \begin{figure}[htbp]
@@ -38,7 +37,7 @@ F{\"a}rber et al \cite{farber2003automated}. presented a recommender system buil
   \label{fig:la}
 \end{figure}
 
-In Malinowski et al. \cite{malinowski2006matching}, they classified the job recommender systems into two categories,  CV-recommender, which recommends CVs to recruiter, and the job-recommender, which recommends jobs to job seekers. The system collect the users' profile data by asking input their profiles to the web form based interface field by field. The input data collected are:
+In Malinowski et al.~\cite{malinowski2006matching} they classified the job recommender systems into two categories,  CV-recommender, which recommends CVs to recruiter, and the job-recommender, which recommends jobs to job seekers. The system collect the users' profile data by asking input their profiles to the web form based interface field by field. The input data collected are:
 
 \begin{enumerate}
     \item  Demographic data (e.g. date of birth, contact information)
@@ -51,9 +50,7 @@ In Malinowski et al. \cite{malinowski2006matching}, they classified the job reco
     \item  Awards, scholarships, publications, others
 
 \end{enumerate}
-The system also asked the users upload their resumes, but that's for facilitating the human judgment.
-
-From the paper we know, the model latent aspect model is a statistical model, which need to be trained before be applied into recommendation. But training need user to label to data, since current quality of result of job searching is poor, it will take a lot of time for user to train model.
+The system also asked the users upload their resumes, but the resumes are only for facilitating the human judgment. In Malinowski's study, the model latent aspect model is a statistical model, which needs to be trained before it can be applied to recommendation. But training needs labeled data, which are since current quality of result of job searching is poor, it will take a lot of time for user to train model.
 
 Ioannis et al. used a machine learned prediction model to recommend new jobs to job seekers~\cite{paparrizos2011machine}.  The features used by the prediction model includes:
 
