@@ -1,8 +1,57 @@
 \chapter{Information Extraction}
 
-To calculate the similarity between a job and a resume, JobFinder system need the models of them, which are  structured data. To get the structured data, some JRSs ask the job seekers input their profiles in forms field by field, and the recruiter input their job descriptions in the same way as well. However, as we discussed in chapter 2, the users are reluctant to take the tedious process~\cite{singh2010prospect}. Job seekers prefer upload their resumes directly, and recruiters prefer to post the whole job descriptions to web sites. 
+To calculate the similarity between a job and a resume, JobFinder system need the models of them, which are  structured data. To get the structured data, some JRSs ask the job seekers input their profiles in forms field by field, and the recruiter input their job descriptions in the same way as well. However, as we discussed in chapter 2, the users are reluctant to take the tedious process~\cite{singh2010prospect}. Job seekers prefer upload their resumes directly, and recruiters prefer to post the whole job descriptions to web sites. An example of job description is shown in Table~\ref{tab:jd1}.
 
-In this chapter we will explain how the Information Extraction module of the system extracts information from these unstructured data source. The IE framework will be introduced by example of processing the job descriptions. The Finite-State Transducer(FST) library, which is used as pattern matching tools, will be introduced as well.  
+In this chapter we will explain how the Information Extraction module of the system extracts information from these unstructured data source. The IE framework will be introduced by example of processing the job descriptions. The Finite-State Transducer(FST) library, which is used as pattern matching tools, will be introduced as well.
+
+\begin{table}[!p]
+ \small
+\caption{Example of Job Description} % title of Table
+\centering % used for centering table
+\begin{tabular}{    |  p{15cm} |  }
+\hline
+\\
+\large{\textbf {Senior/Principal Software Engineer}}\\
+RichRelevance - San Francisco, CA \\
+\\
+
+RichRelevance powers personalized shopping experiences for the world¡¯s largest and most innovative retail brands, including Target, Sears, Marks \& Spencer, John Lewis and others. Founded and led by the e-commerce expert who helped pioneer personalization at Amazon.com, RichRelevance helps retailers increase sales and customer engagement by recommending the most relevant content to consumers regardless of the channel they are shopping. RichRelevance has delivered more than \$5.5 billion in attributable sales for its retail clients to date, and is accelerating these results with the introduction of a new form of digital advertising called Shopping Media which allows manufacturers to engage shoppers where it matters most -- in the digital aisles on the largest retail sites in world. RichRelevance is headquartered in San Francisco, with offices in New York, Seattle, Boston, Reading and Malmho, and has been twice recognized as one of the ¡°Best Places to Work¡± in the Bay Area.
+\\
+RichRelevance is looking for a Senior/Principal Software Engineer to join our growing team! \\
+
+\textbf{Primary responsibilities:} \\
+~~~~~~$\bullet$ Working with large scale distributed systems \\
+~~~~~~$\bullet$ Work with Hadoop ecosystem (technologies like Hive, Impala, HBase) \\
+~~~~~~$\bullet$ Algorithmic development with primary focus Machine Learning \\\
+~~~~~~$\bullet$ Working with rapid and innovative development methodologies like: Kanban, Continuous Integration and Daily deployments \\
+~~~~~~$\bullet$ Unit testing with JUnit, Performance testing and tuning\\
+\\
+\textbf{Minimum requirements:} \\
+
+~~~~~~$\bullet$ BS/MS in CS, Electrical Engineering or foreign equivalent plus relevant software development experience \\
+~~~~~~$\bullet$ At least 5+ years of software development experience \\
+~~~~~~$\bullet$ Expert in Java, Scala or any other object oriented language \\
+~~~~~~$\bullet$ Proficient in SQL concepts (HiveQL or Postgres a plus) \\
+~~~~~~$\bullet$ Additional language skills for scripting and rapid application development\\
+\\
+\textbf{Desired skills and experience:}\\
+~~~~~~$\bullet$ Working with large data sets in the PBs \\
+~~~~~~$\bullet$ Familiarity with UNIX (systems skills a plus) \\
+~~~~~~$\bullet$ Working in a distributed environment and has dealt with challenges around scaling and performance \\
+~~~~~~$\bullet$ Mobile development for Android or iOS.\\
+\\
+RichRelevance is an Equal Opportunity Employer and does not discriminate against any applicant on the basis of race, color, religion, national origin, gender, marital status, age, disability, sexual orientation, military/veteran status, or any other status protected by Federal or State law or local ordinance.
+\\
+\hline
+
+\end{tabular}
+\label{tab:jd1} % is used to refer this table in the text
+\end{table}
+
+
+
+
+
 
 \section{Text Processing Stages}
 
@@ -68,7 +117,7 @@ With the two dictionaries, we can labeling the tokens with two layers. In the fi
 \label{tab:labeldsent} % is used to refer this table in the text\section{Pipeline of Information Extraction}
 \end{table}
 
-The pattern ``DE-LEVEL DEGREE  IN   MAJOR  OR  MAJOR ''  can match the sentence above, and the output of the matching process is ``BS-LEVEL'' for bachelor's degree, ``MAJOR-CS'' and ``MAJOR-INFO'' for two majors mentioned in sentence. In the system most patterns match the labels in second layer. With this approach, the size of FST for the pattern will be minimized, so speed of matching process can be improved as well. 
+The pattern ``DE-LEVEL DEGREE  IN   MAJOR  OR  MAJOR ''  can match the sentence above, and the output of the matching process is ``BS-LEVEL'' for bachelor's degree, ``MAJOR-CS'' and ``MAJOR-INFO'' for two majors mentioned in sentence. In the system most patterns match the labels in second layer. With this approach, the size of FST for the pattern will be minimized, so speed of matching process can be improved as well.
 
 \section{Patterns for Matching}
 
@@ -122,7 +171,7 @@ For example, the FST $T_{d3} = \left(     \{ 0, 1 \} ,  \{ 0, 1 \} , \{ 0, 1 , 2
 \end{figure}
 
 
-Regular expressions can be converted to automata \cite{aho1992foundations}, and FST is also an automata. To convert a regular expression over token to a FST we need two steps: The first is parsing the expression to a tree of matchers, the second is transfer the tree of matchers to the FST. We will introduce these two steps in next.  
+Regular expressions can be converted to automata \cite{aho1992foundations}, and FST is also an automata. To convert a regular expression over token to a FST we need two steps: The first is parsing the expression to a tree of matchers, the second is transfer the tree of matchers to the FST. We will introduce these two steps in next.
 
 \subsection{Matchers in FST library}
 
