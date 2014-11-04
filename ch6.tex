@@ -108,7 +108,25 @@ We first used Precision@K to compare the performance our approach to some classi
 $$ P@k = \frac{1}{k} \sum^m_{i=1} l_i 1 \left(  r(i) \leq k  \right )  $$
 Where 1 is the indicator function: $1(A) = 1$ if A is true, 0 otherwise.
 
-In the evaluation phrase, we created a data set of 100 job descriptions, which includes several kinds of jobs, like web developers, back-end developers, mobile developers and so on. We used 5 candidate resumes and retrieved the top 20 jobs.  The relevance value of job descriptions to each resume will be set manually. We create a query q from the resume, and treat the text of the job descriptions as documents d and apply standard ad-hoc retrieval techniques to rank the jobs. For our experiments to compare the various retrieval methods, Okapi BM25 ,  Kullback-Leibler divergence, and the TF-IDF. We would like to return jobs that better match the candidates' resumes at the top. The result of Precision@k is in table~\ref{tab:job_precision}.
+In the evaluation phrase, we created a data set of 100 job descriptions, which includes several kinds of jobs, like web developers, back-end developers, mobile developers and so on. We used 5 candidate resumes and retrieved the top 20 jobs.  The relevance value of job descriptions to each resume will be set manually. We create a query q from the resume, and treat the text of the job descriptions as documents d and apply standard ad-hoc retrieval techniques to rank the jobs. For our experiments to compare the various retrieval methods, Okapi BM25 ,  Kullback-Leibler divergence~\cite{zhai2008statistical}, and the TF-IDF. We would like to return jobs that better match the candidates' resumes at the top. The result of Precision@k is in table~\ref{tab:job_precision}.
+
+We give the definition these measures
+
+Kullback-Leibler divergence: the score of a document $D$ with respect to query $Q$ is given by~\cite{zhai2008statistical}:
+\begin{equation}
+    \begin{array}{rcl}
+        s(D,Q) & = & -D( \theta_Q \parallel  \theta_D )\\
+               & = &- \sum_{ \omega \in V } p (\omega \mid \theta_Q) \log \frac{ p (\omega \mid \theta_Q )}{p(\omega \mid \theta_D)} \\
+               & = & \sum_{ \omega \in V } p (\omega \mid \theta_Q) \log p (\omega \mid \theta_D ) -  \sum_{ \omega \in V } p (\omega \mid \theta_Q) \log p (\omega \mid \theta_Q )  \\
+
+    \end{array}
+\end{equation}
+
+In the equation $\theta_Q$ is language model for a query, and  $\theta_D$ is language model for a document. 
+
+Okapi BM25: Given a query $Q$, containing keywords $q_1, ..., q_n$, the BM25 score of a document $D$ is:
+
+$ score(D,Q) = \sum_{ i=1 }^{n} IDF(q_i) \cdot   \frac {f(q_i,D) \cdot (k_1 + 1)}{f(q_i,D) + k_1 \cdot ( 1-b + b\cdot \frac { \left | D \right |}{avgdl})}  $
 
 \begin{table}[ht]
 \caption{Precision of Job Ranking } % title of Table
