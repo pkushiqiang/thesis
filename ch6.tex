@@ -110,7 +110,7 @@ Where 1 is the indicator function: $1(A) = 1$ if A is true, 0 otherwise.
 
 To evaluate job finding, we compare the results of the system with three classical information retrieval models: Kullback-Leibler divergence~\cite{zhai2008statistical},  TF-IDF~\cite{manning2008introduction} and Okapi BM25 ~\cite{robertson1995okapi}. We give the definition these measures as below. 
 
-Kullback-Leibler divergence: the score of a document $D$ with respect to query $Q$ is given by~\cite{zhai2008statistical}:
+Kullback-Leibler divergence is a non-symmetric measure of the difference between two probability distributions $P$ and $Q$. The score of a document $D$ with respect to query $Q$ is given by:
 \begin{equation}
     \begin{array}{rcl}
         s(D,Q) & = & -D( \theta_Q \parallel  \theta_D )\\
@@ -120,10 +120,11 @@ Kullback-Leibler divergence: the score of a document $D$ with respect to query $
     \end{array}
 \end{equation}
 
-In the equation $\theta_Q$ is language model for a query, and  $\theta_D$ is language model for a document.
+In the equation $\theta_Q$ is language model for a query, and  $\theta_D$ is language model for a document. 
 
-TF-IDF is a Vector Space Model, which calculate Cosine Similarity between the vectors of the query $q$ and the document $d$.  $tf$ is term frequency, and $idf$ is inverse document frequency. The tf-idf weighting scheme assigns to term $t$ a weight in document $d$ given by:
+TF-IDF is a Vector Space Model, which calculate Cosine Similarity between the vectors of the query $q$ and the document $d$. In the equation, $tf$ is term frequency, and $idf$ is inverse document frequency. The tf-idf weighting scheme assigns to term $t$ a weight in document $d$ given by:
 $$ tf\text{-}idf_{t,d} = tf_{t,d} \times idf_{t} $$
+The similarity between the  the query $q$ and the document $d$ given by:
 $$ score(q,d) =  \sum_{t \in q }  tf\text{-}idf_{t,d} $$
 
 Okapi BM25: Given a query $Q$, containing keywords $q_1, ..., q_n$, the BM25 score of a document $D$ is:
