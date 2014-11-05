@@ -16,7 +16,7 @@ Currently the main channel for job seekers are online job finding web sites, lik
 
 The reason for such result is because current job searching web sites use the same information retrieval technology like ``Inverted index'' \cite{zobel2006inverted} as the common search engines, which just use keywords to map all the stored documents. Modern search engines all have some ranking algorithms to sort the searching result, like page rank \cite{page1999pagerank}, so the top results always be the most related ones. But such algorithms are unavailable to the job searching systems, because the criteria  of how to rank the job searching result is very personalized. A great job opening for one job seeker maybe looks not good to the other, because the goodness of a job to a specular job seeker is heavily depend on his personal background, like his education or professional experience etc.
 
-Since the people's resumes contain the most important background information, we believe the content of the resume could be used to rank the job openings. In this thesis we created a web system which could use the resumes of job seekers to find the jobs that match their profiles best. The main idea is to calculate the similarity between the resume model and job models, which should be generated from resumes and job descriptions. We want to transfer the job searching task from key word searching to candidate model matching. The matching result should be sorted by the matching score, higher matching score means a better matching. The matching algorithm does not only help job seekers to find the appreciate job opening, but also offer priority to them~\cite{gueutal2006brave}.  The job with higher matching score means the job is more appropriate to the job seeker, and if he applies the job, the chance of getting the interview will be higher as well. Figure~\ref{fig:Matching} shows how this approach works.
+Since the people's resumes contain the most important background information, we believe the content of the resume could be used to rank the job openings. We give an example of resumes in Table~\ref{tab:resume}. In this thesis we created a web system which could use the resumes of job seekers to find the jobs that match their profiles best. The main idea is to calculate the similarity between the resume model and job models, which should be generated from resumes and job descriptions. We want to transfer the job searching task from key word searching to candidate model matching. The matching result should be sorted by the matching score, higher matching score means a better matching. The matching algorithm does not only help job seekers to find the appreciate job opening, but also offer priority to them~\cite{gueutal2006brave}.  The job with higher matching score means the job is more appropriate to the job seeker, and if he applies the job, the chance of getting the interview will be higher as well. Figure~\ref{fig:Matching} shows how this approach works.
 
 
 \begin{figure}[htbp]
@@ -25,6 +25,61 @@ Since the people's resumes contain the most important background information, we
   \caption{Matching the job opening with Resume}
   \label{fig:Matching}
 \end{figure}
+
+
+\begin{table}[!p]
+ \small
+\caption{Example of Resume} % title of Table
+\centering % used for centering table
+\begin{tabular}{    |  p{15cm} |  }
+\hline
+\begin{center}\normalsize{\textbf {Ryan Richman}}\\
+\end{center}
+\\
+WORK EXPERIENCE\\
+\\
+\textbf{Web Developer}\\
+Fabuso/Advanced Brain Technologies - Ogden, UT - February 2012 to Present \\
+Created dynamic custom web applications for e-commerce and B2B clients. \\
+Designed and edited audio-visual content for many different online applications. \\
+Spearheaded migration of largest client's website from Joomla platform into Java code base. \\
+Built dynamic event pages, document viewers, training course applications, shopping carts, and more. \\
+Utilized advanced e-mail standards and best practices, SQL database queries, and Google Analytics.\\
+\\
+\textbf{IT Representative}\\
+Advanced Brain Technologies - Ogden, UT - April 2011 to February 2012 \\
+Provided internal software/hardware support for 20 employees both in-house and remote. \\
+Designed using wireframes, tested, and debugged web pages. \\
+Constructed dynamic projects and graphic designs in coordination with senior developers. \\
+Created HTML-optimized emails for hundreds of campaigns. \\
+Maintained and upgraded hardware for 20+ workstations company-wide. \\
+\\
+\textbf{Founder/Head Technician}\\
+Teton Media Services, LLC - Ogden, UT - October 2008 to January 2011 \\
+Created and developed websites for personal and small business customers \\
+Sold high-speed cable and satellite internet access on the phone, online and in person. \\
+Installed and serviced high-speed internet access hardware in residential and commercial properties. \\
+Designed and implemented networking solutions for homes and businesses. \\
+\\
+ 
+\\
+EDUCATION\\
+\\
+Computer Science \\
+Weber State University - Ogden, UT 2010 to 2013 \\
+\\
+ADDITIONAL INFORMATION \\
+\\
+Technical Skills \\
+Adept in the use of HTML, CSS, jQuery, Javascript, SQL, PHP, JSON, Windows, Windows Server, Mac, and Photoshop. \\
+
+\\
+\hline
+
+\end{tabular}
+\label{tab:resume} % is used to refer this table in the text
+\end{table}
+
 
 \section{Contribution}
 
