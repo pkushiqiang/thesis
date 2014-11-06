@@ -16,7 +16,7 @@ Currently the main channel for job seekers are online job finding web sites, lik
 
 The reason for such result is because current job searching web sites use the same information retrieval technology like ``Inverted index'' \cite{zobel2006inverted} as the common search engines, which just use keywords to map all the stored documents. Modern search engines all have some ranking algorithms to sort the searching result, like page rank \cite{page1999pagerank}, so the top results always be the most related ones. But such algorithms are unavailable to the job searching systems, because the criteria  of how to rank the job searching result is very personalized. A great job opening for one job seeker maybe looks not good to the other, because the goodness of a job to a specular job seeker is heavily depend on his personal background, like his education or professional experience etc.
 
-Since the people's resumes contain the most important background information, we believe the content of the resume could be used to rank the job openings. We give an example of resumes in Table~\ref{tab:resume}. In this thesis we created a web system which could use the resumes of job seekers to find the jobs that match their profiles best. The main idea is to calculate the similarity between the resume model and job models, which should be generated from resumes and job descriptions. We want to transfer the job searching task from key word searching to candidate model matching. The matching result should be sorted by the matching score, higher matching score means a better matching. The matching algorithm does not only help job seekers to find the appreciate job opening, but also offer priority to them~\cite{gueutal2006brave}.  The job with higher matching score means the job is more appropriate to the job seeker, and if he applies the job, the chance of getting the interview will be higher as well. Figure~\ref{fig:Matching} shows how this approach works.
+Since the people's r\'esum\'es contain the most important background information, we believe the content of the r\'esum\'e could be used to rank the job openings. We give an example of r\'esum\'es in Table~\ref{tab:resume}. In this thesis we created a web system which could use the r\'esum\'es of job seekers to find the jobs that match their profiles best. The main idea is to calculate the similarity between the r\'esum\'e model and job models, which should be generated from r\'esum\'es and job descriptions. We want to transfer the job searching task from key word searching to candidate model matching. The matching result should be sorted by the matching score, higher matching score means a better matching. The matching algorithm does not only help job seekers to find the appreciate job opening, but also offer priority to them~\cite{gueutal2006brave}.  The job with higher matching score means the job is more appropriate to the job seeker, and if he applies the job, the chance of getting the interview will be higher as well. Figure~\ref{fig:Matching} shows how this approach works.
 
 
 \begin{figure}[htbp]
@@ -29,7 +29,7 @@ Since the people's resumes contain the most important background information, we
 
 \begin{table}[!p]
  \small
-\caption{Example of Resume} % title of Table
+\caption{Example of R\'esum\'e} % title of Table
 \centering % used for centering table
 \begin{tabular}{    |  p{15cm} |  }
 \hline
@@ -61,7 +61,7 @@ Sold high-speed cable and satellite internet access on the phone, online and in 
 Installed and serviced high-speed internet access hardware in residential and commercial properties. \\
 Designed and implemented networking solutions for homes and businesses. \\
 \\
- 
+
 \\
 EDUCATION\\
 \\
@@ -97,4 +97,4 @@ The subsequent chapters are organized as follows: We first describe what has bee
 
 Then we introduce our work, JobFinder, a the Personalized Resume-Job Matching System. At first we give a overview of the system, which includes the architecture and the interfaces. Then we explained details of how we resolve the problems of information extraction and model similarity calculation. We proposed a finite state transducer library which can match patterns in sentence, and extracts related information. Ontology play an important role in this system. We will present how to construct the domain specific ontology for recruitment. We also give a brief review of different ontology similarity measures, and explain the statistical-based ontology similarity measure we used in this system.
 
-Finally, we evaluate the accuracy of our information extraction approach. We used NDCG to evaluate the accuracy of statistical-based ontology similarity measure. To evaluate the performance of the system, we compared our algorithm to some classical information retrieval approaches by precision@k and NDCG. We created a data set job descriptions as documents, and use resumes as query to retrieval documents. The result shows the ranking performance is better than other information retrieval approaches.
+Finally, we evaluate the accuracy of our information extraction approach. We used NDCG to evaluate the accuracy of statistical-based ontology similarity measure. To evaluate the performance of the system, we compared our algorithm to some classical information retrieval approaches by precision@k and NDCG. We created a data set job descriptions as documents, and use r\'esum\'es as query to retrieval documents. The result shows the ranking performance is better than other information retrieval approaches.
