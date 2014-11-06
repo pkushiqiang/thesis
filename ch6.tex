@@ -1,12 +1,12 @@
 \chapter{EVALUATION}
 
-In this section, we will evaluate the performance of the key components of the system, Information Extraction and the Ontology Similarity respectively, and then the whole system.
+In this section, we will evaluate the performance of the key components of the system, the Information Extraction module and the Ontology Similarity module respectively, and then the whole system.
 
 \section{Experiments of Information Extraction }
 
-To evaluate the performance of information extraction, we get some sentences by the sentence filters, different sentence filter can extract different kinds of sentences. We use the sentences that have degree information to explain the process:
+To evaluate the performance of information extraction module, we get some sentences by the sentence filters, and different sentence filter can extract different kinds of sentences. We will use the sentences that have degree information to explain the process of the experiment:
 
-In the experiment, we selected 100 sentences from job descriptions that are requirements of candidates degree and major. The values of degree and major are labeled manually. We use patterns to  match and extract the degree information from the sentences. The patterns are gotten from the observation of sentences. The Figure~\ref{fig:degree_accuracy} shows that when the number of  patterns increases, the accuracy of information increases as well. When we used 6 patterns, the accuracy of degree became 94\%. The accuracies of three fields matching are shown in Table \ref{tab:ieaccura}
+In the experiment, we selected 100 sentences from job descriptions, and the content of these sentences were requirements of candidates' degrees and majors. The values of degree and major are labeled manually. We use patterns to  match and extract the degree information from the sentences. The patterns are gotten from the observation of sentences. Figure~\ref{fig:degree_accuracy} shows that when the number of  patterns increases, the accuracy of information increases as well. When we used 6 patterns, the accuracy of degree became 94\%. The accuracies of three fields matching are shown in Table \ref{tab:ieaccura}
 
 \begin{figure}[htbp]
   \centering
@@ -35,7 +35,7 @@ In the experiment, we selected 100 sentences from job descriptions that are requ
 
 \section{Experiments of Ontology Similarity}
 
-We select some very common skills from 500 job descriptions, table~\ref{tab:dismatrix3} shows similarity values between these skills. The values in the table are the similarities between skills, the higher the value, the greater of the similarity, so the similarity between one skill and itself is 1. We select one concept, rank other concepts by their similarity value to this concept. The ranked concepts are also be given relevance scores by human judges, so we can use NDCG to evaluate the effectiveness of our approach.
+We selected some common skills from 500 job descriptions; table~\ref{tab:dismatrix3} shows similarity values between these skills. The values in the table are the similarities between skills, the higher the value, the greater the similarity, so the similarity between one skill and itself is 1. We selected one concept, ranked other concepts by their similarity values to this concept. The ranked concepts are also be given relevance scores by human judges, so we can use NDCG to evaluate the effectiveness of our approach.
 
 \begin{table}
 
@@ -59,7 +59,7 @@ We use $ Normalized~Discounted~Cumulative~Gain ( NDCG )$ to evaluate the statist
 
 Where $Z_{kj}$ is a normalization factor calculated to make it so that a perfect ranking's NDCG at $k$ for query $j$ is 1. For queries for which $k' < k$ documents are retrieved, the last summation is done up to $k'$.
 
-The table ~\ref{tab:simcompare1} shows how we evaluate the similarity between the concept ``Javascript'' and some other concepts. The first column is some skill names, the second column is their similarity values to Javascript, the third column is their positions ranked by the similarity values, and the fourth column is relevance value given by the judges. The NDCG value for concept Javascript is 0.94, and in table ~\ref{tab:simcompare2},  NDCG value for concept HTML is 0.97.
+Table ~\ref{tab:simcompare1} shows how we evaluate the similarity between the concept ``Javascript'' and some other concepts. The first column is some skill names, the second column is their similarity values to Javascript, the third column is their positions ranked by the similarity values, and the fourth column is their relevance values given by the judges. The NDCG value for concept Javascript is 0.94, and in table ~\ref{tab:simcompare2},  NDCG value for concept HTML is 0.97.
 
 \begin{table}
 \centering
@@ -101,14 +101,14 @@ The table ~\ref{tab:simcompare1} shows how we evaluate the similarity between th
 
 \section{Evaluation of the System}
 
-In traditional information retrieval system, precision and NDCG are widely used measures ~\cite{manning2008introduction}. Precision ($P$) is the fraction of retrieved documents that are relevant .
+In traditional information retrieval systems, precision and NDCG are widely used measures ~\cite{manning2008introduction}. Precision ($P$) is the fraction of retrieved documents that are relevant .
        $$  Precision =  \frac{ \#(releveant~items~ retrieved)}{ \#(retrieved~items)}$$
 
 We first used Precision@K to compare the performance our approach to some classical information retrieval models, that are Okapi BM25~\cite{robertson2009probabilistic}, Kullback-Leibler divergence, and the TF-IDF. Precision@K is the proportion of relevant documents in the first K positions and is given below:
 $$ P@k = \frac{1}{k} \sum^m_{i=1} l_i 1 \left(  r(i) \leq k  \right )  $$
 Where 1 is the indicator function: $1(A) = 1$ if A is true, 0 otherwise.
 
-To evaluate job finding, we compare the results of the system with three classical information retrieval models: Kullback-Leibler divergence~\cite{zhai2008statistical},  TF-IDF~\cite{manning2008introduction} and Okapi BM25 ~\cite{robertson1995okapi}. We give the definition these measures as below. 
+To evaluate job finding, we compare the results of the system with three classical information retrieval models: Kullback-Leibler divergence~\cite{zhai2008statistical},  TF-IDF~\cite{manning2008introduction} and Okapi BM25 ~\cite{robertson1995okapi}. We give the definition these measures as below.
 
 Kullback-Leibler divergence is a non-symmetric measure of the difference between two probability distributions $P$ and $Q$. The score of a document $D$ with respect to query $Q$ is given by:
 \begin{equation}
@@ -120,7 +120,7 @@ Kullback-Leibler divergence is a non-symmetric measure of the difference between
     \end{array}
 \end{equation}
 
-In the equation $\theta_Q$ is language model for a query, and  $\theta_D$ is language model for a document. 
+In the equation $\theta_Q$ is language model for a query, and  $\theta_D$ is language model for a document.
 
 TF-IDF is a Vector Space Model, which calculate Cosine Similarity between the vectors of the query $q$ and the document $d$. In the equation, $tf$ is term frequency, and $idf$ is inverse document frequency. The tf-idf weighting scheme assigns to term $t$ a weight in document $d$ given by:
 $$ tf\text{-}idf_{t,d} = tf_{t,d} \times idf_{t} $$
@@ -131,7 +131,7 @@ Okapi BM25: Given a query $Q$, containing keywords $q_1, ..., q_n$, the BM25 sco
 
 $ score(D,Q) = \sum_{ i=1 }^{n} IDF(q_i) \cdot   \frac {f(q_i,D) \cdot (k_1 + 1)}{f(q_i,D) + k_1 \cdot ( 1-b + b\cdot \frac { \left | D \right |}{avgdl})}  $
 
-In the evaluation phrase, we created a data set of 100 job descriptions, which includes several kinds of jobs, like web developers, back-end developers, mobile developers and so on. We used 5 candidate resumes and retrieved the top 20 jobs.  The relevance value of job descriptions to each resume will be set manually. We create a query q from the resume, and treat the text of the job descriptions as documents d and apply standard ad-hoc retrieval techniques to rank the jobs.    We would like to return jobs that better match the candidates' resumes at the top. The result of Precision@k is in table~\ref{tab:job_precision}.
+In the evaluation phase, we created a data set of 100 job descriptions, which includes several kinds of jobs, like web developers, back-end developers, mobile developers and so on. We used 5 candidate r\'esum\'es and retrieved the top 20 jobs.  The relevance value of job descriptions to each r\'esum\'e will be set manually. We create a query q from the r\'esum\'e, and treat the text of the job descriptions as documents d and apply standard ad-hoc retrieval techniques to rank the jobs.    We would like to return jobs that better match the candidates' r\'esum\'es at the top. The result of Precision@k is in table~\ref{tab:job_precision}.
 
 
 \begin{table}[ht]
@@ -152,7 +152,7 @@ In the evaluation phrase, we created a data set of 100 job descriptions, which i
 \label{tab:job_precision} % is used to refer this table in the text
 \end{table}
 
-The other measure we used is NDCG, which is explained in last section. Table ~\ref{tab:job_ndcg} shows the NDCGvalue get from different information retrieval model. The result shows that Ontology Similarity  performs the best. This agrees with results in  where it was found that finding and weighting up important concepts in long queries can improve retrieval performance.
+The other measure we used is NDCG, which is explained in last section. Table ~\ref{tab:job_ndcg} shows the NDCG value get from different information retrieval models. The result shows that Ontology Similarity  performs the best. 
 
 \begin{table}[ht]
 \caption{NDCG of Job Ranking } % title of Table
@@ -174,11 +174,11 @@ The other measure we used is NDCG, which is explained in last section. Table ~\r
 
 \section{User Study}
 
-We evaluated the system by user studies. The purpose of the evaluation is to test the hypothesis that resume-job matching approach could return better results than keywords searching approach.
+We evaluated the system by user studies as well. The purpose of the evaluation is to test the hypothesis that r\'esum\'e-job matching approach could return better results than keywords searching approach.
 
 \subsection{Procedure of User Study}
 
-At the start of the study, the experimenter introduced the system to the users. He introduced the features of the system, and gave a demo of how to the three different methods in the system to search the jobs. Then a subject was given a resume, all the resumes were download from the internet randomly. The user spent approximately 10 minutes to familiar with it, and got initial idea of what jobs are appropriate to the resume. The subject was asked to search a specific kind of job, like web developer or software engineer with the three methods. During the searching process, the time they used to search and the number of jobs they had reviewed for each method were recorded.  At the end of the study, the subject was asked to take a survey that asked  the personal judgment about the results accuracy of the three methods.
+At the start of the study, the experimenter introduced the system to the users. He introduced the features of the system, and gave a demo of how to the three different methods in the system to search the jobs. Then a subject was given a r\'esum\'e, which was selected from the r\'esum\'es downloaded from the internet randomly. The user spent approximately 10 minutes to familiar with it, and got initial idea of what jobs are appropriate to the r\'esum\'e. The subject was asked to search a specific kind of job, like web developer or software engineer with the three methods. During the searching process, the time they used to search and the number of jobs they had reviewed for each method were recorded.  At the end of the study, the subject was asked to take a survey that asked  the personal judgment about the results accuracy of the three methods.
 
 
 \subsection{Results}
