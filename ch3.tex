@@ -1,15 +1,15 @@
 \chapter{PROBLEM}
 
-The basic problem in this thesis is how to found appropriate job descriptions by user's resume. If we take the resume as query, the job descriptions as documents, we need build a information retrieval model to get the most relevance documents.  The JobFinder will parse the job descriptions to the job models, and store them in the database. When a user searches the jobs by their resume in the system, the system will compare the similarity values between the resume and the job models, and return the job sorted by their similarity value.
+The basic problem in this thesis is how to find appropriate job descriptions by user's r\'esum\'e. If we take the r\'esum\'e as a query and the job descriptions as documents, we need to build an information retrieval model to get the most relevance documents.  The JobFinder will parse the job descriptions to the job models, and store them in the database. When a user searches the jobs by their r\'esum\'e in the system, the system will compare the similarity values between the r\'esum\'e and the job models, and return the jobs sorted by their similarity values.
 
-The core idea of our algorithm is calculate similarity between resume model and job model.
+The core idea of our algorithm is calculate similarity between the r\'esum\'e model and job model.
 We give a formal definition of our problem. All of the notations will be used frequently throughout the thesis.
 
-We use $r$ denote the user's resume model, $r$ has some features $r_i$ like academic degree, their major, their skill set and so on. The symbol $J$ is the set of job models stored in the database, $j$ is a job model in the se $J$. The similarity function $sim(r, j)$ gives the similarity value between resume $r$ and job $j$. The return list of search function $search(r,J)$ will calculate all the similarity value in the database, and the result of the function will be the job description list ranked their similarity value. The equation of how to calculate similarity value is given below:
+We use $r$ to denote the user's r\'esum\'e model, which has some features $r_i$ like their academic degree, their major, their skills and so on. The symbol $J$ is the set of job models stored in the database, and $j$ is a job model in the set $J$. The similarity function $sim(r, j)$ gives the similarity values between r\'esum\'e $r$ and job $j$. The return list of search function $search(r,J)$ will calculate all the similarity value in the database, and the result of the function will be the job description list ranked by their similarity values. The equation of how to calculate similarity value is given below:
 
 $$ sim(r, j) = \sum_{i=1}^{n} simfun_i(r_i,j_i) \times w_i $$
 
-The value of $sim(r, j)$ is summation of similarity value of different fields times their corresponding weight, which means different fields like major and skills,  may have different approaches to calculate their similarity value. We will describe the similarity functions of individual fields in later parts.
+The value of $sim(r, j)$ is the summation of the similarity values of different fields times their corresponding weights. Different fields like major and skills,  may have different functions to calculate their similarity values. We will describe the similarity functions of individual fields in later parts.
 
 \chapter{System Overview}
 
