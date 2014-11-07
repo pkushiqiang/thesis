@@ -1,5 +1,5 @@
 \chapter{Ontology Construction and Similarity}
-After getting resumes models and job models by the information extraction module, we could use model matching to retrieve jobs. We notice that simple keywords matching is not a good similarity measure, because job description and resume are both written in human language. In these documents, even one concept can be written in different ways, and and some different concepts have close relationship. For example, Table~\ref{tab:resume_jd}  is part of the resume of a job seeker, and part of a job description:
+After getting job models by the information extraction module, the users can search jobs in the system. We notice that simple keywords matching is not a good similarity measure, because job description and r\'esum\'e are both written in human language. In these documents, even one concept can be written in different ways, and and some different concepts have close relationship. For example, Table~\ref{tab:resume_jd} shows part of the r\'esum\'e of a job seeker and part of a job description:
 
 \begin{table}[ht]
 \caption{Resume and Job Description} % title of Table
@@ -26,19 +26,19 @@ After getting resumes models and job models by the information extraction module
 \label{tab:resume_jd} % is used to refer this table in the text
 \end{table}
 
-If just looking at the text, we can find that the resume has few common words with the job description. But from the view of an experienced engineer, the candidate is pretty matching the job. Because relational databases Oracle and Mysql are very similar, OOA/OOD is the same meaning of many years of Java and C++ experience, and Tomcat and JBOSS are two Java web applications servers.  If we use key word matching, the system won't give a good matching result in this very common case.
+If just looking at the text, we can find that the r\'esum\'e has few common words with the job description. But from the view of an experienced engineer, the candidate is pretty matching the job. Because two relational databases Oracle and Mysql are very similar; OOA/OOD is the same meaning of many years of Java and C++ experience; and Tomcat and JBOSS are both Java web applications servers. If we use key word matching, the system does not give a good matching result in this very common case.
 
 \section{Semantic Similarity in JRSs}
-We had studied previous work on similarity measures in JRSs, some of them use ontology as knowledge base to store knowledge and rules, which could help compare the similarity between different concepts. Liu and Dew~\cite{liu2004using} used RDF to represent and store the expertise of experts, and they used a RDF-based Expertise Matcher to retrieve the experts whose expertise include the required concept.
+In some previous studies of JRSs ontology is used as knowledge base to store knowledge and rules, which could help compare the similarity between different concepts. Liu and Dew~\cite{liu2004using} used RDF to represent and store the expertise of experts, and they used a RDF-based expertise matcher to retrieve the experts whose expertise included the required concept.
 
-Proactive~\cite{lee2007fighting} used two kinds of ontology, job category and the company information. The system used ontology checker to classify the job information, stored the domain knowledge and calculated the weight value in recommendations.
+Proactive~\cite{lee2007fighting} used two kinds of ontology, job category and the company information. The system used ontology checker to classify the job information, and stored the domain knowledge and calculated the weight value in recommendations.
 
-Fazel \cite{fazel2009semantic} used a hybrid approach to matching job seekers and job postings, which takes advantage of the benefits of both logic-based and ontology-based matching. In his paper the description logics (DL) is used to represent the candidate and job opening, and the ontology is used to organize the skills in a skill taxonomy. He gave an equation to calculate the matching degree:
+Fazel \cite{fazel2009semantic} used a hybrid approach to match job seekers and job postings, which takes advantage of the benefits of both logic-based and ontology-based matching. In his paper the description logics (DL) is used to represent the candidate and job opening, and the ontology is used to organize the skills in a skill taxonomy. He gave an equation to calculate the matching degree:
 $$ sim\left(P ,j \right) = \sum x_{ij} \times u(ds_i) $$
 
 where, $x_{ji}$ is the Boolean variable indicating whether desire i is satisfied by applicant $A_{j}$ in the set of all qualified applications.
 
-Kumaran et al.~\cite{kumaran2013towards} also used ontology to calculate the similarity between job criteria and candidates's resume in their system~\cite{kumaran2013towards}. The similarity equation they used are:
+Kumaran et al.~\cite{kumaran2013towards} also used ontology to calculate the similarity between job criteria and candidates's r\'esum\'e in their system~\cite{kumaran2013towards}. The similarity equation they used are:
 $$ M\left ( i_1, i_2 \right ) = \frac{\sum_{k=1}^{n} Sim\left (p_{k}^{i1},  p_{k}^{i2} \right ) * W_{k}^{i2}}{\sum_{k=1}^{n} W_{k}^{i2}}  $$
 The similarity function $Sim(p_1, p_2)$ is defined as follows:
 $$ Sim(p1, p2) = \begin{Bmatrix}
