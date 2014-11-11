@@ -55,7 +55,7 @@ The domain specific technology ontology for recruiting should include a lot of t
 From the observation, we found that sentences with skill requirements in job descriptions always list several skills in one the sentence, which is shown in Table ~\ref{tab:skillrequirement}. Based on this character, we propose a bootstrap approach to collect IT terms in job descriptions.  First, we manually collect about fifty terms from job descriptions, and add them to the term list. Then we use our pattern matching library to find the sentences that matching the pattern in Table \ref{tab:patterns} from a set of job descriptions. An example of a sentence which matches the pattern is shown in Table \ref{tab:termspattern}. We extract the tokens which match the star symbol from the sentences; these tokens have high probability to be technical terms. Then we could check the tokens in Dbpedia to see whether they are under the categories like software, programming language or any other technical related ones. If they are, we could classify them as terms, and add them to the terms list. After scanning all the sentences in the job description set, the term list will be larger, and we can use the larger term list to start a new iteration of scaning. This process stops when the number of found new terms is below a threshold. The process is shown Figure ~\ref{fig:gen_onto}.
 
 \begin{table}[ht]
-\caption{Some sentences Job Description} % title of Table
+\caption{Some sentences from Job Descriptions} % title of Table
 \centering % used for centering table
 \begin{tabular}{ | p{15cm}  | }
  \hline
@@ -83,7 +83,7 @@ From the observation, we found that sentences with skill requirements in job des
 \end{table}
 
 \begin{table}[ht]
-\caption{Some sentences Job Description} % title of Table
+\caption{An example sentence matches the pattern} % title of Table
 \centering % used for centering table
 \begin{tabular}{   | c | c | c | c |c | c |c | c |c | c |c | c |c | c |  }
  \hline

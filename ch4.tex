@@ -1,8 +1,8 @@
 \chapter{Information Extraction}
 
-To calculate the similarity between a job and a resume, JobFinder system need the models of them, which are  structured data. To get the structured data, some JRSs ask the job seekers input their profiles in forms field by field, and the recruiter input their job descriptions in the same way as well. However, as we discussed in chapter 2, the users are reluctant to take the tedious process~\cite{singh2010prospect}. Job seekers prefer upload their resumes directly, and recruiters prefer to post the whole job descriptions to web sites. 
+To calculate the similarity between a job and a resume, the JobFinder system needs structured digital models of each document. To get the structured data, some JRSs ask the job seekers input their profiles in forms field by field, and the recruiter input their job descriptions in the same way. However, as we discussed in Chapter 2, the users are reluctant to take the tedious process~\cite{singh2010prospect}. Job seekers prefer upload their resumes directly, and recruiters prefer to post the whole job descriptions to web sites.
 
-In this chapter we will explain how the Information Extraction module of the system extracts information from these unstructured data source. An example of job description is shown in Table~\ref{tab:jd1}. The IE framework will be introduced by example of processing the job descriptions. The Finite-State Transducer(FST) library, which is used as pattern matching tools, will be introduced as well.
+In this chapter we will explain how the Information Extraction (IE) module of our system extracts information from these unstructured data source. An example of job description is shown in Table~\ref{tab:jd1}. The IE framework will be introduced by example of processing the job descriptions. The Finite-State Transducer(FST) library, which is used as pattern matching tools, will be introduced as well.
 
 \begin{table}[!p]
  \small
@@ -49,25 +49,21 @@ RichRelevance is an Equal Opportunity Employer and does not discriminate against
 \end{table}
 
 
-
-
-
-
 \section{Text Processing Stages}
 
-Information Extraction is the task of automatically extracting structured information such as entities, relationships between entities, and attributes describing entities from unstructured sources~\cite{sarawagi2008information}. The IE framework in the system uses six stages in order to extract the information from job descriptions: HTML parsing, segmenting, preprocessing, tokenizing, labeling and pattern matching, which is show in Figure~\ref{fig:Pipeline}.
+Information Extraction is the task of automatically extracting structured information such as entities, relationships between entities, and attributes describing entities from unstructured sources~\cite{sarawagi2008information}. The IE framework in our system uses six stages in order to extract the information from job descriptions: HTML parsing, segmenting, preprocessing, tokenizing, labeling and pattern matching, which is show in Figure~\ref{fig:Pipeline}.
 
-1) The HTML parser will parse the web pages that contain job descriptions, which are obtained from web crawler. The parser uses HTML tag template to extract attributes of the jobs, like job title, location, company name, content and so on. A job will be saved as a record with these attributes in the database. In the record, the content field contains the text part of the job description, which will be the processed in later stages.
+1) The \textbf{HTML Parsing} will parse the web pages that contain job descriptions, which are obtained from web crawler. The parser uses HTML tag template to extract attributes of the jobs, like job title, location, company name, content and so on. A job will be saved as a record with these attributes in the database. In the record, the content field contains the text part of the job description, which will be processed in later stages.
 
-2) In the segmenting stage, the content field of the job description is be separated into paragraphs according HTML tags. Then paragraphs are separated into sentences by either HTML tags or punctuations, and after this step, all HTML tags will be removed.
+2) In the \textbf{segmenting stage}, the content field of the job description is be separated into paragraphs according HTML tags. Then paragraphs are separated into sentences by either HTML tags or punctuation, and after this step, all HTML tags will be removed.
 
-3) The web pages of job description are created in different character sets, e.g. UTF8 and ISO 8859-1, and always contain some unreadable characters. In the prepossessing stage, characters in the sentences are converted to the ASCII characters, unreadable characters will be deleted, and some punctuations will be replaced by spaces e.g. / and -.
+3) Web pages of job description are created in different character sets, (e.g. UTF8 and ISO 8859-1), and almost always contain some unreadable characters. In the \textbf{prepossessing stage}, characters in the sentences are converted to ASCII characters, unreadable characters will be deleted, and some punctuation will be replaced by spaces (e.g. / and -).
 
-4) In the tokenizing stage, the sentences will be tokenized into arrays of tokens by NLTK~\cite{bird2006nltk}.
+4) In the \textbf{tokenizing stage}, the sentences will be tokenized into arrays of tokens by NLTK~\cite{bird2006nltk}.
 
-5) In the labeling stage, the sentences will be given two layers of labels by a dictionary matching approach. The labels in the first layer are the semantic value of the text, and the labels in the second layer are the ontology hypernym of the labels in the first layers.
+5) In the \textbf{labeling stage}, the sentences will be given two layers of labels by a dictionary matching approach. The labels in the first layer are the semantic value of the text, and the labels in the second layer are the ontology hypernym of the labels in the first layers.
 
-6) In the pattern matching stage, the FST library is used to matching the labels of the labeled sentences.  If a layered sentence match any pre-defined pattern, the information will be extracted and added to the job model. After every sentence of a job description has be processed, a job model will be created and saved in the database.
+6) In the \textbf{pattern matching} stage, the FST library is used to matching the labels of the labeled sentences.  If a layered sentence match any pre-defined pattern, the information will be extracted and added to the job model. After every sentence of a job description has be processed, a job model will be created and saved in the database. More details about matching will follow in Section C.
 
 \begin{figure}[htbp]
   \centering
@@ -78,10 +74,10 @@ Information Extraction is the task of automatically extracting structured inform
 
 \section{Semantic Labeling}
 
-In this section, we will introduce why and how we add two layers of label to the tokenized sentences. In natural language, one concept always have some different expressions. For example, the simple concept bachelor's degree,  has several expressions in job descriptions, e.g. B.S., BA/BS, 4 years degree, and so on. The Table \ref{tab:multispelling} shows the words that if followed with word ``degree'' have the semantic value of ``bachelor's degree''.
+In this section, we will introduce why and how we add two layers of label to the tokenized sentences. In natural language, a single concept often has multiple expressions o represent it. For example, the simple concept bachelor's degree,  can be expressed in many ways in job descriptions, e.g. B.S., BA/BS, 4-years-degree, and so on. Table \ref{tab:multispelling} shows the words that if followed with word ``degree'' have the semantic value of ``bachelor's degree''.
 
 \begin{table}[ht]
-\caption{All words have meaning bachelors } % title of Table
+\caption{All words mean bachelors} % title of Table
 \centering % used for centering table
 \begin{tabular}{  | p{15cm} |  }
  \hline
@@ -91,7 +87,7 @@ In this section, we will introduce why and how we add two layers of label to the
 \label{tab:multispelling} % is used to refer this table in the text\section{Pipeline of Information Extraction}
 \end{table}
 
-The regular expression over tokens will transfer a patten to a Finite-State Transducer(FST), and every token of the pattern will be transferred to an edge of FST. If we use all the expressions of a semantic value to create a pattern, the pattern will be very large, and there are too many states in the FST. For example, if we use some words in Table~\ref{tab:multispelling} to create the pattern of semantic value ``bachelor's degree'', the pattern will like below:
+To add labels to a sentence, we use regular expression over tokens. A regular expression over token transfer a patten to a Finite-State Transducer (FST), and every token of that will be transferred to an edge of FST.????? If we use all the expressions of a semantic value to create a pattern, the pattern will be very large, and there are too many states in the FST. For example, if we use some words in Table~\ref{tab:multispelling} to create the pattern of semantic value ``bachelor's degree'', the pattern will like below:
 $$ (~Baccalaureate~\mid~bachelors~\mid~bachelor~~\mid~B.S~\mid~BS~\mid~BA~)~~degree $$
 If all words in Table~\ref{tab:multispelling} are added to the pattern, the FST will have too many edges, and the matching process will be very slow because of the problem of combinatorial explosion.
 
