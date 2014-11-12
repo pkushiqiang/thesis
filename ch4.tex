@@ -91,11 +91,11 @@ To add labels to a sentence, we use regular expression over tokens. A regular ex
 $$ (~Baccalaureate~\mid~bachelors~\mid~bachelor~~\mid~B.S~\mid~BS~\mid~BA~)~~degree $$
 If all words in Table~\ref{tab:multispelling} are added to the pattern, the FST will have too many edges, and the matching process will be very slow because of the problem of combinatorial explosion.
 
-To resolve this problem, we proposed an approach to use the patterns match the labels of the tokens, not the the original text. Because in the system, we don't care what the words the sentences really use, but want to extract the semantic value of the tokens which match the pattern. The details of the approach is described below.
+To resolve this problem, we proposed an approach to use the patterns to match the \textit{labels} of the tokens, not the the original text. In the system, we don't care what words the sentences really use, but want to extract the semantic value of the tokens which match the pattern. The details of the approach is described below.
 
-At first, we created two dictionaries, which are used to labeling the tokens. In the first dictionary, the keys are the tokens, like words in Table~\ref{tab:multispelling}, and the values are the symbols for semantic values, like ``BS-LEVEL'' for ``bachelor's degree'', or ``MS-LEVEL'' for ``master's degree''. In the second dictionary, the keys are semantic values, which are the values of first dictionary. The values of the the second dictionary are the ontology hypernym of their keys, like keys ``BS-LEVEL'' and  ``MS-LEVEL'' both have value ``DE-LEVEL'', which means that bachelor's degree and master's degree are both one kind of degree level.
+At first, we created two dictionaries, which are used to label the tokens. In the first dictionary, the keys are the tokens, like words in Table~\ref{tab:multispelling}, and the values are the symbols for semantic values, like ``BS-LEVEL'' for ``bachelor's degree'', or ``MS-LEVEL'' for ``master's degree''. The values of the the second dictionary are the ontology hypernym of their keys, like keys ``BS-LEVEL'' and  ``MS-LEVEL'' both have value ``DE-LEVEL'', which means that bachelor's degree and master's degree are both one kind of degree level.
 
-With the two dictionaries, we can labeling the tokens with two layers. In the first layer, we labeled the tokens with its semantic values, which are the values that we want to extract from the sentence. In the second layer, the labels, which will be matched with patterns, are the ontology hypernyms of the labels in first layer. Table~\ref{tab:labeldsent} shows how the sentence ``Bachelors  degree  in computer science or information systems. '' is labeled.
+With the two dictionaries, we can label the tokens with two layers. Table~\ref{tab:labeldsent} shows how the sentence ``Bachelors  degree  in computer science or information systems. '' is labeled.
 
 \begin{table}[ht]
 \caption{Labeled sentence } % title of Table
@@ -113,11 +113,11 @@ With the two dictionaries, we can labeling the tokens with two layers. In the fi
 \label{tab:labeldsent} % is used to refer this table in the text\section{Pipeline of Information Extraction}
 \end{table}
 
-The pattern ``DE-LEVEL DEGREE  IN   MAJOR  OR  MAJOR ''  can match the sentence above, and the output of the matching process is ``BS-LEVEL'' for bachelor's degree, ``MAJOR-CS'' and ``MAJOR-INFO'' for two majors mentioned in sentence. In the system most patterns match the labels in second layer. With this approach, the size of FST for the pattern will be minimized, so speed of matching process can be improved as well.
+The pattern ``DE-LEVEL DEGREE  IN   MAJOR  OR  MAJOR ''  can match the sentence above, and the output of the matching process is ``BS-LEVEL'' for bachelor's degree, ``MAJOR-CS'' and ``MAJOR-INFO'' for two majors mentioned in sentence. In our system, most patterns match the labels in second layer. With this approach, the size of the FST for the pattern will be minimized, so speed of matching process can be improved.
 
 \section{Patterns for Matching}
 
-As we explained in last section, we used some patterns over tokens in second layer to match the sentences. To matching the labels in sentences, we proposed a library that support matching pattern over tokens. The difference between this library and traditional regular expression is that the basic unit to be matched is token, not character. Some patterns used to match degree phases are in Table~\ref{tab:patterns}. The patterns looks like regular expression, but they use tokens as the basic units.
+As we explained in section B, we mentioned matching tokens in the second layer to patterns we defined. To match the labels in sentences to our patterns, we proposed a library that support matching pattern over tokens. The difference between this library and traditional regular expression is that the basic unit to be matched is token, not character. Some patterns used to match degree phrases are in Table~\ref{tab:patterns}. The patterns looks like regular expression, but they use tokens as the basic units.
 
 \begin{table}[ht]
 \small
@@ -136,16 +136,14 @@ As we explained in last section, we used some patterns over tokens in second lay
 
 
 
-
-
 \section{Regular Expression Over Tokens}
 
-In last section we generally introduced how we use the library of regular expression over tokens to match the sentences. In this section we will introduce more details of this library, like its advantages and implementation details.
+In section C we generally introduced how we use the library of regular expression over tokens to match the sentences. In this section we will introduce more details of this library, like its advantages and implementation details.
 
 \subsection{Finite-State Transducer}
-Finite-State Transducer~\cite{roche1997finite} is used as a tool to match patterns and extract information for more than 20 years. This approach have been demonstrated very effective in extracting information from text like CIRCUS~\cite{lehnert1991university} and FASTUS~\cite{hobbs199713}.  In the widely used NLP toolkit GATE~\cite{cunningham2002framework}, the semantic tagger JAPE (Java Annotations Pattern Engine) could describe patterns that are used to match and annotate tokens. JAPE adopts a version of CPSL (Common Pattern  Specification Language)~\cite{appelt1998common}, which provides FST over annotations. Chang et al. presented cascaded regular expressions over tokens~\cite{chang2014tokensregex}, which proposed a cascaded pattern matching tool over token sequences.
+Finite-State Transducer~\cite{roche1997finite} have been used as a tool to match patterns and extract information for more than 20 years. This approach has been demonstrated very effective in extracting information from text like CIRCUS~\cite{lehnert1991university} and FASTUS~\cite{hobbs199713}.  In the widely used NLP toolkit GATE~\cite{cunningham2002framework}, the semantic tagger JAPE (Java Annotations Pattern Engine) could describe patterns that are used to match and annotate tokens. JAPE adopts a version of CPSL (Common Pattern  Specification Language)~\cite{appelt1998common}, which provides FST over annotations. Chang et al. presented cascaded regular expressions over tokens~\cite{chang2014tokensregex}, which proposed a cascaded pattern matching tool over token sequences.
 
-After studying these tools, we found most of them are powerful, complex, but not very flexible. One reason is that developers need to learn some DSLs like CPSL, and the other is  integrating the pattern matching tool into the system need extra efforts. So here we proposed a more flexible and lightweight FST framework, which can do regular expression matching over labeled tokens. We give the definition of Finite-State Transducer here. A Finite-State Transducer is a 6-tuple $(\Sigma_1, \Sigma_2, Q, i, F, E)$ where:
+After studying these tools, we found most of them are powerful, complex, but not very flexible. One reason is that developers need to learn some Domain specific Languages (DSLs) like CPSL, and the other reason is the extra effort and time required to integrate the pattern matching tool into the system. So here we proposed a more flexible and lightweight FST framework, which can do regular expression matching over labeled tokens. We give the definition of Finite-State Transducer here. A Finite-State Transducer is a 6-tuple $(\Sigma_1, \Sigma_2, Q, i, F, E)$ where:
 \begin{itemize}
   \item $\Sigma_1$ is a finite alphabet, called the input alphabet.
   \item $\Sigma_2$ is a finite alphabet, called the output alphabet.
@@ -171,10 +169,10 @@ Regular expressions can be converted to automata \cite{aho1992foundations}, and 
 
 \subsection{Matchers in FST library}
 
-In the library, a matcher could be a token to be matched, or a composition of other matchers. The library supports syntax used in traditional regular expression over string, we list the syntax that the library supports in Table~\ref{tab:matchers}. The first column is the names of the matchers, the second column is the explanation of the function of the matchers, and third column is the their counter part syntaxes of traditional regular expression. The RegexMatcher in library has a regular expression that matches any token matching the regular expression. We give examples of the syntax of these matchers in Table \ref{tab:matchers_example}.
+In our library, a ``matcher'' could be a token to be matched, or a composition of other matchers. Our library supports syntax used in traditional regular expressions over strings. We list the syntax that the library supports in Table~\ref{tab:matchers}. The first column is the names of the matchers, the second column is the explanation of the function of the matchers, and third column is the their counterpart syntaxes of traditional regular expression. The RegexMatcher in our library is constructed with a regular expression, and the matcher matches any string that matches the regular expression in the matcher. We give examples of the syntax of these matchers in Table \ref{tab:matchers_example}.
 
 \begin{table}[ht]
-\caption{Matcher Class } % title of Table
+\caption{Matchers of our Library } % title of Table
 \centering % used for centering table
 \begin{tabular}{  | l | l | l |  }
  \hline
@@ -201,7 +199,7 @@ In the library, a matcher could be a token to be matched, or a composition of ot
 
 
 \begin{table}[ht]
-\caption{Matcher Class } % title of Table
+\caption{Matchers' Examples } % title of Table
 \centering % used for centering table
 \begin{tabular}{  | l |  l |  }
  \hline
@@ -226,7 +224,7 @@ In the library, a matcher could be a token to be matched, or a composition of ot
 \label{tab:matchers_example} % is used to refer this table in the text\section{Pipeline of Information Extraction}
 \end{table}
 
-The framework supports three styles to create patterns, regular expression style., operator style and  object style. The flexibility of second and third style is that developers could create their own matcher class to extend the feature of the library. We use examples to show how the three styles works. The most common style is defining pattern expression in a string, which is much like traditional regular expression.
+The framework supports three styles of creating patterns: regular expression style, operator style and  object style. The second and third styles are flexible because developers can create their own matcher class to extend the feature of the library. We use examples to show how the three styles work. The most common style is defining pattern expression in a string, which is much like traditional regular expression.
 
 \begin{framed}
 \small
@@ -237,7 +235,7 @@ seqMatcher =parser.parse("DE-LEVEL DEGREE ( IN  $\vert$  OF ) DT? MAJOR")
 
 \end{framed}
 
-The second style is using algebra operator to connect matchers, as follows:
+The second style is using algebraic operators to connect matchers, as follows:
 \begin{framed}
 \small
 \noindent
@@ -248,7 +246,7 @@ seqMatcher =  UnitMatcher("DE-LEVEL") +  UnitMatcher("DEGREE") + \\
 
 \end{framed}
 
-We also could create complex matcher in programming style, which is like we creating and using some objects when programming, as follows:
+We also could create a complex matcher in object-oriented programming style.
 
 \begin{framed}
 \small
@@ -265,11 +263,11 @@ seqMatcher = SeqMatcher([matcher1, matcher2, matcher6, matcher5])
 
 \end{framed}
 
-The flexibility of the tool also comes from that developers could determine which layer of the array should be matched, the original text or labels in the first or second layer. Developers can assign lambda expressions to the matcher's catching function, which defines how to get the matching input, and out function, which defines what should be outputed. For example,  the labeled sentence is a sequence of arrays, each array includes the original text token and its labels in the other two layers, which is shown in table~\ref{tab:labeldsent}. To match the labeled sentence, we set the lambda expression for catching function to ``lambda x:x[2]'', and the out function to ``lambda x:x[1]'', which make the matcher match the label in second layer, and output the the value of semantic value in the first layer.
+The flexibility of the tool also comes from the fact that developers could determine which layer of the array should be matched, the original text, or labels in the first layer or labels in the second layer. Developers can assign lambda expression to the matcher's catching function, which defines how to get the matching input strings from the sentences, and out function, which defines what should be outputed. For example,  the labeled sentence is a sequence of arrays, each array includes the original text token and its labels in the other two layers, which is shown in table~\ref{tab:labeldsent}. To match the labeled sentence, we set the lambda expression for catching function to ``lambda x:x[2]'', and the out function to ``lambda x:x[1]'', which make the matcher match the label in second layer, and output the the value of semantic value in the first layer.
 
 
 \subsection{Implementation of FST Library}
-We use PLY(Python Lex-Yacc) as the grammar parser, which is a pure-Python implementation of the popular compiler construction tools lex and yacc. We defined  syntaxes of regular expression over token in the parser, which can parse the token regular expression to the tree structure of matchers.
+We use PLY(Python Lex-Yacc) as the grammar parser, which is a pure-Python implementation of the popular compiler construction tools lex and yacc. We defined  syntaxes of regular expression over tokens in the parser, which can parse the token regular expression to the tree structure of matchers.
 
 We use the algorithm proposed by Thompson and Ken\cite{thompson1968programming} to construct the FST from the tree of matchers. Each matcher is a partial Nondeterministic Finite Automaton (NFA), which have one or more dangling arrows, pointing to nothing. We build the whole NFA by connecting the arrows of the partial NFAs. Different operator will have different structures of NFA, which is shown below:
 
@@ -282,7 +280,7 @@ The NFAs for matching single token is shown in Figure \ref{fig:nfa_single}.
   \label{fig:nfa_single}
 \end{figure}
 
-The NFA for the concatenation $e_1e_2$ connects the final arrow of the $e_1$ machine to the start of the $e_2$ machine, which is shown in Figure \ref{fig:nfa_cocat}.
+The NFA for the concatenation $e_1e_2$ connects the final arrow of the $e_1$ machine to the start of the $e_2$ machine, as shown in Figure \ref{fig:nfa_cocat}.
 
 \begin{figure}[htbp]
   \centering
