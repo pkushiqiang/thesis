@@ -2,7 +2,7 @@
 After getting job models by the information extraction module, the users can search jobs in the system. We notice that simple keywords matching is not a good similarity measure, because job description and r\'esum\'e are both written in human language. In these documents, even one concept can be written in different ways, and and some different concepts have close relationship. For example, Table~\ref{tab:resume_jd} shows part of the r\'esum\'e of a job seeker and part of a job description:
 
 \begin{table}[ht]
-\caption{Resume and Job Description} % title of Table
+\caption{Part of Resume and Job Description} % title of Table
 \centering % used for centering table
 \begin{tabular}{ | p{8cm} | p{7cm} | }
  \hline
@@ -55,7 +55,7 @@ The domain specific technology ontology for recruiting should include a lot of t
 From the observation, we found that sentences with skill requirements in job descriptions always list several skills in one the sentence, which is shown in Table ~\ref{tab:skillrequirement}. Based on this character, we propose a bootstrap approach to collect IT terms in job descriptions.  First, we manually collect about fifty terms from job descriptions, and add them to the term list. Then we use our pattern matching library to find the sentences that matching the pattern in Table \ref{tab:patterns} from a set of job descriptions. An example of a sentence which matches the pattern is shown in Table \ref{tab:termspattern}. We extract the tokens which match the star symbol from the sentences; these tokens have high probability to be technical terms. Then we could check the tokens in Dbpedia to see whether they are under the categories like software, programming language or any other technical related ones. If they are, we could classify them as terms, and add them to the terms list. After scanning all the sentences in the job description set, the term list will be larger, and we can use the larger term list to start a new iteration of scaning. This process stops when the number of found new terms is below a threshold. The process is shown Figure ~\ref{fig:gen_onto}.
 
 \begin{table}[ht]
-\caption{Some sentences from Job Descriptions} % title of Table
+\caption{Some sentences of Job Descriptions} % title of Table
 \centering % used for centering table
 \begin{tabular}{ | p{15cm}  | }
  \hline
@@ -99,7 +99,7 @@ For example, we extract the token  ''XSL'', which currently is not in the terms 
 
 \begin{figure}[htbp]
   \includegraphics[scale=0.6]{images/genonto.png}
-  \caption{Find Technical Terms}
+  \caption{Procedure of Finding Technical Terms}
   \label{fig:gen_onto}
 \end{figure}
 
@@ -160,7 +160,7 @@ The are also two disadvantages of the content-based measures. First, the approac
 In this thesis, we proposed a new statistical-based ontology similarity measure. In most job descriptions, they list many skills the positions required. From observation, we found that related skills always exist in the job description simultaneously, and the positions of them are always close, e.g. HTML and CSS are always required together, and appear in the same sentence. We could see this phenomenon in Table~\ref{tab:skillinsent}, which include some skill requirement sentences from some job descriptions.
 
 \begin{table}[ht]
-\caption{Some sentences Job Description} % title of Table
+\caption{Some sentences of Job Descriptions} % title of Table
 \centering % used for centering table
 \begin{tabular}{ | p{15cm}  | }
  \hline
@@ -181,7 +181,7 @@ The numerator is the ratio of the number of documents in which the two terms exi
 We set the restriction on the position of the two concepts in the ontology, because the position of the concepts in the ontology are based on their technical similarity to others. Similar techniques will be assigned into the same category, so they should share the same hypernym, and one could be a alternate to the other. For example, we put EJB and Hibernate in the same category, because they are both J2EE persistence layer technologies, and both have the O/R mapping concept. If the applicant is familiar one of them, they can master the other very quickly. Another example is Grail and Django, they are both web frameworks, and share same web design philosophies, but one of them is designed for Java web application and the other is created for Python web application. If a developer has some some experience with one of them, he/she still need spend a lot of time to learn the other to overcome the gap between programming languages. The algorithm to calculate the similarity of two concepts is in algorithm ~\ref{alg:alg_similarity}.
 
 \begin{algorithm}
-\caption{Get Stat Similarity}
+\caption{Calculating  Statistical-based  Similarity}
 \label{alg:alg_similarity}
 \KwIn{$Docs$£¬ $term1$, $term2$}
 \KwOut{$similarity$}
@@ -212,7 +212,7 @@ The matrix in table~\ref{tab:dismatrix1} show the similarity values among of som
 
 \begin{table}
 
-\caption{Skills Similarity Table 1}
+\caption{Similarities of Skills List 1}
 \begin{tabular}{ c | c c c c c c   }
  \hline
   Term       &  Java  &  JDBC  & Spring & Hibernate & MySql  & Oracle   \\  \hline
@@ -230,7 +230,7 @@ The matrix in table~\ref{tab:dismatrix1} show the similarity values among of som
 
 \begin{table}
 
-\caption{Skills Similarity Table 2 }
+\caption{Similarities of Skills List 2}
 \begin{tabular}{ c | c c c c c c c c }
  \hline
   Term       & Javascript & jQuery &  HTML  &  CSS   &  Java  & Python &  Ruby  &  JSP    \\  \hline
