@@ -134,8 +134,6 @@ As we explained in section B, we mentioned matching tokens in the second layer t
 \label{tab:patterns} % is used to refer this table in the text\section{Pipeline of Information Extraction}
 \end{table}
 
-
-
 \section{Regular Expression Over Tokens}
 
 In section C we generally introduced how we use the library of regular expression over tokens to match the sentences. In this section we will introduce more details of this library, like its advantages and implementation details.
@@ -332,3 +330,5 @@ With above rules, we can convert the expression ``DL (, DL)*  (or DL)? DEGREE'' 
   \caption{Finite Automata Transducers}
   \label{fig:fst_pattern}
 \end{figure}
+
+In this chapter we have introduced how we extracted the information from the resumes and job descriptions, and the implementation details of the pattern matching library, regular expression over tokens. We can get the models of resumes and job descriptions through the procedure described in this chapter. In next chapter, we will discuss how our system searches and ranks job models by resume models.
