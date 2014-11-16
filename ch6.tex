@@ -4,9 +4,9 @@ In this section, we will evaluate the performance of the key components of the s
 
 \section{Experiments of Information Extraction }
 
-To evaluate the performance of information extraction module, we get some sentences by the sentence filters, and different sentence filter can extract different kinds of sentences. We will use the sentences that have degree information to explain the process of the experiment:
+To evaluate the performance of information extraction module, we get some kinds sentences by the some sentence filters. We use the sentences that have degree information to explain the process of the experiment:
 
-In the experiment, we selected 100 sentences from job descriptions, and the content of these sentences were requirements of candidates' degrees and majors. The values of degree and major are labeled manually. We use patterns to  match and extract the degree information from the sentences. The patterns are gotten from the observation of sentences. Figure~\ref{fig:degree_accuracy} shows that when the number of  patterns increases, the accuracy of information increases as well. When we used 6 patterns, the accuracy of degree became 94\%. The accuracies of three fields matching are shown in Table \ref{tab:ieaccura}
+In the experiment, we selected 100 sentences from job descriptions, and the content of these sentences were requirements of candidates' degrees and majors. The values of degree and major are labeled manually. We use patterns to  match and extract the degree information from the sentences. The patterns are gotten from the observation of sentences. Figure~\ref{fig:degree_accuracy} shows that when the number of  patterns increases, the accuracy of information increases as well. When we used 6 patterns, the accuracy of degree became 94\%. We also compared our pattern matching method to conditional random fields (CRF) model~\cite{lafferty2001conditional}  based approach, which is a state of art machine learning model for sequence labeling.  The accuracies of information extraction of three fields with the two methods, pattern matching and CRF are shown in Table \ref{tab:ieaccura}
 
 \begin{figure}[htbp]
   \centering
@@ -21,13 +21,13 @@ In the experiment, we selected 100 sentences from job descriptions, and the cont
 \centering % used for centering table
 \begin{tabular}{   | c | c | c | c |   }
  \hline
-                     Field   & Pattern Num & Accuracy     \\
+          Field   & Pattern Num & Accuracy of Pattern Matching  & Accuracy of CRF   \\
  \hline
-                     Degree & 6         & 0.94         \\
+          Degree  & 6           & 0.94       &  0.85  \\
  \hline
-                     Major  & 10        & 0.85      \\
+          Major   & 10          & 0.85       &  0.72  \\
  \hline
-                     Skill  & 6         & 0.82      \\
+          Skill   & 6           & 0.82       &  0.66  \\
  \hline
 \end{tabular}
 \label{tab:ieaccura} % is used to refer this table in the text
