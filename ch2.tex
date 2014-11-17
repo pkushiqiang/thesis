@@ -50,36 +50,12 @@ In Malinowski et al.~\cite{malinowski2006matching} they classified the job recom
     \item  Awards, scholarships, publications, others
 
 \end{enumerate}
-The system also asked the users upload their resumes, but the resumes are only for facilitating the human judgment. In Malinowski's study, the model latent aspect model is a statistical model, which needs to be trained before it can be applied to recommendation. But training needs labeled data, which are since current quality of result of job searching is poor, it will take a lot of time for user to train model.
-
-Ioannis et al. used a machine learned prediction model to recommend new jobs to job seekers~\cite{paparrizos2011machine}.  The features used by the prediction model includes:
-
-\begin{table}[ht]
-\caption{Features of Resume and Job Description} % title of Table
-\centering % used for centering table
-\begin{tabular}{ l l r }
- \hline
- Feature type &  Feature  &  Range   \\ \hline
-              &  company title   & String  \\
-Institution   &  industry        & String  \\
-              &  company type    & \{public, private\} \\
-              &  number of employees &    Num \\
- \hline
-              &  number of jobs         & Num  \\
-              &  position title         & String  \\
-  employee    &  best position title    & String \\
-              &  years of experience    &    Num \\
-              &  number of universities &    Num \\
-              &  education degree       & String \\
- \hline
-\end{tabular}
-\label{tab:predictionmodel} % is used to refer this table in the text
-\end{table}
+The system also asked the users to upload their resumes, but the resumes were only for facilitating the human judgment. In Malinowski's study, the latent aspect model is a statistical model, which needs to be trained before applied to recommendation. The system use the users' search results as the training data to train the model for recommendation, so the system needs a a long time training for each user.
 
 
 \section{Information Extraction in Job Recommender System}
 
-Some big IT companies had meet a similar problem of information overflow. Any position they published, will receive a lot applications. The recruiter need to screen the all the applications, but this task is also tedious and time consuming, highly cumbersome and inefficient. so these company tried to build systems to help screen the position candidates.
+Big IT companies met the similar problem of information overflow when they received many resumes for one job opening. The recruiter had to screen the all the applications manually, but this task was also tedious and time consuming. For this reason these companies tried to build systems to help screen the resumes.
 
 Amit et al. in IBM presented a system, ``PROSPECT''~\cite{singh2010prospect}, to aid    shortlisting of candidates for jobs. The system uses a r\'esum\'e miner to extract the information from r\'esum\'es, which use a CRF model to segment and label the r\'esum\'es. The CRF model used three kinds of features, they are: Lexicon, Visual, Named Entity, Text, and Conjunction. The paper compared some algorithms to ranked the candidates applicants, such methods include: Okapi BM25, KL, Lucene Scoring, and Lucene Scoring + SkillBoost.
 
@@ -97,10 +73,13 @@ The dictionaries which were used to tag entities should be updated often since t
 
 A domain-oriented ontology is used to represent knowledge, inference rules are defined based on the ontology knowledge base. When a detected term found, the system will search in external knowledge base, like DBpedia etc. The r\'esum\'e also be classified to different categories like ``Web Technology'' and ``No Web Technology'' by naive Bayes classifier. The company could allocate appropriate employees to required positions.
 
+The goal of the systems built by IBM and HP is to help the companies to select good applicants. Our system is designed for helping job seekers to find appropriate jobs.  
 
 Yu et al.~\cite{yu2005resume} used a cascaded information extraction (IE) framework to get the detailed information from the job seeker¡¯s r\'esum\'e. In the first stage, the Hidden Markov Modeling (HMM) model is used to segment the r\'esum\'e into consecutive blocks. Based on the result, a SVM model is used to obtain the detailed information in the certain block, the information include: name, address, education etc.
 
 Celik Duygua and Elci Atilla proposed a Ontology-based R¨¦sum¨¦ Parser (ORP) ~\cite{ccelik2013ontology}, which uses ontology to assistant the information extraction process. The system process the r\'esum\'e in following steps: convert the r\'esum\'e files into plain text, separate the text into  some segments, use Ontology Knowledge Base to find the concepts in the sentences, normalize all the terms, at last the system will classify the sentences to get the wanted terms.
+
+But the personal information they retrieved in these works like name and addresses are not the information that the recruiters care about. The recruiters want some information that relate to the job opening, and can help them judge the competence of job applicants.
 
 \section{Matching Algorithms in Job Recommender Systems}
 
@@ -111,7 +90,14 @@ Drigas* et al.\cite{drigas2004expert}  presented a expert system to match jobs a
 Daramola et al.\cite{daramola2010fuzzy}  also proposed a fuzzy logic based expert system(FES) tool for online personnel recruitment. In the paper, the authors assumed that the information already be collected. The system use a fuzzy distance metric to rank candidates' profile in the order of their eligibility for the job. The fuzzy hamming distance is given as:
 $$ \delta \left ( O,R \right )=\sum_{i=1}^{n}\left | \mu_O(x_i) - \mu_R(x_i)  \right | $$
 
-Yao et al.~\cite{lu2013recommender} also presented a hybrid recommender system which integrated content-based and interaction-based relation. In content-based part, relations between job-job, job-job seeker, and job seeker - job seeker could be identified by their similarity of profiles. There two approaches are used to calculate the similarities: For the structured data, like age gender  etc., the weight sum values will be returned, for the unstructured data like similarity between job and user profile the Latent Semantic Analysis will be used.
+Yao et al.~\cite{lu2013recommender} also presented a hybrid recommender system which integrated content-based and interaction-based relation. In content-based part, relations between job-job, job-job seeker, and job seeker - job seeker can be identified by their similarity of profiles. There two approaches are used to calculate the similarities: For the structured data, like age gender  etc., the weight sum values will be returned, for the unstructured data like similarity between job and user profile the Latent Semantic Analysis will be used.
 
+There are some problems existing in previous Job Recommender Systems: 
+\begin{enumerate}
+    \item  Most systems can only process the structured data of r\'esum\'es and job descriptions, but in reality both them are in un-structured formats, like text files. 
 
+    \item  The systems that have information extraction function are designed for recruiters to select applicants, not for job seekers to select jobs.
 
+    \item  In the systems the information fields to matching r\'esum\'es and jobs are coarse-grained. To improve the quality of recommendation,  we need to improve the granularity of information fields and matching algorithm.
+
+\end{enumerate}
