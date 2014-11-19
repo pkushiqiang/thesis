@@ -1,19 +1,19 @@
 \chapter{CONCLUSION AND FUTURE WORK}
 
 \section{Conclusion}
-In this thesis we presented JobFinder, a personalized job-r\'esum\'e matching system, which can help job seekers to find appropriate jobs faster and more accurate by using their r\'esum\'es to find jobs. The key components of the system are the information extraction and ontology matching module.
+In this thesis we presented JobFinder, a personalized job-r\'esum\'e matching system that can help job seekers find appropriate jobs faster and more accurately by using their r\'esum\'e contents. The key components of the system are the information extraction procedure and the ontology matching module.
 
-In the system, job descriptions and r\'esum\'es will be parsed into job models and r\'esum\'e models by the information extraction module. When searching the jobs by a r\'esum\'e, similarity values between the r\'esum\'e model and job description models will be calculated in the ontology matching module. The result will be sorted by the ontology similarity scores, which are the sum of similarities of different fields times their weights.
+In the system, job descriptions and r\'esum\'es are parsed into job models and r\'esum\'e models by the information extraction module. When searching the jobs by a r\'esum\'e, similarity values between the r\'esum\'e model and job description models are calculated in the ontology matching module. The result is sorted by the ontology similarity scores, which are the sum of similarities of different fields multiplied by their weights.
 
-We proposed a finite state transducer matching library, which can match the patterns in the sentences and extract the information from the matched sentences. We designed the a semi-automated approach to construct the domain specific ontology of the skill set. To evaluate the similarity between the skills, we proposed a statistical-based ontology similarity measure.
+We propose a finite state transducer matching library, which can match the patterns in the sentences and extract the information from the matched sentences. We designed the a semi-automated approach to construct the domain specific ontology of the skill set. To evaluate the similarity between the skills, we propose a statistical-based ontology similarity measure.
 
-In the experiment phase, we evaluated the accuracy of information extraction. The ontology similarity was evaluated by NDCG. Finally, the performance of r\'esum\'e job matching algorithm was also tested by precision@k and NDCG,  which shows that our algorithm can get better searching result than other information retrieval models like TF-IDF and OKpai BM25.
+In the experiment phase, we evaluated the accuracy of information extraction. We calculated the ontology similarity with the NDCG. Finally, we also tested the performance of r\'esum\'e job matching algorithm via precision@k and NDCG, which showed that our algorithm can achieve a better searching result than other information retrieval models like TF-IDF and OKpai BM25.
 
 
 \section{Future work}
 
-Finding a job is a complex process, which is affected by both subjective and objective factors.  Our work is just a initial work to solve this problem, and has derived future research challenges.
+Finding a job is a complex process, affected by both explicit and implicit factors. Our work establishes the validity of using information extraction techniques to create a more personalized job matching system, with ample potential for improvement in the future.
 
-First, because the information extraction method we used is pattern matching, we can try some machine learning approaches in future. Second, we can build more complex models to improve performance of the system. In the r\'esum\'e model, we can consider hiring history and project experience of of job seekers. To job description model, the company's reputation and industry should be put into the models as well.
+First, because our information extraction method relies on pattern pattern matching, we can try some machine learning approaches in future. Second, we can build more complex models to improve performance of the system. In the r\'esum\'e model, we can consider hiring history and project experience of the job seekers. To improve the job description model, the company's reputation and industry could be included in the models as well.
 
-The system is a content based recommender system, mostly focused on compare the similarity between the r\'esum\'e and job description. In future work, we could introduce a hybrid-based recommender system, which could take advantage of other recommendation algorithms, like Collaborative Filtering. The future system should consider more about the user's personal preference, like their location, career development plan and so on.
+JobFinder is a content based recommendation system that is mostly focused on comparing the similarities between the r\'esum\'e and a relevant job description. In future work, we could introduce a hybrid recommendation system that would take advantage of other recommendation algorithms such as Collaborative Filtering. Future work on this system would place greater consideration on job seeker's personal preference like job location, career development plan, and company background.
