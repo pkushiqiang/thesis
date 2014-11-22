@@ -73,11 +73,11 @@ The dictionaries which were used to tag entities should be updated often since t
 
 A domain-oriented ontology is used to represent knowledge, inference rules are defined based on the ontology knowledge base. When a detected term found, the system will search in external knowledge base, like DBpedia etc. The r\'esum\'e also be classified to different categories like ``Web Technology'' and ``No Web Technology'' by naive Bayes classifier. The company could allocate appropriate employees to required positions.
 
-The goal of the systems built by IBM and HP is to help the companies to select good applicants. Our system is designed for helping job seekers to find appropriate jobs.  
+The goal of the systems built by IBM and HP is to help the companies to select good applicants. Our system is designed for helping job seekers to find appropriate jobs.
 
 Yu et al.~\cite{yu2005resume} used a cascaded information extraction (IE) framework to get the detailed information from the job seeker¡¯s r\'esum\'e. In the first stage, the Hidden Markov Modeling (HMM) model is used to segment the r\'esum\'e into consecutive blocks. Based on the result, a SVM model is used to obtain the detailed information in the certain block, the information include: name, address, education etc.
 
-Celik Duygua and Elci Atilla proposed a Ontology-based R¨¦sum¨¦ Parser (ORP) ~\cite{ccelik2013ontology}, which uses ontology to assistant the information extraction process. The system process the r\'esum\'e in following steps: convert the r\'esum\'e files into plain text, separate the text into  some segments, use Ontology Knowledge Base to find the concepts in the sentences, normalize all the terms, at last the system will classify the sentences to get the wanted terms.
+Celik Duygua and Elci Atilla proposed a Ontology-based R¨¦sum¨¦ Parser (ORP)~\cite{ccelik2013ontology}, which uses ontology to assistant the information extraction process. The system process the r\'esum\'e in following steps: convert the r\'esum\'e files into plain text, separate the text into  some segments, use Ontology Knowledge Base to find the concepts in the sentences, normalize all the terms, at last the system will classify the sentences to get the wanted terms.
 
 But the personal information they retrieved in these works like name and addresses are not the information that the recruiters care about. The recruiters want some information that relate to the job opening, and can help them judge the competence of job applicants.
 
@@ -92,9 +92,9 @@ $$ \delta \left ( O,R \right )=\sum_{i=1}^{n}\left | \mu_O(x_i) - \mu_R(x_i)  \r
 
 Yao et al.~\cite{lu2013recommender} also presented a hybrid recommender system which integrated content-based and interaction-based relation. In content-based part, relations between job-job, job-job seeker, and job seeker - job seeker can be identified by their similarity of profiles. There two approaches are used to calculate the similarities: For the structured data, like age gender  etc., the weight sum values will be returned, for the unstructured data like similarity between job and user profile the Latent Semantic Analysis will be used.
 
-There are some problems exist in previous Job Recommender Systems: 
+There are some problems exist in previous Job Recommender Systems:
 \begin{enumerate}
-    \item  Most systems can only process the structured data of r\'esum\'es and job descriptions, but in reality both them are in un-structured formats, like text files or HTML web pages. 
+    \item  Most systems can only process the structured data of r\'esum\'es and job descriptions, but in reality both them are in un-structured formats, like text files or HTML web pages.
 
     \item  The systems that have information extraction function are designed for recruiters to select applicants, not for job seekers to select jobs.
 
