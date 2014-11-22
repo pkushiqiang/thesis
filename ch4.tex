@@ -331,43 +331,60 @@ The NFA for e+ also creates a loop, but one that requires passing through e at l
 \label{alg:alg_nfa}
 \KwIn{$postfix$}
 \KwOut{$NFA$}
-$String~~p$;
-$Frag stack[1000],~*stackp,~e1,~e2,~e;$;
+String~~p \;
+Frag stack,  ~e1,~e2,~e \; 
 
 $stackp = stack$\;
-\For{$p=postfix; *p; p++$ }
-{	  
+\For{$ (i = 0; i < len(postfix); i++ ) $ }
+{	
+    $p = postfix[i] $\;
     \Switch{p}{
         \uCase{``~.''}{
-            e2 = pop()  \;
-            e1 = pop()   \;
+            e2 = stack.pop()  \;
+            e1 = stack.pop()   \;
 	        patch(e1.out, e2.start)  \;
-	        push(frag(e1.start, e2.out))  \;
-            break \;
+	        stack.push(frag(e1.start, e2.out))  \;
+            break\;
+        }
+
+        \uCase{``~$|$''}{
+            e2 = stack.pop() \;
+        	e1 = stack.pop()\;
+        	s = state(Split, e1.start, e2.start)\;
+        	stack.push(frag(s, append(e1.out, e2.out)))\;
+        	break\;
+        }
+        \uCase{``~$?$''}{
+           e = stack.pop() \;
+	       s = state(Split, e.start, NULL) \;
+	       stack.push(frag(s, append(e.out, list1(s.out1)))) \;
+	       break\;
         }
         
-        \uCase{``~$|$''}{
-            e2 = pop() \;
-        	e1 = pop()\;
-        	s = state(Split, e1.start, e2.start)\;
-        	push(frag(s, append(e1.out, e2.out)))\;
+        \uCase{``~$*$''}{
+            e = stack.pop();
+        	s = state(Split, e.start, NULL) \;
+        	patch(e.out, s)\;
+        	stack.push(frag(s, list1(s.out1))) \;
         	break\;
-        }        
-        \uCase{``~$?$''}{
-           e = pop() \;
-	       s = state(Split, e.start, NULL) \;
-	       push(frag(s, append(e.out, list1(s.out1)))) \;
-	       break \;
-        }    
-        
-        
+        }
+
+        \uCase{``~$+$''}{
+           	e = stack.pop() \;
+        	s = state(Split, e.start, NULL)\;
+        	patch(e.out, s) \;
+        	stack.push(frag(e.start, list1(s.out1)))\;
+        	break\;
+        }
+
+
         \Other{
           s = state(p, NULL, NULL)\;
 	      push(frag(s, list1(s.out))\;
 	      break \;
         }
     }
-     
+
 }
 	
 	e = pop()   \;
