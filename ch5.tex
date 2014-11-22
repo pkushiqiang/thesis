@@ -1,12 +1,12 @@
 \chapter{Ontology Construction and Similarity}
-After getting job models by the information extraction module, the users can search jobs in the system. We notice that simple keywords matching is not a good similarity measure, because job description and r\'esum\'e are both written in human language. In these documents, even one concept can be written in different ways, and and some different concepts have close relationship. For example, Table~\ref{tab:resume_jd} shows part of the r\'esum\'e of a job seeker and part of a job description:
+After getting job models by the information extraction module, users can search for jobs in the system. We observed that simple keyword matching is not a good similarity measure, because job descriptions and r\'esum\'es both contain richer and more complex words that cannot be described simply by keywords. In these documents, some concepts can be written in different ways, and other concepts can have close relationships. For example, Table~\ref{tab:resume_jd} shows portions of a r\'esum\'e and a job description:
 
 \begin{table}[ht]
-\caption{Part of Resume and Job Description} % title of Table
+\caption{Portions of Resume and Job Description} % title of Table
 \centering % used for centering table
 \begin{tabular}{ | p{8cm} | p{7cm} | }
  \hline
-   \textbf{Part of Resume}                 &   \textbf{Part of Job Description}   \\ \hline
+   \textbf{Resume Portion}                 &   \textbf{Job Description Portion}   \\ \hline
 
     B.S. degree in computer science \newline
     5+ years Java \newline
@@ -26,19 +26,19 @@ After getting job models by the information extraction module, the users can sea
 \label{tab:resume_jd} % is used to refer this table in the text
 \end{table}
 
-If just looking at the text, we can find that the r\'esum\'e has few common words with the job description. But from the view of an experienced engineer, the candidate is pretty matching the job. Because two relational databases Oracle and Mysql are very similar; OOA/OOD is the same meaning of many years of Java and C++ experience; and Tomcat and JBOSS are both Java web applications servers. If we use key word matching, the system does not give a good matching result in this very common case.
+If just looking at the text, we can find that the r\'esum\'e has very few common words with the job description. But from the view of an experienced engineer, the candidate is closely matches the job: the two relational databases Oracle and Mysql are very similar, OOA/OOD is the same meaning of many years of Java and C++ experience, and Tomcat and JBOSS are both Java web applications servers. If we use keyword matching, the system does not provide a strong matching result in very common cases such as this.
 
 \section{Semantic Similarity in JRSs}
-In some previous studies of JRSs ontology is used as knowledge base to store knowledge and rules, which could help compare the similarity between different concepts. Liu and Dew~\cite{liu2004using} used RDF to represent and store the expertise of experts, and they used a RDF-based expertise matcher to retrieve the experts whose expertise included the required concept.
+In previous studies of JRSs, ontology is used as a knowledge base to store knowledge and rules, which could help compare the similarity between different concepts. Liu and Dew~\cite{liu2004using} used Resource Description Framework (RDF) to represent and store the expertise of experts, and they used a RDF-based expertise matcher to retrieve the experts whose expertise included the required concept.
 
-Proactive~\cite{lee2007fighting} used two kinds of ontology, job category and the company information. The system used ontology checker to classify the job information, and stored the domain knowledge and calculated the weight value in recommendations.
+Proactive~\cite{lee2007fighting} used two kinds of ontology, job category and company information. The system used an ontology checker to classify the job information, stored the domain knowledge and calculated the weight value in recommendations.
 
-Fazel \cite{fazel2009semantic} used a hybrid approach to match job seekers and job postings, which takes advantage of the benefits of both logic-based and ontology-based matching. In his paper the description logics (DL) is used to represent the candidate and job opening, and the ontology is used to organize the skills in a skill taxonomy. He gave an equation to calculate the matching degree:
+Fazel \cite{fazel2009semantic} used a hybrid approach to match job seekers and job postings, which takes advantage of the benefits of both logic-based and ontology-based matching. In his paper the description logics (DL) are used to represent the candidate and job opening, and the ontology is used to organize the skills in a taxonomy. The paper provides an equation to calculate the matching degree:
 $$ sim\left(P ,j \right) = \sum x_{ij} \times u(ds_i) $$
 
-where, $x_{ji}$ is the Boolean variable indicating whether desire i is satisfied by applicant $A_{j}$ in the set of all qualified applications.
+where $x_{ji}$ is the Boolean variable indicating whether desire i is satisfied by applicant $A_{j}$ in the set of all qualified applications.
 
-Kumaran et al.~\cite{kumaran2013towards} also used ontology to calculate the similarity between job criteria and candidates's r\'esum\'e in their system~\cite{kumaran2013towards}. The similarity equation they used are:
+Kumaran et al.~\cite{kumaran2013towards} also used an ontology to calculate the similarity between the job criteria and candidates' r\'esum\'e in their system~\cite{kumaran2013towards}. The similarity equation they used is:
 $$ M\left ( i_1, i_2 \right ) = \frac{\sum_{k=1}^{n} Sim\left (p_{k}^{i1},  p_{k}^{i2} \right ) * W_{k}^{i2}}{\sum_{k=1}^{n} W_{k}^{i2}}  $$
 The similarity function $Sim(p_1, p_2)$ is defined as follows:
 $$ Sim(p1, p2) = \begin{Bmatrix}
@@ -48,14 +48,14 @@ $$ Sim(p1, p2) = \begin{Bmatrix}
 
 \section{Ontology Construction}
 
-Before calculating the similarity between concepts, we need to construct the ontology first. Semantic web have been a hot research topic in these years, as the same time thousands of domain ontologies had been created~\cite{ding2004swoogle}. A paradigmatic example is WordNet~\cite{fellbaum1998wordnet}, which is a general purpose thesaurus, and contains more than 100,000 general English concepts. ACM has created a poly-hierarchical ontology that can be utilized in semantic web applications~\cite{acm2012class}, but it is mostly used in academic areas. DBpedia~\cite{bizer2009dbpedia} provides structured information from Wikipedia and make this information available on the Web, but its coverage is huge, and most of them is not related to job finding. Currently, there is no domain specific technology ontology built for recruiting purpose.
+Before calculating the similarity between concepts, we need to construct the ontology first. Semantic web has been a popular research topic in previous years, and at the same time thousands of domain ontologies have been created~\cite{ding2004swoogle}. A paradigmatic example is WordNet~\cite{fellbaum1998wordnet}, which is a general purpose thesaurus, and contains more than 100,000 general English concepts. ACM has created a poly-hierarchical ontology that can be utilized in semantic web applications~\cite{acm2012class}, but it is mostly used in academic areas. DBpedia~\cite{bizer2009dbpedia} provides structured information from Wikipedia and make this information available on the Web, but its coverage is huge, and most of them is not related to job finding. Currently, there is no domain specific technology ontology built for recruiting purpose.
 
-The domain specific technology ontology for recruiting should include a lot of technical terms, like programming language, programming library, commercial products and so on. Furthermore, there are new techniques invented everyday, so new IT terms will appear continuously. Ding et al.~\cite{ding2002ontology} gave a survey of current ontology generation approaches such as manual, semi-automatic, and automatic. Some aspects of the approaches were discussed in the paper, like the source data, concept extraction methods, ontology representation, and construction tools. Inspired by this paper, we propose a semi-automatic approach to construct the IT skill ontology, which use pattern matching approach to collect possible technical terms, and use DBpedia to verity the them.
+The domain specific technology ontology for recruiting should include a lot of technical terms, like programming language, programming library, commercial products and so on. Furthermore, there are new techniques invented everyday, so new IT terms will appear continuously. Ding et al.~\cite{ding2002ontology} gave a survey of current ontology generation approaches such as manual, semi-automatic, and automatic. Some aspects of the approaches were discussed in the paper, like the source data, concept extraction methods, ontology representation, and construction tools. Inspired by this paper, we propose a semi-automatic approach to construct the IT skill ontology, which use a pattern matching approach to collect possible technical terms, and use DBpedia to verify the them.
 
-From the observation, we found that sentences with skill requirements in job descriptions always list several skills in one the sentence, which is shown in Table ~\ref{tab:skillrequirement}. Based on this character, we propose a bootstrap approach to collect IT terms in job descriptions.  First, we manually collect about fifty terms from job descriptions, and add them to the term list. Then we use our pattern matching library to find the sentences that matching the pattern in Table \ref{tab:patterns} from a set of job descriptions. An example of a sentence which matches the pattern is shown in Table \ref{tab:termspattern}. We extract the tokens which match the star symbol from the sentences; these tokens have high probability to be technical terms. Then we could check the tokens in Dbpedia to see whether they are under the categories like software, programming language or any other technical related ones. If they are, we could classify them as terms, and add them to the terms list. After scanning all the sentences in the job description set, the term list will be larger, and we can use the larger term list to start a new iteration of scaning. This process stops when the number of found new terms is below a threshold. The process is shown Figure ~\ref{fig:gen_onto}.
+From the observation, we found that sentences with skill requirements in job descriptions always list several skills in the sentence, which is shown in Table ~\ref{tab:skillrequirement}. Based on this character, we propose a bootstrap approach to collect IT terms in job descriptions.  First, we manually collect about fifty terms from job descriptions, and add them to the term list. Then we use our pattern match library to find the sentences that matching the pattern in Table \ref{tab:patterns} from a set of job descriptions. An example of a sentence which matches the pattern is shown in Table \ref{tab:termspattern}. We extract the tokens which match the star symbol from the sentences; these tokens have high probability to be technical terms. Then we could check the tokens in Dbpedia to see whether they are under the categories like software, programming language or any other technical related ones. If they are, we could classify them as terms, and add them to the terms list. After scanning all the sentences in the job description set, the term list will be larger, and we can use the larger term list to start a new iteration of scaning. This process stops when the number of found new terms is below a threshold. The process is shown Figure~\ref{fig:gen_onto}.
 
 \begin{table}[ht]
-\caption{Some sentences of Job Descriptions} % title of Table
+\caption{Example Sentences in Job Descriptions} % title of Table
 \centering % used for centering table
 \begin{tabular}{ | p{15cm}  | }
  \hline
@@ -103,7 +103,7 @@ For example, we extract the token  ''XSL'', which currently is not in the terms 
   \label{fig:gen_onto}
 \end{figure}
 
-But not all the extracted terms can be verified in DBpedia, because some terms have multiple meaning in English, and the URLs of their DBpedia pages are unpredictable. For example, the word ``Python'' could be an animal name or a programming language.  The meaning of the programming language  has the DBpedia URL http://dbpedia.org/page/Python\_(programming\_language), which is hard to be predicted. In this case, we have to check the term manually.  After getting all terms, we use Protege~\cite{noy2001creating}, an open source ontology editor, to edit the domain specific ontology, and saved it in RDF format. The interface of Protege is shown in Figure~\ref{fig:Protege}. Part of the technical ontology is shown in Figure ~\ref{fig:ontology_pro}.
+But not all the extracted terms can be verified in DBpedia, because some terms have multiple meanings in English, and the URLs of their DBpedia pages are unpredictable. For example, the word ``Python'' could be an animal name or a programming language.  The meaning of the programming language  has the DBpedia URL http://dbpedia.org/page/Python\_(programming\_language), which is difficult to predict. In this case, we have to check the term manually.  After getting all terms, we use Protege~\cite{noy2001creating}, an open source ontology editor, to edit the domain specific ontology, and saved it in RDF format. The interface of Protege is shown in Figure~\ref{fig:Protege}. Part of the technical ontology is shown in Figure~\ref{fig:ontology_pro}.
 
 
 \begin{figure}[htbp]
@@ -125,7 +125,7 @@ S{\'a}nchez et al. \cite{sanchez2012ontology} summarized ontology-based similari
 
 
 \subsection{Path-based approaches}
-In path-based approaches , the ontology is viewed as a directed graph, in which the nodes are the concepts, the edges are taxonomic relation, like (is-a). Rada, et al.,~\cite{rada1989development} measure the similarity by the distance of two nodes in the graph. So the semantic distance of two concepts $a$ and $b$ will be:
+In path-based approaches, the ontology is viewed as a directed graph, in which the nodes are the concepts, the edges are taxonomic relation (e.g. is-a). Rada, et al.~\cite{rada1989development} measure the similarity by the distance of two nodes in the graph. So the semantic distance of two concepts $a$ and $b$ will be:
 $$ dis_{rad}(a,b) = min |path_i(a,b)| $$
 
 Wu and Palmer~\cite{wu1994verbs} realized that the depth in the taxonomy will impact the similarity measure of two nodes, because the deeper of the nodes are in the tree, the semantic distance is smaller. So they gave a new measure of ontology:
