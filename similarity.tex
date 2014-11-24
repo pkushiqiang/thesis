@@ -1,10 +1,10 @@
 \chapter{MODEL SIMILARITY}
 
-In our system, the r\'esum\'e model and job model both have four fields: job title, major, academic degree and skills. The similarity value between a r\'esum\'e model and job model is the sum of the productions of similarity values of all the fields pairs and their weights. We will introduce how to calculate similarity value for each field in the chapter.
+In our system, the r\'esum\'e model and job model both have four fields: job title, major, academic degree and skills. The similarity value between a r\'esum\'e model and job model is the sum of the productions of similarity values of all the fields pairs and their weights. We will introduce how to calculate the similarity value for each field in this chapter.
 
-\section{Major and Academic Degree}
+\section{Similarity of Major and Academic Degree}
 
-In the simplest case, if the majors in the r\'esum\'e model and job model are same, the similarity value is 1. If they are different, we can check whether the major in the r\'esum\'e model is in the list of related majors of the major in the job model. If it is, the similarity value is 0.5, otherwise the similarity value is 0. The equation is shown in below:
+In the simplest case, if the majors in the r\'esum\'e model and job model are the same, the similarity value is 1. If they are different, we can check whether the major in the r\'esum\'e model is in the list of related majors for the major in the job model. If it is, the similarity value is 0.5; otherwise the similarity value is 0. The equation is shown below:
 
 $$ MajorSim(r,j ) = \begin{Bmatrix}
 1, & r_{major} = j_{major} \\
@@ -12,7 +12,7 @@ $$ MajorSim(r,j ) = \begin{Bmatrix}
 0, & otherwise
 \end{Bmatrix} $$
 
-There are five academic degree types in the system:  high school, associate, bachelor, master, and Ph.D. degree, which are mapped to the integer values form 1 to 5. If the degree value in the r\'esum\'e model is less than that in the job model, which means that the job seeker's education background cannot satisfy the requirement of the job, the similarity value in this case is 0. If the degree value in the r\'esum\'e model is equal to the job model, or no more than 2 bigger, the similarity value is 1. In some cases, the degree value in the r\'esum\'e model is greater than that of the job model, and the difference is greater than 2, which means the job seeker's degree is much higher than the requirement of the job. The situation is also a kind of relative matching, so the similarity value is given to 0.5. The equation is shown in below:
+There are five kinds of academic degrees in the system:  high school, associate, bachelor, master, and Ph.D., which are mapped to the integer values form 1 to 5. If the degree value in the r\'esum\'e model is less than that in the job model, which means that the job seeker's education background cannot satisfy the requirement of the job, the similarity value in this case is 0. If the degree value in the r\'esum\'e model is equal to the job model and no more than 2 above, the similarity value is 1. In some cases, the degree value in the r\'esum\'e model is greater than that of the job model, and the difference is greater than 2, which means that the job seeker's degree is much higher than the requirement of the job. The situation is also a kind of relative matching, so the similarity value here is 0.5. The equation is shown below:
 
 $$ DegreeSim(r,j ) = \begin{Bmatrix}
 0,   & r_{degree} < j_{degree} \\
@@ -20,9 +20,8 @@ $$ DegreeSim(r,j ) = \begin{Bmatrix}
 0.5, & r_{degree} - j_{degree} > 2
 \end{Bmatrix} $$
 
-\section{Job Title}
+\section{Similarity of Job Title}
+Another field of needs similarity calculation is the job titles in the models. A job title can be parsed into some sub fields: job role, level, platform, programming language.  The value of job roles includes: developer, manager, administrator and so on. There are levels values in such roles: such as junior, senior and architect. The platforms: web, mobile and cloud are used by the very roles.  The similarity value between two titles is the sum of all the similarity values of these fields. If the job seeker has some working experience, there may be some job titles in their r\'esum\'e.  When calculating the similarity value between a r\'esum\'e model and a job model, the system calculates the similarity values of the title of job model to all the titles in the r\'esum\'e model and returns the maximum one.
 
-A job title can be parsed into some sub fields: job type, level, platform, programming language, and so on.  The value of job type includes: developer, manager, administrator and so on. The levels values are junior, senior, architect, and so on. The platforms include: web, mobile, cloud and so on. The similarity value between two titles is the sum of all the similarity values of these fields. If the job seeker has some working experience, there should be some job titles in their resume.  When calculating the similarity value between a r\'esum\'e model and a job model, the system calculates the similarity values of the title of job model to all the titles in the r\'esum\'e model, and return the maximum one.
-
-We introduced how to calculate similarity values for three fields in r\'esum\'e and job models. In the next chapter, we will introduce how to use a domain specific ontology to calculate similarity value between the skills field of the two models.
+We introduced how to calculate similarity values for three fields in r\'esum\'e and job models. In the next chapter, we will introduce how to use a domain specific ontology to calculate similarity values between the skills fields of the two models.
 
