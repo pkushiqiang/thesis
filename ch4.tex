@@ -335,48 +335,48 @@ The NFA for e+ also creates a loop, but one that requires passing through e at l
 \Switch{matcher}{
     \uCase{ UnitMatcher }{
         state = compileToNFA(matcher]) \;
-        connect( nfa.last, [state] ) \;
-        nfa.last = [state] \;   
+        connect( nfa.last,~ [state] ) \;
+        nfa.last = [state] \;
         break\;
     }
-    
+
     \uCase{ SequenceMatcher }{
       \For{$ ( i=0; i<len(matcher.list); i++ ) $}{
             state = compileToNFA(matcher.list[i]) \;
-            connect( nfa.last, [state] ) \;
-            nfa.last = [state] \;             
+            connect( nfa.last,~ [state] ) \;
+            nfa.last = [state] \;
        }
         break\;
     }
     \uCase{ AlternateMatcher }{
        state1 = compileToNFA(matcher.list[0]) \;
        state2 = compileToNFA(matcher.list[1]) \;
-       connect( nfa.last, [state1,state2] ) \;
-       nfa.last = [state1,state2] \;     
+       connect( nfa.last,~ [state1, ~state2] ) \;
+       nfa.last = [state1, ~ state2] \;
        break\;
     }
     \uCase{  QuestionMatcher }{
        state1 = compileToNFA(matcher.list[0]) \;
-       connect( nfa.last, [state1,nfa.last] ) \;
-       nfa.last = [state1, nfa.last] \;   
+       connect( nfa.last,~ [state1,~ nfa.last] ) \;
+       nfa.last = [state1, ~ nfa.last] \;
        break\;
     }
 
     \uCase{ PlusMatcher }{
        state1 = compileToNFA(matcher.list[0]) \;
-       connect( state1, state1 ) \;
-       connect( nfa.last, state1 ) \;
+       connect( state1,~ state1 ) \;
+       connect( nfa.last,~ state1 ) \;
        nfa.last = [state1 ] \;
        break\;
     }
 
     \uCase{  StarMatcher }{
        state1 = compileToNFA(matcher.list[0]) \;
-       connect( state1, state1 ) \;
-       connect( nfa.last, state1 ) \;      
-       nfa.last = [state1, nfa.last] \;
+       connect( state1,~ state1 ) \;
+       connect( nfa.last,~ state1 ) \;
+       nfa.last = [state1,~ nfa.last] \;
        break\;
-    }   
+    }
 }
 
 
