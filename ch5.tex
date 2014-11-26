@@ -121,11 +121,11 @@ But not all the extracted terms can be verified in DBpedia, because some terms h
 
 \section{Ontology-based semantic similarity}
 
-S{\'a}nchez et al. \cite{sanchez2012ontology} summarized ontology-based similarity assessment into three kinds, and gave both advantages and disadvantages of each approach. The three kinds of categories are: Edge-counting approaches, Feature-based measures, and Measures based on Information Content.
+S{\'a}nchez et al. \cite{sanchez2012ontology} summarized ontology-based similarity assessment into three kinds and gave both advantages and disadvantages of each approach. The three kinds of categories are: Edge-counting approaches, Feature-based measures, and Measures based on Information Content.
 
 
 \subsection{Path-based approaches}
-In path-based approaches, the ontology is viewed as a directed graph, in which the nodes are the concepts, the edges are taxonomic relation (e.g. is-a). Rada, et al.~\cite{rada1989development} measure the similarity by the distance of two nodes in the graph. Therefore, the semantic distance of two concepts $a$ and $b$ will be:
+In path-based approaches, the ontology is viewed as a directed graph, in which the nodes are the concepts, and the edges are taxonomic relation (e.g. is-a). Rada, et al.~\cite{rada1989development} measure the similarity by the distance of two nodes in the graph. Therefore, the semantic distance of two concepts $a$ and $b$ will be:
 $$ dis_{rad}(a,b) = min |path_i(a,b)| $$
 
 Wu and Palmer~\cite{wu1994verbs} realized that the depth in the taxonomy will impact the similarity measure of two nodes, because the deeper of the nodes are in the tree, the semantic distance is smaller. Therefore they gave a new measure of ontology:
@@ -135,11 +135,11 @@ $N_1$ and $N_2$ is the numbers of is-a links from each term to their Least Commo
 Based on the same idea, Leacock and Chodorow~\cite{leacock1998combining} also proposed a similarity measure that combined distance $Np$ between terms $a$ and $b$ and the depth $D$ of the taxonomy.
 $$ sim_{l\&c}(a,b) = -\log (Np/ 2D) $$
 
-There are some limitations of path-based approaches. First, it only consider the shortest path between concept pairs. When they meet complex situation like multiple taxonomical inheritance, the accuracy of them will be low. Another problem of path-based approaches is that they assume that all links in the taxonomy have uniform distance.
+There are some limitations of path-based approaches. First, it only consider the shortest path between concept pairs. When they meet complex situation like multiple taxonomical inheritance, the accuracy of them will be low. Another problem of the path-based approaches is that they assume that all links in the taxonomy have uniform distance.
 
 \subsection{Feature-based measures}
 
-Feature based approaches assess similarity between concepts as a function of their properties. They consider degree of overlapping between sets of ontological features, like Tversky's model~\cite{tverskyfeatures}, which subtract the non-common features from common features of two concepts.
+Feature based approaches assess similarity between concepts as a function of their properties. They consider degree of overlapping between sets of ontological features, like Tversky's model~\cite{tverskyfeatures}, which subtracts the non-common features from common features of two concepts.
 $$  sim_{tve}(a,b) = \alpha \cdot F \left( \Psi(a) \cap   \Psi(b)  \right) - \beta  \cdot F \left( \Psi(a) \setminus   \Psi(b)  \right) - \gamma \cdot F \left( \Psi(b) \setminus   \Psi(a)  \right)  $$
 Where F is salience of a set features, and $\alpha, \beta$ and $\gamma$ are weights of the contribution of each component.
 
@@ -176,9 +176,9 @@ In this thesis, we proposed a new statistical-based ontology similarity measure.
 We can see from the Table~\ref{tab:skillinsent}, the closely related concepts are always have short distance. Based on such observation, we give a new statistical-based ontology similarity measure. If two concepts $a$ and $b$ have the same direct hypernym or one  is the hypernym of the other, the similarity between them is given:
 $$ S(a,b) = \frac{  N_{a \cap b} / N_{a \cup b} }{avg(\log_2( mindis(doc,a,b) + 1 ))} $$
 
-The numerator is the ratio of the number of documents in which the two terms exist together $(N_{a \cap b})$ to the number of documents have a least one them $(N_{a \cup b})$. The denominator is the average $\log$ value of minimum distance $mindis(doc,a,b)$ of the two terms in documents that have them both.
+The numerator is the ratio of the number of documents in which the two terms exist together $(N_{a \cap b})$ and the number of documents have a least one of them $(N_{a \cup b})$. The denominator is the average $\log$ value of minimum distance $mindis(doc,a,b)$ of the two terms in documents that have them both.
 
-We set the restriction on the position of the two concepts in the ontology, because the position of the concepts in the ontology are based on their technical similarity to others. Similar techniques will be assigned into the same category, so they should share the same hypernym, and one could be a alternate to the other. For example, we put EJB and Hibernate in the same category, because they are both J2EE persistence layer technologies, and both have the O/R mapping concept. If the applicant is familiar one of them, they can master the other very quickly. Another example is Grail and Django, they are both web frameworks, and share same web design philosophies, but one of them is designed for Java web application and the other is created for Python web application. If a developer has some some experience with one of them, he/she still need spend a lot of time to learn the other to overcome the gap between programming languages. The algorithm to calculate the similarity of two concepts is in algorithm ~\ref{alg:alg_similarity}.
+We set the restriction on the position of the two concepts in the ontology, because the position of the concepts in the ontology are based on their technical similarity to others. Similar techniques will be assigned into the same category, so they should share the same hypernym, and one could be a alternate to the other. For example, we put EJB and Hibernate in the same category, because they are both J2EE persistence layer technologies, and both have the O/R mapping concept. If the applicant is familiar one of them, they can master the other very quickly. Another example is Grail and Django, they are both web frameworks and share same web design philosophies, but one of them is designed for Java web application and the other is created for Python web application. If a developer has some some experience with one of them, he/she still need to spend a lot of time to learn the other to overcome the gap between programming languages. The algorithm to calculate the similarity of two concepts is in Algorithm ~\ref{alg:alg_similarity}.
 
 \begin{algorithm}
 \caption{Calculating  Statistical-based  Similarity}
@@ -207,7 +207,7 @@ return $factor1 ~/~ factor2$\;
 $ ~~ $
 \end{algorithm}
 
-The matrix in table~\ref{tab:dismatrix1} show the similarity values among of some skills, which is gotten from 500 job descriptions. For example the skill HTML, the most relevant skills in order are CSS, Javascript, and jQuery,  which is the same from the perspective of experienced developers. The other example is Java, the most relevant skill in the matrix is JSP, which is also agree with the general technical knowledge.
+The matrix in Table~\ref{tab:dismatrix1} show the similarity values among of some skills, which is gotten from 500 job descriptions. For example the skill HTML, the most relevant skills in order are CSS, Javascript, and jQuery,  which is the same from the perspective of experienced developers. The other example is Java, the most relevant skill in the matrix is JSP, which is also agree with the general technical knowledge.
 
 
 \begin{table}
@@ -249,4 +249,4 @@ The matrix in table~\ref{tab:dismatrix1} show the similarity values among of som
 
 \section{Combine Keyword Search and Ontology Matching }
 
-Using ontology matching, the system can give job seekers some jobs appropriate to their background. But, in some cases, job seekers have their own preference when choosing jobs. These cases are not very rare, for example, some people may want to try new positions or industries that they have little or no experience, because they are bored with current positions, or they want to learn some perspective technologies. Considering such situations, we add a new search feature to the system, which combine the traditional keyword searching and our ontology matching approach. First, the user need to upload their r\'esum\'e, and then they can use keywords to search jobs. The system will get the jobs that contain the keywords, and the jobs are ranked by their similarity values to the user's r\'esum\'e. The keywords represent user's preference, that jobs satisfied this criteria will be returned, and the ontology similarity become the ranking algorithm, which make the top items of the searching result more relevant to user.
+Using ontology matching, the system can give job seekers some jobs appropriate to their background. But, in some cases, job seekers have their own preference when choosing jobs. These cases are not very rare, for example, some people may want to try new positions or industries that they have little or no experience, because they are bored with current positions, or they want to learn some perspective technologies. Considering such situations, we add a new search feature to the system, which combine the traditional keyword searching and our ontology matching approach. First, the user need to upload their r\'esum\'e, and then they can use keywords to search jobs. The system will get the jobs that contain the keywords, and the jobs are ranked by their similarity values to the user's r\'esum\'e. The keywords represent user's preference, that jobs satisfied this criteria will be returned, and the ontology similarity becomes the ranking algorithm, which makes the top items of the search result more relevant to user.
