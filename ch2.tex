@@ -20,13 +20,13 @@ Job searching, which has been the focus of some commercial job finding web sites
 
 \section{Job Recommender Systems}
 
-Rafter et al. began to use Automated Collaborative Filtering (ACF) in their Job Recommender System, ``CASPER''  \cite{rafter2000personalised}. In the system user profiles are gotten from server logs, that included: revisit data, read time data, and activity data. All these factors were viewed as measure of relevance among users. The system recommend jobs in two steps: First, the system finds a set of users related to the target user; second, the jobs that related users liked will be recommend to the target user. The system use cluster-based collaborative filtering strategy. The similarity between users are based on how many jobs they both reviewed, or applied.
+Rafter et al. began to use Automated Collaborative Filtering (ACF) in their Job Recommender System, ``CASPER''  \cite{rafter2000personalised}. In the system user profiles are gotten from server logs, that includs: revisit data, read time data, and activity data. All these factors are viewed as measure of relevance among users. The system recommend jobs in two steps: First, the system finds a set of users related to the target user; second, the jobs that related users liked will be recommend to the target user. The system use cluster-based collaborative filtering strategy. The similarity between users are based on how many jobs they both reviewed, or applied.
 
 The CASPER also allows users to search jobs by a query which is a combination of some fields: like location, salary, skill and so on. The system use such query to find jobs, and the returned jobs are ranked with the collaborative filtering algorithm. In the paper, the authors do not give a detail description on how to detect the related fields they need and how to the transfer semi-structured job description to the structured data.
 
 The shortages of collaborative filtering: First, since the number of search results is huge, and the results are sorted randomly, the probability of two similar users reviewing the same jobs is low, which causes the sparsity problem of collaborative filtering. The authors also noticed the sparseness problem caused by few in users profile, so they try to user cluster-based solution to resolve this problem. Second, because recommended jobs are from others users' search results, since the quality of current searching result are low, the quality of recommendation cannot be high.
 
-F{\"a}rber et al. \cite{farbr2003automated}. presented a recommender system built on a hybrid approach. The system integrate two methods, content-based filtering and collaborative filtering, which tries to overcome the problem of rating data sparsity by leveraging synergies of a combined model, et al??????. the  latent aspect model. In the system, the data source is synthetic resumes. The latent aspect model is shown in Figure~\ref{fig:la}.
+F{\"a}rber et al. \cite{farbr2003automated} presented a recommender system built on a hybrid approach. The system integrate two methods, content-based filtering and collaborative filtering, which tries to overcome the problem of rating data sparsity by leveraging a combined model. In the system, the data source is synthetic resumes. The latent aspect model is shown in Figure~\ref{fig:la}.
 
 
 \begin{figure}[htbp]
@@ -82,21 +82,21 @@ But the personal information the system retrieved like name and addresses is not
 
 \section{Matching Algorithms in Job Recommender Systems}
 
-Lu et al.~\cite{lu2013recommender} used latent semantic analysis(LSA) to calculate similarities between jobs and candidates, but they only selected two factors ``interest'' and ``education''  to compare candidates. Xing et al.~\cite{yi2007matching} used structured relevance models (SRM) to  match r\'esum\'es and jobs.
+Lu et al.~\cite{lu2013recommender} used latent semantic analysis (LSA) to calculate similarities between jobs and candidates, but they only selected two factors ``interest'' and ``education''  to compare candidates. Xing et al.~\cite{yi2007matching} used structured relevance models (SRM) to  match r\'esum\'es and jobs.
 
 Drigas* et al.\cite{drigas2004expert}  presented a expert system to match jobs and job seekers, and to recommend unemployed to the positions. The expert system used Neuro-Fuzzy rules to evaluate the matching between user profiles and job openings. The system uses a relation matrix to represent the fuzzy relation between these specialities. The system needs the training data to train that Neuro-Fuzzy network. Both r\'esum\'e data and job opening data were manually input into the system.
 
 Daramola et al.\cite{daramola2010fuzzy}  also proposed a fuzzy logic based expert system(FES) tool for online personnel recruitment. In the paper, the authors assumed that the information already be collected. The system uses a fuzzy distance metric to rank candidates' profiles in the order of their eligibility for the job. The fuzzy hamming distance is given as:
 $$ \delta \left ( O,R \right )=\sum_{i=1}^{n}\left | \mu_O(x_i) - \mu_R(x_i)  \right | $$
 
-Yao et al.~\cite{lu2013recommender} also presented a hybrid recommender system which integrated content-based and interaction-based relation. In content-based part, relations between job-job, job-job seeker, and job seeker-job seeker can be identified by their similarity of profiles. There two approaches are used to calculate the similarities: For the structured data, like age gender, the weight sum values will be returned; for the unstructured data, like similarity between job and user profile the latent semantic analysis is applied in the system.
+Yao et al.~\cite{lu2013recommender} also presented a hybrid recommender system which integrated content-based and interaction-based relation. In content-based part, relations between job-job, job-job seeker, and job seeker-job seeker can be identified by their similarity of profiles. There two approaches are used to calculate the similarities: For the structured data, like age and gender, the weight sum values will be returned; for the unstructured data, like similarity between job and user profile, the latent semantic analysis is applied in the system.
 
 In summary, there are some problems exist in previous Job Recommender Systems:
 \begin{enumerate}
-    \item  Most systems can only process the structured data of r\'esum\'es and job descriptions, but in reality both them are in unstructured formats, like text files or HTML web pages.
+    \item  Most systems can only process the structured data of r\'esum\'es and job descriptions, but in reality both them are in unstructured formats, such as text files or HTML web pages.
 
-    \item  The systems that have information extraction module are designed for recruiters to select applicants, not for job seekers to select jobs.
+    \item  The systems that have information extraction modules are designed for recruiters to select applicants, not for job seekers to select jobs.
 
-    \item  In the systems the information fields to match r\'esum\'es and job descriptions are coarse-grained. To improve the quality of recommendation,  we need to improve the granularity of information fields and matching algorithm.
+    \item  In the systems the information fields to match r\'esum\'es and job descriptions are coarse-grained. To improve the quality of recommendation,  we need to improve the granularity of the information fields.
 
 \end{enumerate}
