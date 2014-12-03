@@ -392,15 +392,17 @@ With above rules, we can convert the expression ``DL (, DL)*  (or DL)? DEGREE'' 
   \label{fig:fst_pattern}
 \end{figure}
 
-Comparing to other state of art machine learning-based information extraction algorithms, our method has such advantages: 
+Comparing to other state of art machine learning-based information extraction algorithms, our method has such advantages:
 
 \begin{enumerate}
     \item  Easy to implement. According to the pseudo code  in \ref{alg:alg_nfa}, even some undergraduate students without strong machine learning background can implement algorithm in one day.
 
-    \item  No need of data labeling. Supervised machine learning algorithms always need a large labeled training data set, but data labeling is tedious work for users. With our pattern matching algorithm, we avoid the work of data labeling. 
+    \item  No need of data labeling. Supervised machine learning algorithms always need a large labeled training data set, but data labeling is tedious work for users. With our pattern matching algorithm, we avoid the work of data labeling.
 
-    \item  The accuracy of information extraction can increase monotonously as the patterns number increasing. So when we get enough patterns, we can get the result with very high accuracy.  
+    \item  The accuracy of information extraction can increase monotonously as the patterns number increasing. So when we get enough patterns, we can get the result with very high accuracy.
+        
+    \item High speed for labeling data. The time complexity of pattern matching is O(n) \cite{thompson1968programming}, which is smaller than some complex machine learning based approaches. One example is Conditional Random Fields(CRFs), which uses Viterbi algorithm \cite{viterbi1967error} to label the sequence, the time complexity of it is $O(n^2t)$.
 
-\end{enumerate}  
+\end{enumerate}
 
 In this chapter we have introduced how we extracted the information from the resumes and job descriptions, and the implementation details of the pattern matching library, regular expression over tokens. We can get the models of resumes and job descriptions through the procedure described in this chapter. In the next chapter, we will discuss how our system searches and ranks job models by resume models.
