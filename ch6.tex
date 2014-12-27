@@ -172,3 +172,67 @@ The other measure we used is NDCG, which is explained in last section. Table~\re
 \label{tab:job_ndcg} % is used to refer this table in the text
 \end{table}
 
+\section{Comparing with the Keyword Searching}
+We also made experiments to compare the quality of search results quality between our system and the keyword searching approach. In one experiment, we first selected a resume, and picked a related keyword e.g. ``Java'', to search jobs in Indeed.com. We used this process to simulate how a job seeker searches jobs on Indeed.com. The top 100 jobs returned by Indeed.com were saved in our system, then we used the resume to match the 100 jobs. We compared the quality of the approaches by calculating the measures Precision@K  and  DCG. Table~\ref{tab:comparison_java} shows comparison between the two approaches by using keyword ``Java'' and the r\'esum\'e of a Java developer. The comparison for  keyword ``Python'' and the r\'esum\'e of a Python developer is shown in Table~\ref{tab:comparison_python}, and the average comparison for five keywords and five r\'esum\'e is shown in Table~\ref{tab:comparison_avg}. We can see from the result that our system can get much better results than keyword searching approach.
+
+\begin{table}[ht]
+\caption{Comparison of the Two Approaches - Java Developer  } % title of Table
+\centering % used for centering table
+\begin{tabular}{    | c | c | c | c | c |  }
+ \hline
+  \multirow{2}{*}k    & \multicolumn{2}{c|}{Precision@K }    & \multicolumn{2}{c|}{DCG } \\
+ \cline{2-5}
+            & Indeed  & Ontology Matching  & Indeed     & Ontology Matching   \\
+ \hline
+       5    & 0.15    & 0.34               & 0.45       & 0.78   \\
+ \hline
+       10   & 0.18    & 0.44               & 0.47       & 0.72   \\
+ \hline
+       20   & 0.19    & 0.35               & 0.45       & 0.66   \\
+ \hline
+
+\end{tabular}
+\label{tab:comparison_java} % is used to refer this table in the text
+\end{table}
+
+ 
+
+\begin{table}[ht]
+\caption{Comparison of the Two Approaches - Python Developer  } % title of Table
+\centering % used for centering table
+\begin{tabular}{    | c | c | c | c | c |  }
+ \hline
+  \multirow{2}{*}k    & \multicolumn{2}{c|}{Precision@K }    & \multicolumn{2}{c|}{DCG } \\
+ \cline{2-5}
+            & Indeed  & Ontology Matching  & Indeed     & Ontology Matching   \\
+ \hline
+       5    & 0.15    & 0.34               & 0.45       & 0.78   \\
+ \hline
+       10   & 0.18    & 0.44               & 0.47       & 0.72   \\
+ \hline
+       20   & 0.19    & 0.35               & 0.45       & 0.66   \\
+ \hline
+
+\end{tabular}
+\label{tab:comparison_python} % is used to refer this table in the text
+\end{table}
+
+\begin{table}[ht]
+\caption{Comparison of the Two Approaches - Average  } % title of Table
+\centering % used for centering table
+\begin{tabular}{    | c | c | c | c | c |  }
+ \hline
+  \multirow{2}{*}k    & \multicolumn{2}{c|}{Precision@K }    & \multicolumn{2}{c|}{DCG } \\
+ \cline{2-5}
+            & Indeed  & Ontology Matching  & Indeed     & Ontology Matching   \\
+ \hline
+       5    & 0.15    & 0.34               & 0.45       & 0.78   \\
+ \hline
+       10   & 0.18    & 0.44               & 0.47       & 0.72   \\
+ \hline
+       20   & 0.19    & 0.35               & 0.45       & 0.66   \\
+ \hline
+
+\end{tabular}
+\label{tab:comparison_avg} % is used to refer this table in the text
+\end{table}
