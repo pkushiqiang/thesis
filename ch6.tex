@@ -6,14 +6,7 @@ In this section we will evaluate the performance of the key components of the sy
 
 To evaluate the performance of the information extraction module, we extract sentence types through the use of sentence filters. To explain the process of our experiment, we use the sentences whose content pertains to the applicant's college degree information.
 
-In the experiment, we selected 100 sentences from existing job descriptions, and the content of these sentences were requirements of candidate degree and major. We labeled the values for "degree" and "major" manually. We use any content patterns that we can identify from these sentences to match and extract the degree information. Figure~\ref{fig:degree_accuracy} shows that when the total number of patterns increases, the accuracy of information increases as well. When we used 6 patterns, the accuracy of "degree" became 94\%. We also compared our pattern matching method to the conditional random fields (CRFs) model~\cite{lafferty2001conditional}, which is a state of art machine learning model for sequence labeling. We used 200 sentences to train the CRF model, and the features of the CRF model are words in the sentences and part of speech tags of the words. The accuracies of information extraction of the three fields with our two methods, pattern matching, and the application of the CRF model are shown in Table \ref{tab:ieaccura}
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[scale=0.5]{images/degree_accuracy.png}
-  \caption{Accuracy of Degree Extraction  }
-  \label{fig:degree_accuracy}
-\end{figure}
+In the experiment, we selected 100 sentences from existing job descriptions, and the content of these sentences were requirements of candidate degree and major. We labeled the values for "degree" and "major" manually. We use some content patterns that we can identify from these sentences to match and extract the degree information. When we used 6 patterns, the accuracy of "degree" became 94\%. We also compared our pattern matching method to the conditional random fields (CRFs) model~\cite{lafferty2001conditional}, which is a state of art machine learning model for sequence labeling. We used 200 sentences to train the CRF model, and the features of the CRF model are words in the sentences and part of speech tags of the words. The accuracies of information extraction of the three fields with our two methods, pattern matching, and the application of the CRF model are shown in Table \ref{tab:ieaccura}.
 
 
 \begin{table}[ht]
@@ -27,8 +20,7 @@ In the experiment, we selected 100 sentences from existing job descriptions, and
  \hline
           Major   & 10          & 0.85       &  0.72  \\
  \hline
-          Skill   & 6           & 0.82       &  0.66  \\
- \hline
+
 \end{tabular}
 \label{tab:ieaccura} % is used to refer this table in the text
 \end{table}
@@ -173,7 +165,7 @@ The other measure we used is NDCG, which is explained in last section. Table~\re
 \end{table}
 
 \section{Comparing with the Keyword Searching}
-We also made experiments to compare the quality of search results quality between our system and the keyword searching approach. In one experiment, we first selected a resume, and picked a related keyword e.g. ``Java'', to search jobs in Indeed.com. We used this process to simulate how a job seeker searches jobs on Indeed.com. The top 100 jobs returned by Indeed.com were saved in our system, then we used the resume to match the 100 jobs. We compared the quality of the approaches by calculating the measures Precision@K  and  DCG. Table~\ref{tab:comparison_java} shows comparison between the two approaches by using keyword ``Java'' and the r\'esum\'e of a Java developer. The comparison for  keyword ``Python'' and the r\'esum\'e of a Python developer is shown in Table~\ref{tab:comparison_python}, and the average comparison for five keywords and five r\'esum\'e is shown in Table~\ref{tab:comparison_avg}. We can see from the result that our system can get much better results than keyword searching approach.
+We also made experiments to compare the quality of search results quality between our system and the keyword searching approach. In one experiment, we first selected a resume, and picked a related keyword e.g. ``Java''  to search jobs in Indeed.com. We used this process to simulate how a job seeker searches jobs on Indeed.com. The top 100 jobs returned by Indeed.com were saved in our system, then we used the resume to match the 100 jobs. We compared the quality of the approaches by calculating the measures Precision@K  and  DCG. We use DCG not NDCG because we compare the two approaches on the same data set, and the IDCG is the same. Table~\ref{tab:comparison_java} shows comparison between the two approaches by using keyword ``Java'' and the r\'esum\'e of a Java developer. The comparison for  keyword ``Python'' and the r\'esum\'e of a Python developer is shown in Table~\ref{tab:comparison_python}, and the average comparison for five keywords and five r\'esum\'e is shown in Table~\ref{tab:comparison_avg}. We can see from the result that our system can get much better results than keyword searching approach.
 
 \begin{table}[ht]
 \caption{Comparison of the Two Approaches - Java Developer  } % title of Table
@@ -195,7 +187,7 @@ We also made experiments to compare the quality of search results quality betwee
 \label{tab:comparison_java} % is used to refer this table in the text
 \end{table}
 
- 
+
 
 \begin{table}[ht]
 \caption{Comparison of the Two Approaches - Python Developer  } % title of Table
