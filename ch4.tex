@@ -93,7 +93,71 @@ If all words in Table~\ref{tab:multispelling} are added to the pattern, the FST 
 
 To resolve this problem, we proposed an approach to use the patterns to match the \textit{labels} of the tokens, not the the original text. In the system, we don't care what words the sentences really use, but want to extract the semantic value of the tokens which match the pattern. The details of the approach is described below.
 
-At first, we created two dictionaries, which are used to label the tokens. In the first dictionary, the keys are the tokens, like words in Table~\ref{tab:multispelling}, and the values are the symbols for semantic values, like ``BS-LEVEL'' for ``bachelor's degree'', or ``MS-LEVEL'' for ``master's degree''. The values of the the second dictionary are the ontology hypernym of their keys, like keys ``BS-LEVEL'' and  ``MS-LEVEL'' both have value ``DE-LEVEL'', which means that bachelor's degree and master's degree are both one kind of degree level.
+At first, we created two dictionaries, which are used to label the tokens. In the first dictionary, the keys are the tokens, like words in Table~\ref{tab:multispelling}, and the values are the symbols for semantic values, like ``BS-LEVEL'' for ``bachelor's degree'', or ``MS-LEVEL'' for ``master's degree''. The values of the the second dictionary are the ontology hypernym of their keys, like keys ``BS-LEVEL'' and  ``MS-LEVEL'' both have value ``DE-LEVEL'', which means that bachelor's degree and master's degree are both one kind of degree level. We show the dictionaries for degree information in Table~\ref{tab:semanticlabeling}. There are also some words in the dictionaries that have the same first layer and second layer labels, which is shown in Table~\ref{tab:morelabels}.
+
+\begin{table}[ht]
+\caption{Semantic Labeling } % title of Table
+\centering % used for centering table
+\small
+\begin{tabular}{  | l | l | l |   }
+ \hline
+ Original Text & Layer 1 & Layer 2  \\
+ \hline
+   bachelors  &  \multirow{4}{*} ~BS-LEVEL   & \multirow{10}{*} ~DE-LEVEL  \\
+ \cline{1-1}
+   bachelor   &     &    \\
+ \cline{1-1}
+   B.S.       &     &    \\
+ \cline{1-1}
+   Baccalaureate    &     &    \\
+ \cline{1-2}
+   Master     &  \multirow{3}{*} ~MS-LEVEL   &    \\  
+ \cline{1-1}
+   MS         &     &    \\
+ \cline{1-1}
+   M.S.       &     &    \\
+ \cline{1-2}
+   PhD        &  \multirow{3}{*} ~PHD-LEVEL      &    \\
+ \cline{1-1}
+ Ph.D         &     &    \\
+ \cline{1-1}
+  Doctorate   &     &    \\ 
+ \hline
+ 
+\end{tabular}
+\label{tab:semanticlabeling} % is used to refer this table in the text\section{Pipeline of Information Extraction}
+\end{table}
+
+
+
+\begin{table}[ht]
+\caption{More Labels} % title of Table
+\centering % used for centering table
+\small
+\begin{tabular}{  | l | l | l |    }
+ \hline
+ "Be", "be", "is", "are", "was", "were", "am"    &  BE          & BE     \\
+ \hline
+ "a", "A", "an", "An", "The", "the"              &  DE          & DE    \\
+ \hline
+ "MBA", "BSCS", "BSEE", "MSCS"                   & \multirow{2}{*} ~MAJOR-DEGREE &  \multirow{2}{*}  ~MAJOR-DEGREE  \\
+  
+ "MSEE", "MSCE","MPH"     &   &  \\
+ \hline
+  "practical experience" , "work experience" & \multirow{2}{*} ~EXPERIENCE  & \multirow{2}{*} ~EXPERIENCE  \\ 
+  "professional experience", "experience¡°    &              &       \\
+ \hline
+ "preferred", "required", "desired"     &  PREFER-VBD  & PREFER-VBD    \\
+ \hline
+ "a plus", "mandatory", "desirable"     &  PREFER-JJ   & PREFER-JJ      \\
+ \hline
+ "similar", "related", "Relevant"    &  \multirow{2}{*} ~DEGREE-JJ   & \multirow{2}{*} ~DEGREE-JJ    \\
+ "equivalent", "based"              &               &              \\
+ \hline
+\end{tabular}
+\label{tab:morelabels} % is used to refer this table in the text\section{Pipeline of Information Extraction}
+\end{table}
+
 
 With the two dictionaries, we can label the tokens with two layers. Table~\ref{tab:labeldsent} shows how the sentence ``Bachelors  degree  in computer science or information systems. '' is labeled.
 
@@ -134,9 +198,9 @@ As we explained in section B, we mentioned matching tokens in the second layer t
 \label{tab:patterns} % is used to refer this table in the text\section{Pipeline of Information Extraction}
 \end{table}
 
-\section{Regular Expression Over Tokens}
+\section{Pattern Matching Library}
 
-In section C we generally introduced how we use the library of regular expression over tokens to match the sentences. In this section we will introduce more details of this library, like its advantages and implementation details.
+In section C we generally introduced how we use the library of pattern matching over tokens to match the sentences. In this section we will introduce more details of this library, like its advantages and implementation details.
 
 \subsection{Finite-State Transducer}
 Finite-State Transducer~\cite{roche1997finite} have been used as a tool to match patterns and extract information for more than 20 years. This approach has been demonstrated very effective in extracting information from text like CIRCUS~\cite{lehnert1991university} and FASTUS~\cite{hobbs199713}.  In the widely used NLP toolkit GATE~\cite{cunningham2002framework}, the semantic tagger JAPE (Java Annotations Pattern Engine) could describe patterns that are used to match and annotate tokens. JAPE adopts a version of CPSL (Common Pattern  Specification Language)~\cite{appelt1998common}, which provides FST over annotations. Chang et al. presented cascaded regular expressions over tokens~\cite{chang2014tokensregex}, which proposed a cascaded pattern matching tool over token sequences.
@@ -400,7 +464,7 @@ Comparing to other state of art machine learning-based information extraction al
     \item  No need of data labeling. Supervised machine learning algorithms always need a large labeled training data set, but data labeling is tedious work for users. With our pattern matching algorithm, we avoid the work of data labeling.
 
     \item  The accuracy of information extraction can increase monotonously as the patterns number increasing. So when we get enough patterns, we can get the result with very high accuracy.
-        
+
     \item High speed for labeling data. The time complexity of pattern matching is O(n) \cite{thompson1968programming}, which is smaller than some complex machine learning based approaches. One example is Conditional Random Fields(CRFs), which uses Viterbi algorithm \cite{viterbi1967error} to label the sequence, the time complexity of it is $O(n^2t)$.
 
 \end{enumerate}
