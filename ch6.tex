@@ -165,7 +165,7 @@ The other measure we used is NDCG, which is explained in last section. Table~\re
 \end{table}
 
 \section{Comparing with the Keyword Searching}
-We also made experiments to compare the quality of search results quality between our system and the keyword searching approach. In one experiment, we first selected a resume, and picked a related keyword e.g. ``Java''  to search jobs in Indeed.com. We used this process to simulate how a job seeker searches jobs on Indeed.com. The top 100 jobs returned by Indeed.com were saved in our system, then we used the resume to match the 100 jobs. We compared the quality of the approaches by calculating the measures Precision@K  and  DCG. We use DCG not NDCG because we compare the two approaches on the same data set, and the IDCG is the same. Table~\ref{tab:comparison_java} shows comparison between the two approaches by using keyword ``Java'' and the r\'esum\'e of a Java developer. The comparison for  keyword ``Python'' and the r\'esum\'e of a Python developer is shown in Table~\ref{tab:comparison_python}, and the average comparison for five keywords and five r\'esum\'e is shown in Table~\ref{tab:comparison_avg}. We can see from the result that our system can get much better results than keyword searching approach.
+We also made experiments to compare the quality of search results quality between our system and the keyword searching approach. In one experiment, we first selected a r\'esum\'e, and picked a related keyword e.g. ``Java''  to search jobs in Indeed.com. We used this process to simulate how a job seeker searches jobs on Indeed.com. The top 100 jobs returned by Indeed.com were saved in our system, then we used the r\'esum\'e to match the 100 jobs. We compared the quality of the approaches by calculating the measures Precision@K  and  DCG. We use DCG not NDCG because we compare the two approaches on the same data set, and the IDCG is the same. Five judges gave the relevance values to the r\'esum\'es and jobs, and we used average values. Table~\ref{tab:comparison_java} shows comparison between the two approaches by using keyword ``Java'' and the r\'esum\'e of a Java developer. The comparison for  keyword ``Python'' and the r\'esum\'e of a Python developer is shown in Table~\ref{tab:comparison_python}, and the average comparison for five keywords and five r\'esum\'e is shown in Table~\ref{tab:comparison_avg}. We can see from the result that our system can get much better results than keyword searching approach.
 
 \begin{table}[ht]
 \caption{Comparison of the Two Approaches - Java Developer  } % title of Table
@@ -176,11 +176,11 @@ We also made experiments to compare the quality of search results quality betwee
  \cline{2-5}
             & Indeed  & Ontology Matching  & Indeed     & Ontology Matching   \\
  \hline
-       5    & 0.15    & 0.34               & 0.45       & 0.78   \\
+       5    & 0.7     & 1               & 10.86       & 27.785   \\
  \hline
-       10   & 0.18    & 0.44               & 0.47       & 0.72   \\
+       10   & 0.65    & 0.95            & 24.85       & 47.06   \\
  \hline
-       20   & 0.19    & 0.35               & 0.45       & 0.66   \\
+       20   & 0.7     & 0.825           & 51.97       & 73.33   \\
  \hline
 
 \end{tabular}
@@ -198,11 +198,11 @@ We also made experiments to compare the quality of search results quality betwee
  \cline{2-5}
             & Indeed  & Ontology Matching  & Indeed     & Ontology Matching   \\
  \hline
-       5    & 0.15    & 0.34               & 0.45       & 0.78   \\
+       5    & 0.4    & 0.6               & 11.27       & 11.98   \\
  \hline
-       10   & 0.18    & 0.44               & 0.47       & 0.72   \\
+       10   & 0.3    & 0.6               & 13.43       & 15.79   \\
  \hline
-       20   & 0.19    & 0.35               & 0.45       & 0.66   \\
+       20   & 0.2    & 0.4               & 16.44       & 20.21   \\
  \hline
 
 \end{tabular}
@@ -218,11 +218,11 @@ We also made experiments to compare the quality of search results quality betwee
  \cline{2-5}
             & Indeed  & Ontology Matching  & Indeed     & Ontology Matching   \\
  \hline
-       5    & 0.15    & 0.34               & 0.45       & 0.78   \\
+       5    & 0.84    & 0.87               & 23.87       & 32.97   \\
  \hline
-       10   & 0.18    & 0.44               & 0.47       & 0.72   \\
+       10   & 0.72    & 0.86               & 37.02       & 45.57   \\
  \hline
-       20   & 0.19    & 0.35               & 0.45       & 0.66   \\
+       20   & 0.645   & 0.768              & 58.70       & 66.70   \\
  \hline
 
 \end{tabular}

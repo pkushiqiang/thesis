@@ -1,6 +1,6 @@
 \chapter{PROBLEM}
-
-The basic problem in this thesis is how to find appropriate job descriptions by user's r\'esum\'e. If we take the r\'esum\'e as a query and the job descriptions as documents, we need to build an information retrieval model to get the most relevance documents.  The JobFinder will parse the job descriptions to the job models, and store them in the database. When a user searches the jobs by their r\'esum\'e in the system, the system will compare the similarity values between the r\'esum\'e and the job models, and return the jobs sorted by their similarity values.
+\section{Problem Definition}
+The basic problem in this thesis is how to find appropriate job descriptions by user's r\'esum\'e, which means we need calculate the similarity between the user¡¯s r¨¦sum¨¦ and the job. If we take the r\'esum\'e as a query and the job descriptions as documents, we need to build an information retrieval model to get the most relevance documents.  The JobFinder will parse the job descriptions to the job models, and store them in the database. When a user searches the jobs by their r\'esum\'e in the system, the system will compare the similarity values between the r\'esum\'e and the job models, and return the jobs sorted by their similarity values.
 
 The core idea of our algorithm is calculate similarity between the r\'esum\'e model and job model.
 We give a formal definition of our problem. All of the notations will be used frequently throughout the thesis.
@@ -10,6 +10,9 @@ We use $r$ to denote the user's r\'esum\'e model, which has some features $r_i$ 
 $$ sim(r, j) = \sum_{i=1}^{n} simfun_i(r_i,j_i) \times w_i $$
 
 The value of $sim(r, j)$ is the summation of the similarity values of different fields times their corresponding weights. Different fields like major and skills,  may have different functions to calculate their similarity values. We will describe the similarity functions of individual fields in later parts.
+
+\section{Challenges} 
+There are two challenges exist in our system: One is how to extract models from unstructured data sources, the other is how to compute the similarity between r¨¦sum¨¦ and job models. 
 
 
 \chapter{System Overview}
