@@ -229,7 +229,7 @@ For example, the FST $T_{d3} = \left(     \{ 0, 1 \} ,  \{ 0, 1 \} , \{ 0, 1 , 2
 
 Regular expressions can be converted to automata \cite{aho1992foundations}, and FST is also an automata. To convert a regular expression over token to a FST we need two steps: The first is parsing the expression to a tree of matchers, the second is transfer the tree of matchers to the FST. We will introduce these two steps in next.
 
-\subsection{Matchers in FST library}
+\subsection{Matchers in the Pattern Matching Library}
 
 In our library, a ``matcher'' could be a token to be matched, or a composition of other matchers. Our library supports syntax used in traditional regular expressions over strings. We list the syntax that the library supports in Table~\ref{tab:matchers}. The first column is the names of the matchers, the second column is the explanation of the function of the matchers, and third column is the their counterpart syntaxes of traditional regular expression. The RegexMatcher in our library is constructed with a regular expression, and the matcher matches any string that matches the regular expression in the matcher. We give examples of the syntax of these matchers in Table \ref{tab:matchers_example}.
 
@@ -238,7 +238,7 @@ In our library, a ``matcher'' could be a token to be matched, or a composition o
 \centering % used for centering table
 \begin{tabular}{  | l | l | l |  }
  \hline
- Matcher Name        &  Function                                 & Counter Part of regex    \\
+ Matcher Name      &  Function                                 & Counter Part of regex    \\
  \hline
  UnitMatcher       &  token is matches the it                  & character  in regex       \\
  \hline
@@ -297,7 +297,7 @@ seqMatcher =parser.parse("DE-LEVEL DEGREE ( IN  $\vert$  OF ) DT? MAJOR")
 
 \end{framed}
 
-The second style is using algebraic operators to connect matchers, as follows:
+The second style is using algebraic operators to connect matchers, which can help developer reuse previous patterns when the new patterns include old ones. It is shown in follows:
 \begin{framed}
 \small
 \noindent
@@ -328,7 +328,7 @@ seqMatcher = SeqMatcher([matcher1, matcher2, matcher6, matcher5])
 The flexibility of the tool also comes from the fact that developers could determine which layer of the array should be matched, the original text, or labels in the first layer or labels in the second layer. Developers can assign lambda expression to the matcher's catching function, which defines how to get the matching input strings from the sentences, and out function, which defines what should be outputed. For example,  the labeled sentence is a sequence of arrays, each array includes the original text token and its labels in the other two layers, which is shown in table~\ref{tab:labeldsent}. To match the labeled sentence, we set the lambda expression for catching function to ``lambda x:x[2]'', and the out function to ``lambda x:x[1]'', which make the matcher match the label in second layer, and output the the value of semantic value in the first layer.
 
 
-\subsection{Implementation of FST Library}
+\subsection{Implementation of the Pattern Matching Library}
 We use PLY(Python Lex-Yacc) as the grammar parser, which is a pure-Python implementation of the popular compiler construction tools lex and yacc. We defined  syntaxes of regular expression over tokens in the parser, which can parse the token regular expression to the tree structure of matchers.
 
 We use the algorithm proposed by Thompson and Ken~\cite{thompson1968programming} to construct the FST from the tree of matchers, which is shown in Algorithm \ref{alg:alg_nfa}. The algorithm accesses the inner structure of a matcher recursively, and create state for the matcher. Each state is a partial Nondeterministic Finite Automaton (NFA), which has one or more dangling arrows. The algorithm builds the whole NFA by connecting the arrows of the partial NFAs. Different operator will have different structures of NFA, which is shown below:

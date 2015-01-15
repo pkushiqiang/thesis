@@ -1,7 +1,7 @@
 \chapter{CONCLUSION}
 In this thesis£¬ we presented JobFinder, a personalized job-resume matching system, which could help job seeker to find appropriate jobs faster and more accurate. The key technical components of the system are information extraction and ontology matching.
 
-In the system, job descriptions and resumes will be processed by pipeline; and a finite automated tool will be used to extract the models from them. The models include fields like degree, major and skills. To find the appropriate jobs, similarities between resume model and job description models will be calculated. The result will be sorted by the ontology similarity score, which is the sum of weighted multiple similarities of fields.
+In the system, job descriptions and resumes will be processed by a information extraction module; and a pattern matching library will be used to extract the models from them. The models include fields like degree, major and skills. To find the appropriate jobs, similarities between resume model and job description models will be calculated. The result will be sorted by the ontology similarity score, which is the sum of weighted multiple similarities of fields.
 
 We proposed a finite automata matching library to matching the patterns in the sentences and extraction the information. We designed the a semi-automated algorithm to construct the domain specific ontology of skill set. To get the similarity between the skills, we proposed a statistical-based Ontology similarity measure.
 
