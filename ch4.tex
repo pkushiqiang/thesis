@@ -1,7 +1,5 @@
 \chapter{Information Extraction}
 
-To calculate the similarity between a job and a resume, the JobFinder system needs structured digital models of each document. To get the structured data, some JRSs ask the job seekers input their profiles in forms field by field, and the recruiter input their job descriptions in the same way. However, as we discussed in Chapter 2, the users are reluctant to take the tedious process~\cite{singh2010prospect}. Job seekers prefer upload their resumes directly, and recruiters prefer to post the whole job descriptions to web sites.
-
 In this chapter we will explain how the Information Extraction (IE) module of our system extracts information from these unstructured data source. An example of job description is shown in Table~\ref{tab:jd1}. The IE framework will be introduced by example of processing the job descriptions. The Finite-State Transducer(FST) library, which is used as pattern matching tools, will be introduced as well.
 
 \begin{table}[!p]
@@ -49,28 +47,6 @@ RichRelevance is an Equal Opportunity Employer and does not discriminate against
 \end{table}
 
 
-\section{Text Processing Stages}
-
-Information Extraction is the task of automatically extracting structured information such as entities, relationships between entities, and attributes describing entities from unstructured sources~\cite{sarawagi2008information}. The IE framework in our system uses six stages in order to extract the information from job descriptions: HTML parsing, segmenting, preprocessing, tokenizing, labeling and pattern matching, which is show in Figure~\ref{fig:Pipeline}.
-
-1) The \textbf{HTML Parsing} will parse the web pages that contain job descriptions, which are obtained from web crawler. The parser uses HTML tag template to extract attributes of the jobs, like job title, location, company name, content and so on. A job will be saved as a record with these attributes in the database. In the record, the content field contains the text part of the job description, which will be processed in later stages.
-
-2) In the \textbf{segmenting stage}, the content field of the job description is be separated into paragraphs according HTML tags. Then paragraphs are separated into sentences by either HTML tags or punctuation, and after this step, all HTML tags will be removed.
-
-3) Web pages of job description are created in different character sets, (e.g. UTF8 and ISO 8859-1), and almost always contain some unreadable characters. In the \textbf{prepossessing stage}, characters in the sentences are converted to ASCII characters, unreadable characters will be deleted, and some punctuation will be replaced by spaces (e.g. / and -).
-
-4) In the \textbf{tokenizing stage}, the sentences will be tokenized into arrays of tokens by NLTK~\cite{bird2006nltk}.
-
-5) In the \textbf{labeling stage}, the sentences will be given two layers of labels by a dictionary matching approach. The labels in the first layer are the semantic value of the text, and the labels in the second layer are the ontology hypernym of the labels in the first layers.
-
-6) In the \textbf{pattern matching} stage, the FST library is used to matching the labels of the labeled sentences.  If a layered sentence match any pre-defined pattern, the information will be extracted and added to the job model. After every sentence of a job description has be processed, a job model will be created and saved in the database. More details about matching will follow in Section C.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[scale=0.4]{images/pipeline2.png}
-  \caption{Job Description Process Pipeline}
-  \label{fig:Pipeline}
-\end{figure}
 
 \section{Semantic Labeling}
 
@@ -111,7 +87,7 @@ At first, we created two dictionaries, which are used to label the tokens. In th
  \cline{1-1}
    Baccalaureate    &     &    \\
  \cline{1-2}
-   Master     &  \multirow{3}{*} ~MS-LEVEL   &    \\  
+   Master     &  \multirow{3}{*} ~MS-LEVEL   &    \\
  \cline{1-1}
    MS         &     &    \\
  \cline{1-1}
@@ -121,9 +97,9 @@ At first, we created two dictionaries, which are used to label the tokens. In th
  \cline{1-1}
  Ph.D         &     &    \\
  \cline{1-1}
-  Doctorate   &     &    \\ 
+  Doctorate   &     &    \\
  \hline
- 
+
 \end{tabular}
 \label{tab:semanticlabeling} % is used to refer this table in the text\section{Pipeline of Information Extraction}
 \end{table}
@@ -136,22 +112,22 @@ At first, we created two dictionaries, which are used to label the tokens. In th
 \small
 \begin{tabular}{  | l | l | l |    }
  \hline
- "Be", "be", "is", "are", "was", "were", "am"    &  BE          & BE     \\
+ "Be", "be", "is", "are", "was", "were", "am"    &  ~BE          & ~BE     \\
  \hline
- "a", "A", "an", "An", "The", "the"              &  DE          & DE    \\
+ "a", "A", "an", "An", "The", "the"              &  ~DE          & ~DE    \\
  \hline
- "MBA", "BSCS", "BSEE", "MSCS"                   & \multirow{2}{*} ~MAJOR-DEGREE &  \multirow{2}{*}  ~MAJOR-DEGREE  \\
-  
+ "MBA", "BSCS", "BSEE", "MSCS"                   & \multirow{2}{*}~MAJOR-DEGREE &  \multirow{2}{*}  ~MAJOR-DEGREE  \\
+
  "MSEE", "MSCE","MPH"     &   &  \\
  \hline
-  "practical experience" , "work experience" & \multirow{2}{*} ~EXPERIENCE  & \multirow{2}{*} ~EXPERIENCE  \\ 
+  "practical experience" , "work experience" & \multirow{2}{*}~EXPERIENCE  & \multirow{2}{*} ~EXPERIENCE  \\
   "professional experience", "experience¡°    &              &       \\
  \hline
- "preferred", "required", "desired"     &  PREFER-VBD  & PREFER-VBD    \\
+ "preferred", "required", "desired"     &  ~PREFER-VBD  & ~PREFER-VBD    \\
  \hline
- "a plus", "mandatory", "desirable"     &  PREFER-JJ   & PREFER-JJ      \\
+ "a plus", "mandatory", "desirable"     &  ~PREFER-JJ   & ~PREFER-JJ      \\
  \hline
- "similar", "related", "Relevant"    &  \multirow{2}{*} ~DEGREE-JJ   & \multirow{2}{*} ~DEGREE-JJ    \\
+ "similar", "related", "Relevant"    &  \multirow{2}{*}~DEGREE-JJ   & \multirow{2}{*}~DEGREE-JJ    \\
  "equivalent", "based"              &               &              \\
  \hline
 \end{tabular}

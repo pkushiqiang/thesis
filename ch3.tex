@@ -12,7 +12,36 @@ $$ sim(r, j) = \sum_{i=1}^{n} simfun_i(r_i,j_i) \times w_i $$
 The value of $sim(r, j)$ is the summation of the similarity values of different fields times their corresponding weights. Different fields like major and skills,  may have different functions to calculate their similarity values. We will describe the similarity functions of individual fields in later parts.
 
 \section{Challenges} 
-There are two challenges exist in our system: One is how to extract models from unstructured data sources, the other is how to compute the similarity between r¨¦sum¨¦ and job models. 
+There are two challenges exist in our system. The first one is how to extract models of jobs and r\'esum\'es. To calculate the similarity between a job and a resume, the JobFinder system needs structured digital models of each document. To get the structured data, some JRSs ask the job seekers input their profiles in forms field by field, and the recruiter input their job descriptions in the same way. However, as we discussed in Chapter 2, the users are reluctant to take the tedious process~\cite{singh2010prospect}. Job seekers prefer upload their resumes directly, and recruiters prefer to post the whole job descriptions to web sites. So we need extract the structured information from un-structured data source, like r\'esum\'es and job descriptions.
+
+The other challenge is how to compute the similarity between r¨¦sum¨¦ and job models. We observed that simple keyword matching is not a good similarity measure, because job descriptions and r\'esum\'es both contain richer and more complex words that cannot be described simply by keywords. In these documents, some concepts can be written in different ways, and other concepts can have close relationships. For example, Table~\ref{tab:resume_jd} shows portions of a r\'esum\'e and a job description:
+
+\begin{table}[ht]
+\caption{Portions of Resume and Job Description} % title of Table
+\centering % used for centering table
+\begin{tabular}{ | p{8cm} | p{7cm} | }
+ \hline
+   \textbf{Resume Portion}                 &   \textbf{Job Description Portion}   \\ \hline
+
+    B.S. degree in computer science \newline
+    5+ years Java \newline
+    2+ year   C++  \newline
+    Some experience in Oracle database \newline
+    Other experience like: \newline
+    Hibernate, JBOSS, JUnit, Tomcat etc.
+  &
+  BS degree above   \newline
+  4+ years Java  \newline
+  Some experience of Python   \newline
+    Mysql, MS-SQL   \newline
+    Java web application Server   \newline
+    OOA/OOD   \\
+ \hline
+\end{tabular}
+\label{tab:resume_jd} % is used to refer this table in the text
+\end{table}
+
+If just looking at the text, we can find that the r\'esum\'e has very few common words with the job description. But from the view of an experienced engineer, the candidate is closely matches the job: the two relational databases Oracle and Mysql are very similar, OOA/OOD is the same meaning of many years of Java and C++ experience, and Tomcat and JBOSS are both Java web applications servers. If we use keyword matching, the system does not provide a strong matching result in very common cases such as this. So we need a better approach to calculate the similarity between different technical concepts.
 
 
 \chapter{System Overview}
@@ -39,6 +68,29 @@ Figure~\ref{fig:Pipeline} shows the architecture of the whole system, which incl
   \includegraphics[scale=0.5]{images/arch.png}
   \caption{System Architecture}
   \label{fig:arch}
+\end{figure}
+
+\section{Text Processing Stages}
+
+Information Extraction is the task of automatically extracting structured information such as entities, relationships between entities, and attributes describing entities from unstructured sources~\cite{sarawagi2008information}. The IE framework in our system uses six stages in order to extract the information from job descriptions: HTML parsing, segmenting, preprocessing, tokenizing, labeling and pattern matching, which is show in Figure~\ref{fig:Pipeline}.
+
+1) The \textbf{HTML Parsing} will parse the web pages that contain job descriptions, which are obtained from web crawler. The parser uses HTML tag template to extract attributes of the jobs, like job title, location, company name, content and so on. A job will be saved as a record with these attributes in the database. In the record, the content field contains the text part of the job description, which will be processed in later stages.
+
+2) In the \textbf{segmenting stage}, the content field of the job description is be separated into paragraphs according HTML tags. Then paragraphs are separated into sentences by either HTML tags or punctuation, and after this step, all HTML tags will be removed.
+
+3) Web pages of job description are created in different character sets, (e.g. UTF8 and ISO 8859-1), and almost always contain some unreadable characters. In the \textbf{prepossessing stage}, characters in the sentences are converted to ASCII characters, unreadable characters will be deleted, and some punctuation will be replaced by spaces (e.g. / and -).
+
+4) In the \textbf{tokenizing stage}, the sentences will be tokenized into arrays of tokens by NLTK~\cite{bird2006nltk}.
+
+5) In the \textbf{labeling stage}, the sentences will be given two layers of labels by a dictionary matching approach. The labels in the first layer are the semantic value of the text, and the labels in the second layer are the ontology hypernym of the labels in the first layers.
+
+6) In the \textbf{pattern matching} stage, the FST library is used to matching the labels of the labeled sentences.  If a layered sentence match any pre-defined pattern, the information will be extracted and added to the job model. After every sentence of a job description has be processed, a job model will be created and saved in the database. More details about matching will follow in Section C.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.4]{images/pipeline2.png}
+  \caption{Job Description Process Pipeline}
+  \label{fig:Pipeline}
 \end{figure}
 
 \section{System Implementation}

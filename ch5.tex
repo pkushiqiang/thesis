@@ -1,35 +1,8 @@
 \chapter{Ontology Construction and Similarity}
-After getting job models by the information extraction module, users can search for jobs in the system. We observed that simple keyword matching is not a good similarity measure, because job descriptions and r\'esum\'es both contain richer and more complex words that cannot be described simply by keywords. In these documents, some concepts can be written in different ways, and other concepts can have close relationships. For example, Table~\ref{tab:resume_jd} shows portions of a r\'esum\'e and a job description:
 
-\begin{table}[ht]
-\caption{Portions of Resume and Job Description} % title of Table
-\centering % used for centering table
-\begin{tabular}{ | p{8cm} | p{7cm} | }
- \hline
-   \textbf{Resume Portion}                 &   \textbf{Job Description Portion}   \\ \hline
-
-    B.S. degree in computer science \newline
-    5+ years Java \newline
-    2+ year   C++  \newline
-    Some experience in Oracle database \newline
-    Other experience like: \newline
-    Hibernate, JBOSS, JUnit, Tomcat etc.
-  &
-  BS degree above   \newline
-  4+ years Java  \newline
-  Some experience of Python   \newline
-    Mysql, MS-SQL   \newline
-    Java web application Server   \newline
-    OOA/OOD   \\
- \hline
-\end{tabular}
-\label{tab:resume_jd} % is used to refer this table in the text
-\end{table}
-
-If just looking at the text, we can find that the r\'esum\'e has very few common words with the job description. But from the view of an experienced engineer, the candidate is closely matches the job: the two relational databases Oracle and Mysql are very similar, OOA/OOD is the same meaning of many years of Java and C++ experience, and Tomcat and JBOSS are both Java web applications servers. If we use keyword matching, the system does not provide a strong matching result in very common cases such as this.
 
 \section{Semantic Similarity in JRSs}
-In previous studies of JRSs, ontology is used as a knowledge base to store knowledge and rules, which could help compare the similarity between different concepts. Liu and Dew~\cite{liu2004using} used Resource Description Framework (RDF) to represent and store the expertise of experts, and they used a RDF-based expertise matcher to retrieve the experts whose expertise included the required concept.
+After getting job models by the information extraction module, users can search for jobs in the system. In previous studies of JRSs, ontology is used as a knowledge base to store knowledge and rules, which could help compare the similarity between different concepts. Liu and Dew~\cite{liu2004using} used Resource Description Framework (RDF) to represent and store the expertise of experts, and they used a RDF-based expertise matcher to retrieve the experts whose expertise included the required concept.
 
 Proactive~\cite{lee2007fighting} used two kinds of ontology, job category and company information. The system used an ontology checker to classify the job information, stored the domain knowledge and calculated the weight value in recommendations.
 

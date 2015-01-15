@@ -46,10 +46,11 @@ We selected some common skills from 500 job descriptions; table~\ref{tab:dismatr
 \label{tab:dismatrix3}
 \end{table}
 
-We use the $ Normalized~Discounted~Cumulative~Gain ( NDCG )$ to evaluate the statistical-based similarity. NDCG is an important measure to evaluate the ranked retrieval results. For a set of queries $Q$, let $R(j,d)$ be the relevance score assessors given to a document $d$ for query $j$.
-       $$ NDCG(Q,k) = \frac {1}{|Q|} \sum_{j=1}^{|Q|}{Z_{kj}} \sum_{m=1}^{k} \frac{2^{R(j,m)} - 1}{ \log_2(1+m)} $$
+We use the $ Normalized~Discounted~Cumulative~Gain ( NDCG )$ ~\cite{manning2008introduction} to evaluate the statistical-based similarity. NDCG is an important measure to evaluate the ranked retrieval results, which is the ratio of  Discounted Cumulative Gain ( DCG ) to Ideal Discounted Cumulative Gain ( IDCG ).
+ $$ NDCG = \frac {DCG}{IDCG} $$
 
-Where $Z_{kj}$ is a normalization factor calculated such that a perfect ranking's NDCG at $k$ for query $j$ is 1. For queries for which $k' < k$ documents are retrieved, the last summation is done up to $k'$.
+DCG is the measure of how documents are ranked according to their relevance scores, and IDCG is the DCG value that the documents are strictly sorted by their relevance values.
+$$DCG =  \sum_{i=1}^{p} \frac {2^{rel_i} - 1}{\log_2(i+1)} $$
 
 Table~\ref{tab:simcompare1} shows how we evaluate the similarity between the concept ``Javascript'' and other concepts. The first column is a skill name, the second column is its similarity value to ``Javascript'', the third column is its position ranked by the similarity value, and the fourth column is its relevance value given by the judges. The NDCG value for concept Javascript is 0.94, and in Table~\ref{tab:simcompare2},  NDCG value for concept HTML is 0.97.
 
@@ -119,9 +120,11 @@ $$ tf\text{-}idf_{t,d} = tf_{t,d} \times idf_{t} $$
 The similarity between the query $q$ and the document $d$ given by:
 $$ score(q,d) =  \sum_{t \in q }  tf\text{-}idf_{t,d} $$
 
-Okapi BM25: Given a query $Q$, containing the keywords $q_1, ..., q_n$, the BM25 score of a document $D$ is:
+Okapi BM25 is a bag-of-words retrieval model that ranks a set of documents based on the query terms appearing in each document. Given a query $q$, the BM25 score of a document $d$ is:
 
-$ score(D,Q) = \sum_{ i=1 }^{n} IDF(q_i) \cdot   \frac {f(q_i,D) \cdot (k_1 + 1)}{f(q_i,D) + k_1 \cdot ( 1-b + b\cdot \frac { \left | D \right |}{avgdl})}  $
+$$ score(q,d) = \sum_{ t \in q  }  idf_t \frac {tf_{t,d} \cdot(k_1 +1) }  {tf_{t,d} +k_1 \cdot ( 1-b + b\cdot \frac { \left | D \right |}{avgdl})}  $$
+
+In the formula, $idf_t$ is IDF value of term $t$, $tf$ is the term frequency; $ |D|$ is the length of the document $D$; $avgdl$ is the average length of all the documents, and $k_1$ and $b$ are the free parameters.
 
 In the evaluation phase, we created a data set of 100 job descriptions that includes several kinds of jobs such as web developers, server back-end developers, mobile developers and so on. We used 5 candidate r\'esum\'es and retrieved the top 20 jobs.  The relevance value of the job descriptions to each r\'esum\'e were set manually. We created a query q from the r\'esum\'e, treated the text of the job descriptions as documents d, and applied standard ad-hoc retrieval techniques to rank the jobs. We intended to return jobs that better matched the candidates' r\'esum\'es at the top. The result of Precision@k is in table~\ref{tab:job_precision}.
 
