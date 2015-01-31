@@ -6,7 +6,7 @@ In this section we will evaluate the performance of the key components of the sy
 
 To evaluate the performance of the information extraction module, we extract sentence types through the use of sentence filters. To explain the process of our experiment, we use the sentences whose content pertains to the applicant's college degree information.
 
-In the experiment, we selected 100 sentences from existing job descriptions, and the content of these sentences were requirements of candidate degree and major. We labeled the values for "degree" and "major" manually. We use some content patterns that we can identify from these sentences to match and extract the degree information. When we used 6 patterns, the accuracy of "degree" became 94\%. We also compared our pattern matching method to the conditional random fields (CRFs) model~\cite{lafferty2001conditional}, which is a state of art machine learning model for sequence labeling. We used 200 sentences to train the CRF model, and the features of the CRF model are words in the sentences and part of speech tags of the words. The accuracies of information extraction of the three fields with our two methods, pattern matching, and the application of the CRF model are shown in Table \ref{tab:ieaccura}.
+In the experiment, we selected 100 sentences from existing job descriptions, and the content of these sentences were requirements of candidate degree and major. We labeled the values for "degree" and "major" manually. We use some content patterns that we can identify from these sentences to match and extract the degree information. When we used 6 patterns, the accuracy of "degree" became 94\%. We also compared our pattern matching method to the conditional random fields (CRFs) model~\cite{lafferty2001conditional}, which is a state of art machine learning model for sequence labeling. We used 200 labelled sentences to train the CRF model, and the features of the CRF model are words in the sentences and part of speech tags of the words. The accuracies of information extraction of the three fields with our two methods, pattern matching, and the application of the CRF model are shown in Table \ref{tab:ieaccura}.
 
 
 \begin{table}[ht]
@@ -20,9 +20,10 @@ In the experiment, we selected 100 sentences from existing job descriptions, and
  \hline
           Major   & 10          & 0.85       &  0.72  \\
  \hline
-
+    
 \end{tabular}
 \label{tab:ieaccura} % is used to refer this table in the text
+\\Our pattern matching approach can get higher accuracy. 
 \end{table}
 
 \section{Experiments of Ontology Similarity}
@@ -126,7 +127,7 @@ $$ score(q,d) = \sum_{ t \in q  }  idf_t \frac {tf_{t,d} \cdot(k_1 +1) }  {tf_{t
 
 In the formula, $idf_t$ is IDF value of term $t$, $tf$ is the term frequency; $ |D|$ is the length of the document $D$; $avgdl$ is the average length of all the documents, and $k_1$ and $b$ are the free parameters.
 
-In the evaluation phase, we created a data set of 100 job descriptions that includes several kinds of jobs such as web developers, server back-end developers, mobile developers and so on. We used 5 candidate r\'esum\'es and retrieved the top 20 jobs.  The relevance value of the job descriptions to each r\'esum\'e were set manually. We created a query q from the r\'esum\'e, treated the text of the job descriptions as documents d, and applied standard ad-hoc retrieval techniques to rank the jobs. We intended to return jobs that better matched the candidates' r\'esum\'es at the top. The result of Precision@k is in table~\ref{tab:job_precision}.
+In the evaluation phase, we created a data set of 100 job descriptions that includes several kinds of jobs such as web developers, server back-end developers, mobile developers and so on. We used 5 candidate r\'esum\'es and retrieved the top 20 jobs.  The relevance value of the job descriptions to each r\'esum\'e were set manually by ten human judge. We created a query $q$ from the r\'esum\'e, treated the text of the job descriptions as documents $d$, and applied standard ad-hoc retrieval techniques to rank the jobs. We intended to return jobs that better matched the candidates' r\'esum\'es at the top. The result of Precision@k is in table~\ref{tab:job_precision}.
 
 
 \begin{table}[ht]
@@ -134,7 +135,7 @@ In the evaluation phase, we created a data set of 100 job descriptions that incl
 \centering % used for centering table
 \begin{tabular}{    | c | c | c | c | c |  }
  \hline
-       k     & Okapi BM25 & KL    & TF-IDF   & Ontology Similarity  \\
+       k     & Okapi BM25 & KL    & TF-IDF   & Our system  \\
  \hline
        5     & 0.66       & 0.27  & 0.72     & 0.82   \\
  \hline
@@ -145,6 +146,7 @@ In the evaluation phase, we created a data set of 100 job descriptions that incl
 
 \end{tabular}
 \label{tab:job_precision} % is used to refer this table in the text
+\\Our system get the highest precision.
 \end{table}
 
 The other measure we used is NDCG, which is explained in last section. Table~\ref{tab:job_ndcg} shows the NDCG value get from different information retrieval models. The result shows that Ontology Similarity  performs the best.
@@ -154,7 +156,7 @@ The other measure we used is NDCG, which is explained in last section. Table~\re
 \centering % used for centering table
 \begin{tabular}{    | c | c | c | c | c |  }
  \hline
-       k    & Okapi BM25 & KL    & TF-IDF & Ontology Similarity  \\
+       k    & Okapi BM25 & KL    & TF-IDF & Our system  \\
  \hline
        5    & 0.15       & 0.34  & 0.45     & 0.78   \\
  \hline
@@ -165,6 +167,7 @@ The other measure we used is NDCG, which is explained in last section. Table~\re
 
 \end{tabular}
 \label{tab:job_ndcg} % is used to refer this table in the text
+\\Our sytem get the highest NDCG value.
 \end{table}
 
 \section{Comparing with the Keyword Searching}
@@ -177,7 +180,7 @@ We also made experiments to compare the quality of search results quality betwee
  \hline
   \multirow{2}{*}k    & \multicolumn{2}{c|}{Precision@K }    & \multicolumn{2}{c|}{DCG } \\
  \cline{2-5}
-            & Indeed  & Ontology Matching  & Indeed     & Ontology Matching   \\
+            & Indeed  & Our System  & Indeed     & Our System   \\
  \hline
        5    & 0.7     & 1               & 10.86       & 27.785   \\
  \hline
@@ -188,6 +191,7 @@ We also made experiments to compare the quality of search results quality betwee
 
 \end{tabular}
 \label{tab:comparison_java} % is used to refer this table in the text
+\\Our system can get better result.
 \end{table}
 
 
@@ -199,7 +203,7 @@ We also made experiments to compare the quality of search results quality betwee
  \hline
   \multirow{2}{*}k    & \multicolumn{2}{c|}{Precision@K }    & \multicolumn{2}{c|}{DCG } \\
  \cline{2-5}
-            & Indeed  & Ontology Matching  & Indeed     & Ontology Matching   \\
+            & Indeed  & Our System  & Indeed     & Our System   \\
  \hline
        5    & 0.4    & 0.6               & 11.27       & 11.98   \\
  \hline
@@ -210,6 +214,7 @@ We also made experiments to compare the quality of search results quality betwee
 
 \end{tabular}
 \label{tab:comparison_python} % is used to refer this table in the text
+\\Our system can get better result.
 \end{table}
 
 \begin{table}[ht]
@@ -219,7 +224,7 @@ We also made experiments to compare the quality of search results quality betwee
  \hline
   \multirow{2}{*}k    & \multicolumn{2}{c|}{Precision@K }    & \multicolumn{2}{c|}{DCG } \\
  \cline{2-5}
-            & Indeed  & Ontology Matching  & Indeed     & Ontology Matching   \\
+            & Indeed  & Our System  & Indeed     & Our System   \\
  \hline
        5    & 0.84    & 0.87               & 23.87       & 32.97   \\
  \hline
@@ -230,4 +235,5 @@ We also made experiments to compare the quality of search results quality betwee
 
 \end{tabular}
 \label{tab:comparison_avg} % is used to refer this table in the text
+\\Our system can get better result.
 \end{table}

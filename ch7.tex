@@ -7,18 +7,21 @@ In the system, job descriptions and r\'esum\'es are parsed into job models and r
 We made such contributions in our works:
 
 \begin{enumerate}
-    \item  We proposed a finite state transducer based matching tool to extract information from unstructured data source, which is a lightweight and flexible library, and can be extended in very easy ways.
-    \item  We proposed a semi-automatic approach, which can collect technical terms from hr data sources, and by which we created a domain specific ontology for recruitment.
-    \item  We proposed statistical-based ontology similarity measure, which can measure the similarities between technical terms .
+    \item  We developed a r\'esum\'e - job matching system.
+    \item  We developed a finite state transducer based matching tool to extract information from unstructured data source, which is a lightweight and flexible library, and can be extended in very easy ways.
+    \item  We developed a semi-automatic approach, which can collect technical terms from hr data sources, and by which we created a domain specific ontology for recruitment.
+    \item  We developed statistical-based ontology similarity measure, which can measure the similarities between technical terms .    
 \end{enumerate}
 
-In the experiment phase, we evaluated the accuracy of information extraction. We calculated the ontology similarity with the NDCG. Finally, we also tested the performance of r\'esum\'e job matching algorithm via precision@k and NDCG, which showed that our algorithm can achieve a better searching result than other information retrieval models like TF-IDF and OKpai BM25. We also compared our system with the commercial job search engine www.indeed.com, and the results showed that our system can return jobs with better ranking.
+In the experiment phase, we evaluated the accuracy of information extraction. We calculated the ontology similarity with the NDCG. Finally, we also tested the performance of r\'esum\'e job matching algorithm via precision@k and NDCG, which showed that our algorithm can achieve a better searching result than other information retrieval models like TF-IDF and OKpai BM25. We also compared our system with the commercial job search engine www.indeed.com, and the results showed that our system can return jobs with a better ranking.
 
 
 \section{Future work}
 
 Finding a job is a complex process, affected by both explicit and implicit factors. Our work establishes the validity of using information extraction techniques to create a more personalized job matching system, with ample potential for improvement in the future.
 
-First, because our information extraction method relies on pattern pattern matching, we can try some machine learning approaches in future. Second, we can build more complex models to improve performance of the system. In the r\'esum\'e model, we can consider hiring history and project experience of the job seekers. To improve the job description model, the company's reputation and industry could be included in the models as well.
+First we can introduce a more complex job and r¨¦sum¨¦ model to improve performance of the system.  In the r\'esum\'e model, we can consider hiring history and project experience of the job seekers. To improve the job description model, job responsibilities and company characteristics (size, dress code, etc.) should be considered as well.
+
+Second, to improve searching speed of our system, we can reduce the the number of comparison by filtering out jobs that are clearly not related to r\'esum\'es. The system can classify the jobs into some different subsets, when searching jobs, the system only need to calculate the similarity between the r\'esum\'e and according subset of jobs.
 
 JobFinder is a content based recommendation system that is mostly focused on comparing the similarities between the r\'esum\'e and a relevant job description. In future work, we could introduce a hybrid recommendation system that would take advantage of other recommendation algorithms such as Collaborative Filtering. Future work on this system would place greater consideration on job seeker's personal preference like job location, career development plan, and company background.

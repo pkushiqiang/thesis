@@ -50,7 +50,7 @@ RichRelevance is an Equal Opportunity Employer and does not discriminate against
 
 \section{Semantic Labeling}
 
-In this section, we will introduce why and how we add two layers of label to the tokenized sentences. In natural language, a single concept often has multiple expressions o represent it. For example, the simple concept bachelor's degree,  can be expressed in many ways in job descriptions, e.g. B.S., BA/BS, 4-years-degree, and so on. Table \ref{tab:multispelling} shows the words that if followed with word ``degree'' have the semantic value of ``bachelor's degree''.
+In this section, we will introduce why and how we add two layers of labels to the tokenized sentences. In natural language, a single concept often has multiple expressions to represent it. For example, the simple concept bachelor's degree,  can be expressed in many ways in job descriptions, e.g. B.S., BA/BS, 4-years-degree, and so on. Table \ref{tab:multispelling} shows the words that if followed with word ``degree'' have the semantic value of ``bachelor's degree''.
 
 \begin{table}[ht]
 \caption{All words mean bachelors} % title of Table
@@ -135,7 +135,7 @@ At first, we created two dictionaries, which are used to label the tokens. In th
 \end{table}
 
 
-With the two dictionaries, we can label the tokens with two layers. Table~\ref{tab:labeldsent} shows how the sentence ``Bachelors  degree  in computer science or information systems. '' is labeled.
+With the two dictionaries, we can label the tokens with two layers. Table~\ref{tab:labeldsent} shows how the sentence ``Bachelors  degree  in computer science or information systems.'' is labeled.
 
 \begin{table}[ht]
 \caption{Labeled sentence } % title of Table
@@ -176,12 +176,12 @@ As we explained in section B, we mentioned matching tokens in the second layer t
 
 \section{Pattern Matching Library}
 
-In section C we generally introduced how we use the library of pattern matching over tokens to match the sentences. In this section we will introduce more details of this library, like its advantages and implementation details.
+In section C we introduced how we use the library of pattern matching over tokens to match the sentences. In this section we will introduce more details of this library, including its advantages and implementation details.
 
 \subsection{Finite-State Transducer}
-Finite-State Transducer~\cite{roche1997finite} have been used as a tool to match patterns and extract information for more than 20 years. This approach has been demonstrated very effective in extracting information from text like CIRCUS~\cite{lehnert1991university} and FASTUS~\cite{hobbs199713}.  In the widely used NLP toolkit GATE~\cite{cunningham2002framework}, the semantic tagger JAPE (Java Annotations Pattern Engine) could describe patterns that are used to match and annotate tokens. JAPE adopts a version of CPSL (Common Pattern  Specification Language)~\cite{appelt1998common}, which provides FST over annotations. Chang et al. presented cascaded regular expressions over tokens~\cite{chang2014tokensregex}, which proposed a cascaded pattern matching tool over token sequences.
+Finite-State Transducers~\cite{roche1997finite} have been used as a tool to match patterns and extract information for more than 20 years. This approach has been demonstrated to be very effective in extracting information from text like CIRCUS~\cite{lehnert1991university} and FASTUS~\cite{hobbs199713}.  In the widely used NLP toolkit GATE~\cite{cunningham2002framework}, the semantic tagger JAPE (Java Annotations Pattern Engine) could describe patterns that are used to match and annotate tokens. JAPE adopts a version of CPSL (Common Pattern  Specification Language)~\cite{appelt1998common}, which provides FST over annotations. Chang et al. presented cascaded regular expressions over tokens~\cite{chang2014tokensregex}, which proposed a cascaded pattern matching tool over token sequences.
 
-After studying these tools, we found most of them are powerful, complex, but not very flexible. One reason is that developers need to learn some Domain specific Languages (DSLs) like CPSL, and the other reason is the extra effort and time required to integrate the pattern matching tool into the system. So here we proposed a more flexible and lightweight FST framework, which can do regular expression matching over labeled tokens. We give the definition of Finite-State Transducer here. A Finite-State Transducer is a 6-tuple $(\Sigma_1, \Sigma_2, Q, i, F, E)$ where:
+After studying these tools, we found most of them to be powerful and complex, but not very flexible. One reason is that developers need to learn some Domain specific Languages (DSLs) like CPSL. The other reason is the extra effort and time required to integrate the pattern matching tool into the system. So here we proposed a more flexible and lightweight FST framework, which can do regular expression matching over labeled tokens. We give the definition of Finite-State Transducer here. A Finite-State Transducer is a 6-tuple $(\Sigma_1, \Sigma_2, Q, i, F, E)$ where:
 \begin{itemize}
   \item $\Sigma_1$ is a finite alphabet, called the input alphabet.
   \item $\Sigma_2$ is a finite alphabet, called the output alphabet.
@@ -301,7 +301,7 @@ seqMatcher = SeqMatcher([matcher1, matcher2, matcher6, matcher5])
 
 \end{framed}
 
-The flexibility of the tool also comes from the fact that developers could determine which layer of the array should be matched, the original text, or labels in the first layer or labels in the second layer. Developers can assign lambda expression to the matcher's catching function, which defines how to get the matching input strings from the sentences, and out function, which defines what should be outputed. For example,  the labeled sentence is a sequence of arrays, each array includes the original text token and its labels in the other two layers, which is shown in table~\ref{tab:labeldsent}. To match the labeled sentence, we set the lambda expression for catching function to ``lambda x:x[2]'', and the out function to ``lambda x:x[1]'', which make the matcher match the label in second layer, and output the the value of semantic value in the first layer.
+The flexibility of the tool also comes from the fact that developers can determine which layer of the array should be matched, the original text, or labels in the first layer or labels in the second layer. Developers can assign a lambda expression to the matcher's catching function, which defines how to get the matching input strings from the sentences, as well as an out function, which defines what should be outputed. For example,  the labeled sentence is a sequence of arrays, each array includes the original text token and its labels in the other two layers, which is shown in table~\ref{tab:labeldsent}. To match the labeled sentence, we set the lambda expression for catching function to ``lambda x:x[2]'', and the out function to ``lambda x:x[1]'', which make the matcher match the label in second layer, and output the the value of semantic value in the first layer.
 
 
 \subsection{Implementation of the Pattern Matching Library}
@@ -423,7 +423,7 @@ The NFA for e+ also creates a loop, but one that requires passing through e at l
 \end{algorithm}
 
 
-With above rules, we can convert the expression ``DL (, DL)*  (or DL)? DEGREE'' to an FST in Figure~\ref{fig:fst_pattern}.
+With the above rules, we can convert the expression ``DL (, DL)*  (or DL)? DEGREE'' to an FST in Figure~\ref{fig:fst_pattern}.
 
 \begin{figure}[htbp]
   \centering
@@ -432,14 +432,14 @@ With above rules, we can convert the expression ``DL (, DL)*  (or DL)? DEGREE'' 
   \label{fig:fst_pattern}
 \end{figure}
 
-Comparing to other state of art machine learning-based information extraction algorithms, our method has such advantages:
+Comparing our method to other state of art machine learning-based information extraction algorithms, our method has such advantages:
 
 \begin{enumerate}
-    \item  Easy to implement. According to the pseudo code  in \ref{alg:alg_nfa}, even some undergraduate students without strong machine learning background can implement algorithm in one day.
+    \item  Easy to implement. According to the pseudo code  in \ref{alg:alg_nfa}, even some undergraduate students without strong machine learning background can implement our algorithm in a few days.
 
-    \item  No need of data labeling. Supervised machine learning algorithms always need a large labeled training data set, but data labeling is tedious work for users. With our pattern matching algorithm, we avoid the work of data labeling.
+    \item  There is no need for data labeling. Supervised machine learning algorithms always need a large labeled training data set, but data labeling is tedious work for users. With our pattern matching algorithm, we avoid the work manual data labeling.
 
-    \item  The accuracy of information extraction can increase monotonously as the patterns number increasing. So when we get enough patterns, we can get the result with very high accuracy.
+    \item  The accuracy of information extraction can increase monotonously as the number of patterns increase. So with enough patterns, the accuracy becomes quite high.
 
     \item High speed for labeling data. The time complexity of pattern matching is O(n) \cite{thompson1968programming}, which is smaller than some complex machine learning based approaches. One example is Conditional Random Fields(CRFs), which uses Viterbi algorithm \cite{viterbi1967error} to label the sequence, the time complexity of it is $O(n^2t)$.
 

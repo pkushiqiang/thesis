@@ -11,7 +11,7 @@ $$ sim(r, j) = \sum_{i=1}^{n} simfun_i(r_i,j_i) \times w_i $$
 
 The value of $sim(r, j)$ is the summation of the similarity values of different fields times their corresponding weights. Different fields like major and skills,  may have different functions to calculate their similarity values. We will describe the similarity functions of individual fields in later parts.
 
-\section{Challenges} 
+\section{Challenges}
 There are two challenges exist in our system. The first one is how to extract models of jobs and r\'esum\'es. To calculate the similarity between a job and a resume, the JobFinder system needs structured digital models of each document. To get the structured data, some JRSs ask the job seekers input their profiles in forms field by field, and the recruiter input their job descriptions in the same way. However, as we discussed in Chapter 2, the users are reluctant to take the tedious process~\cite{singh2010prospect}. Job seekers prefer upload their resumes directly, and recruiters prefer to post the whole job descriptions to web sites. So we need extract the structured information from un-structured data source, like r\'esum\'es and job descriptions.
 
 The other challenge is how to compute the similarity between r¨¦sum¨¦ and job models. We observed that simple keyword matching is not a good similarity measure, because job descriptions and r\'esum\'es both contain richer and more complex words that cannot be described simply by keywords. In these documents, some concepts can be written in different ways, and other concepts can have close relationships. For example, Table~\ref{tab:resume_jd} shows portions of a r\'esum\'e and a job description:
@@ -95,7 +95,7 @@ Information Extraction is the task of automatically extracting structured inform
 
 \section{System Implementation}
 
-We will describe some implementation details here. The whole system is implemented in Python and uses some third party libraries and frameworks. We used Flask, a lightweight web framework, to build the web application. We used Rdflib as the Web Ontology Language (OWL) file parser, Python Lex-Yacc (PLY) as the token regular expression compiler, whoosh as the inverted index builder and Beautiful Soup as the HTML parser.  All the jobs got by the Web Crawler are stored in the MongoDB NoSQL database.  For the natural language processing procedure, we used Natural Language Toolkit (NLTK), a  natural language processing library, to extract and  tokenize the sentences.
+We will describe some implementation details here. The whole system is implemented in Python and uses some third party libraries and frameworks. We used Flask, a lightweight web framework, to build the web application. We used Rdflib as the Web Ontology Language (OWL) file parser, Python Lex-Yacc (PLY) as the token regular expression compiler, whoosh as the inverted index builder and Beautiful Soup as the HTML parser.  All the jobs retrieved by the Web Crawler are stored in the MongoDB NoSQL database.  For the natural language processing procedure, we used Natural Language Toolkit (NLTK), a  natural language processing library, to extract and  tokenize the sentences.
 
 \section{System Interface}
 
