@@ -1,7 +1,7 @@
 \chapter{CONCLUSION AND FUTURE WORK}
 
 \section{Conclusion}
-In this thesis we presented GoodJobFinder, a personalized job-r\'esum\'e matching system that can help job seekers find appropriate jobs faster and more accurately by using their r\'esum\'e contents. The key components of the system are the information extraction procedure and the ontology matching module.
+In this thesis we presented R\'esuMatcher, a personalized job-r\'esum\'e matching system that can help job seekers find appropriate jobs faster and more accurately by using their r\'esum\'e contents. The key components of the system are the information extraction procedure and the ontology matching module.
 
 In the system, job descriptions and r\'esum\'es are parsed into job models and r\'esum\'e models by the information extraction module. When searching the jobs by a r\'esum\'e, similarity values between the r\'esum\'e model and job description models are calculated in the ontology matching module. The result is sorted by the ontology similarity scores, which are the sum of similarities of different fields multiplied by their weights.
 We made such contributions in our works:
@@ -10,7 +10,7 @@ We made such contributions in our works:
     \item  We developed a r\'esum\'e - job matching system.
     \item  We developed a finite state transducer based matching tool to extract information from unstructured data source, which is a lightweight and flexible library, and can be extended in very easy ways.
     \item  We developed a semi-automatic approach, which can collect technical terms from hr data sources, and by which we created a domain specific ontology for recruitment.
-    \item  We developed statistical-based ontology similarity measure, which can measure the similarities between technical terms .    
+    \item  We developed statistical-based ontology similarity measure, which can measure the similarities between technical terms .
 \end{enumerate}
 
 In the experiment phase, we evaluated the accuracy of information extraction. We calculated the ontology similarity with the NDCG. Finally, we also tested the performance of r\'esum\'e job matching algorithm via precision@k and NDCG, which showed that our algorithm can achieve a better searching result than other information retrieval models like TF-IDF and OKpai BM25. We also compared our system with the commercial job search engine www.indeed.com, and the results showed that our system can return jobs with a better ranking.
@@ -24,4 +24,4 @@ First we can introduce a more complex job and r¨¦sum¨¦ model to improve performa
 
 Second, to improve searching speed of our system, we can reduce the the number of comparison by filtering out jobs that are clearly not related to r\'esum\'es. The system can classify the jobs into some different subsets, when searching jobs, the system only need to calculate the similarity between the r\'esum\'e and according subset of jobs.
 
-GoodJobFinder is a content based recommendation system that is mostly focused on comparing the similarities between the r\'esum\'e and a relevant job description. In future work, we could introduce a hybrid recommendation system that would take advantage of other recommendation algorithms such as Collaborative Filtering. Future work on this system would place greater consideration on job seeker's personal preference like job location, career development plan, and company background.
+R\'esuMatcher is a content based recommendation system that is mostly focused on comparing the similarities between the r\'esum\'e and a relevant job description. In future work, we could introduce a hybrid recommendation system that would take advantage of other recommendation algorithms such as Collaborative Filtering. Future work on this system would place greater consideration on job seeker's personal preference like job location, career development plan, and company background.
