@@ -1,0 +1,72 @@
+
+
+\section{Model Similarity}
+\label{sec1}
+
+The similarity value between a  job model and a r\'esum\'e model is the summation of weighted similarity values of different fields. The equation is given below:
+$$ sim(r, j) = \sum_{i=1}^{n} simfun_i(r_i,j_i) \times w_i $$
+The value of $sim(r, j)$ is the summation of similarity values of different fields times their corresponding weights. $simfun_i(r_i,j_i)$ is the similarity function of the $ith$ field of the model. In our system, the r\'esum\'e model and job model both have four fields: job title, major, academic degree and skills. The similarity value between a r\'esum\'e model and job model is the sum of the productions of similarity values of all the fields pairs and their weights. We will introduce how to calculate the similarity value for each field in this chapter.
+
+\subsection{Similarity of Major and Academic Degree}
+
+In the simplest case, if the majors in the r\'esum\'e model and job model are the same, the similarity value is 1. If they are different, we can check whether the major in the r\'esum\'e model is in the list of related majors for the major in the job model. If it is, the similarity value is 0.5; otherwise the similarity value is 0. The equation is shown below:
+
+$$ MajorSim(r,j ) = \begin{Bmatrix}
+1, & r_{major} = j_{major} \\
+0.5, & r_{major} \in related( j_{major} ) \\
+0, & otherwise
+\end{Bmatrix} $$
+
+There are five kinds of academic degrees in the system:  high school, associate, bachelor, master, and Ph.D., which are mapped to the integer values form 1 to 5. If the degree value in the r\'esum\'e model is less than that in the job model, which means that the job seeker's education background cannot satisfy the requirement of the job, the similarity value in this case is 0. If the degree value in the r\'esum\'e model is equal to the job model and no more than 2 above, the similarity value is 1. In some cases, the degree value in the r\'esum\'e model is greater than that of the job model, and the difference is greater than 2, which means that the job seeker's degree is much higher than the requirement of the job. The situation is also a kind of relative matching, so the similarity value here is 0.5. The equation is shown below:
+
+$$ DegreeSim(r,j ) = \begin{Bmatrix}
+0,   & r_{degree} < j_{degree} \\
+1,   & 0 < r_{degree} - j_{degree} \leqslant 2  \\
+0.5, & r_{degree} - j_{degree} > 2
+\end{Bmatrix} $$
+
+\subsection{Similarity of Job Title}
+Another field of needs similarity calculation is the job titles in the models. A job title can be parsed into some sub fields: job role, level, platform, programming language.  The value of job roles includes: developer, manager, administrator and so on. There are levels values in such roles: such as junior, senior and architect. The platforms: web, mobile and cloud are used by the very roles.  The similarity value between two titles is the sum of all the similarity values of these fields. The similarity value of each sub filed ranges from 0 to 1, and we also normalized the similarity summation value to 1 by dividing the number of sub fields. If the job seeker has some working experience, there may be some job titles in their r\'esum\'e.  When calculating the similarity value between a r\'esum\'e model and a job model, the system calculates the similarity values of the title of job model to all the titles in the r\'esum\'e model and returns the maximum one.
+
+ The similarity value between a  job model and a r\'esum\'e model is the summation of weighted similarity values of different fields. The equation is given below:
+$$ sim(r, j) = \sum_{i=1}^{n} simfun_i(r_i,j_i) \times w_i $$
+The value of $sim(r, j)$ is the summation of similarity values of different fields times their corresponding weights. $simfun_i(r_i,j_i)$ is the similarity function of the $ith$ field of the model. In our system, the r\'esum\'e model and job model both have four fields: job title, major, academic degree and skills. The similarity value between a r\'esum\'e model and job model is the sum of the productions of similarity values of all the fields pairs and their weights. We will introduce how to calculate the similarity value for each field in this chapter.
+
+\subsection{Similarity of Major and Academic Degree}
+
+In the simplest case, if the majors in the r\'esum\'e model and job model are the same, the similarity value is 1. If they are different, we can check whether the major in the r\'esum\'e model is in the list of related majors for the major in the job model. If it is, the similarity value is 0.5; otherwise the similarity value is 0. The equation is shown below:
+
+$$ MajorSim(r,j ) = \begin{Bmatrix}
+1, & r_{major} = j_{major} \\
+0.5, & r_{major} \in related( j_{major} ) \\
+0, & otherwise
+\end{Bmatrix} $$
+
+There are five kinds of academic degrees in the system:  high school, associate, bachelor, master, and Ph.D., which are mapped to the integer values form 1 to 5. If the degree value in the r\'esum\'e model is less than that in the job model, which means that the job seeker's education background cannot satisfy the requirement of the job, the similarity value in this case is 0. If the degree value in the r\'esum\'e model is equal to the job model and no more than 2 above, the similarity value is 1. In some cases, the degree value in the r\'esum\'e model is greater than that of the job model, and the difference is greater than 2, which means that the job seeker's degree is much higher than the requirement of the job. The situation is also a kind of relative matching, so the similarity value here is 0.5. The equation is shown below:
+
+$$ DegreeSim(r,j ) = \begin{Bmatrix}
+0,   & r_{degree} < j_{degree} \\
+1,   & 0 < r_{degree} - j_{degree} \leqslant 2  \\
+0.5, & r_{degree} - j_{degree} > 2
+\end{Bmatrix} $$
+
+\subsection{Similarity of Job Title}
+Another field of needs similarity calculation is the job titles in the models. A job title can be parsed into some sub fields: job role, level, platform, programming language.  The value of job roles includes: developer, manager, administrator and so on. There are levels values in such roles: such as junior, senior and architect. The platforms: web, mobile and cloud are used by the very roles.  The similarity value between two titles is the sum of all the similarity values of these fields. The similarity value of each sub filed ranges from 0 to 1, and we also normalized the similarity summation value to 1 by dividing the number of sub fields. If the job seeker has some working experience, there may be some job titles in their r\'esum\'e.  When calculating the similarity value between a r\'esum\'e model and a job model, the system calculates the similarity values of the title of job model to all the titles in the r\'esum\'e model and returns the maximum one.
+
+\subsection{Similarity of Skills}
+
+The job model usually has requirements of some skills, and the r\'esum\'e model lists the skills the job seeker has as well. The similarity value of skills field is the summation of all the similarity values of skills in the job model. For every skill in the job model, the similarity value is the maximum value it can get from the skills in the r\'esum\'e model. The equation is shown below:
+
+$$ SkillSim(sj_i,SR ) = \begin{Bmatrix}
+1, & sj_i \in SR  \\
+max( sim (sj_i, rj_k )), & sj_i \notin SR \\
+\end{Bmatrix} $$
+In the equation, $sj_i$ is the $i$th skill in the job model, and $SR$ is the skill set of the r\'esum\'e model. If there is the skill $sj_i$ in the skill set $SR$, the similarity value for $sj_i$ is 1, otherwise the system chooses the maximum similarity value from all the similarity values between skill $sj_i$ and the skills in the the r\'esum\'e model.
+
+The job model usually has requirements of some skills, and the r\'esum\'e model lists the skills the job seeker has as well. The similarity value of skills field is the summation of all the similarity values of skills in the job model. For every skill in the job model, the similarity value is the maximum value it can get from the skills in the r\'esum\'e model. The equation is shown below:
+
+$$ SkillSim(sj_i,SR ) = \begin{Bmatrix}
+1, & sj_i \in SR  \\
+max( sim (sj_i, rj_k )), & sj_i \notin SR \\
+\end{Bmatrix} $$
+In the equation, $sj_i$ is the $i$th skill in the job model, and $SR$ is the skill set of the r\'esum\'e model. If there is the skill $sj_i$ in the skill set $SR$, the similarity value for $sj_i$ is 1, otherwise the system chooses the maximum similarity value from all the similarity values between skill $sj_i$ and the skills in the the r\'esum\'e model.
