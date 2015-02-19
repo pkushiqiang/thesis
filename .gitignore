@@ -11,3 +11,7 @@
 *.lot
 *.dvi
 *.spl
+
+ESWA/images/*
+
+
