@@ -1,23 +1,7 @@
 \section{Ontology Construction and Similarity}
 \label{sec1}
-
-\subsection{Semantic Similarity in JRSs}
-After getting job models by the information extraction module, users can search for jobs in the system. In previous studies of JRSs, ontology is used as a knowledge base to store knowledge and rules, which could help compare the similarity between different concepts. Liu and Dew~\cite{liu2004using} used Resource Description Framework (RDF) to represent and store the expertise of experts, and they used a RDF-based expertise matcher to retrieve the experts whose expertise included the required concept.
-
-Proactive~\cite{lee2007fighting} used two kinds of ontology, job category and company information. The system used an ontology checker to classify the job information, stored the domain knowledge and calculated the weight value in recommendations.
-
-Fazel \cite{fazel2009semantic} used a hybrid approach to match job seekers and job postings, which takes advantage of the benefits of both logic-based and ontology-based matching. In his paper the description logics (DL) are used to represent the candidate and job opening, and the ontology is used to organize the skills in a taxonomy. The paper provides an equation to calculate the matching degree:
-$$ sim\left(P ,j \right) = \sum x_{ij} \times u(ds_i) $$
-
-where $x_{ji}$ is the Boolean variable indicating whether desire i is satisfied by applicant $A_{j}$ in the set of all qualified applications.
-
-Kumaran et al.~\cite{kumaran2013towards} also used an ontology to calculate the similarity between the job criteria and candidates' r\'esum\'e in their system~\cite{kumaran2013towards}. The similarity equation they used is:
-$$ M\left ( i_1, i_2 \right ) = \frac{\sum_{k=1}^{n} Sim\left (p_{k}^{i1},  p_{k}^{i2} \right ) * W_{k}^{i2}}{\sum_{k=1}^{n} W_{k}^{i2}}  $$
-The similarity function $Sim(p_1, p_2)$ is defined as follows:
-$$ Sim(p1, p2) = \begin{Bmatrix}
-1, & if~similarity~of~p1~and~p2 \geqslant t\\
-0, & otherwise
-\end{Bmatrix} $$
+ 
+After getting job models by the information extraction module, users can search for jobs in the system. In the system, ontology is used as a knowledge base to store knowledge and rules, which could help compare the similarity between different concepts.
 
 \subsection{Ontology Construction}
 
@@ -71,23 +55,16 @@ From the observation, we found that sentences with skill requirements in job des
 For example, we extract the token  ''XSL'', which currently is not in the terms list. We check the word on DBpedia by accessing the URL:http://dbpedia.org/page/XSL. If we can get the XML formatted description of XSL, and any element in ``dcterms:subject'' section has the value which is a technical category,  like ``Programming languages'', ``Markup languages'' and so on, we can indicate that the word is a technical term, and add it to the term list.
 
 \begin{figure}[htbp]
-  \includegraphics[scale=0.6]{images/genonto.png}
+  \includegraphics[scale=0.4]{images/genonto.png}
   \caption{Procedure of Finding Technical Terms}
   \label{fig:gen_onto}
 \end{figure}
 
-But not all the extracted terms can be verified in DBpedia, because some terms have multiple meanings in English, and the URLs of their DBpedia pages are unpredictable. For example, the word ``Python'' could be an animal name or a programming language.  The meaning of the programming language  has the DBpedia URL http://dbpedia.org/page/Python\_(programming\_language), which is difficult to predict. In this case, we have to check the term manually.  After getting all terms, we use Protege~\cite{noy2001creating}, an open source ontology editor, to edit the domain specific ontology, and saved it in RDF format. The interface of Protege is shown in Figure~\ref{fig:Protege}. Part of the technical ontology is shown in Figure~\ref{fig:ontology_pro}.
+But not all the extracted terms can be verified in DBpedia, because some terms have multiple meanings in English, and the URLs of their DBpedia pages are unpredictable. For example, the word ``Python'' could be an animal name or a programming language.  The meaning of the programming language  has the DBpedia URL http://dbpedia.org/page/Python\_(programming\_language), which is difficult to predict. In this case, we have to check the term manually.  After getting all terms, we use Protege~\cite{noy2001creating}, an open source ontology editor, to edit the domain specific ontology, and saved it in RDF format. Part of the technical ontology is shown in Figure~\ref{fig:ontology_pro}.
 
 
 \begin{figure}[htbp]
-
-  \includegraphics[scale=0.5]{images/protege.png}
-  \caption{Interface of Protege}
-  \label{fig:Protege}
-\end{figure}
-
-\begin{figure}[htbp]
-  \includegraphics[scale=0.6]{images/ontology_pro.png}
+  \includegraphics[scale=0.4]{images/ontology_pro.png}
   \caption{Part of Ontology}
   \label{fig:ontology_pro}
 \end{figure}
@@ -130,7 +107,7 @@ The are also two disadvantages of the content-based measures. First, the approac
 
 
 \subsection{Statistical-based Ontology Similarity Measure }
-In this thesis, we proposed a new statistical-based ontology similarity measure. In most job descriptions, they list many skills the positions required. From observation, we found that related skills always exist in the job description simultaneously, and the positions of them are always close, e.g. HTML and CSS are always required together, and appear in the same sentence. We could see this phenomenon in Table~\ref{tab:skillinsent}, which include some skill requirement sentences from some job descriptions.
+In this paper, we proposed a new statistical-based ontology similarity measure. In most job descriptions, they list many skills the positions required. From observation, we found that related skills always exist in the job description simultaneously, and the positions of them are always close, e.g. HTML and CSS are always required together, and appear in the same sentence. We could see this phenomenon in Table~\ref{tab:skillinsent}, which include some skill requirement sentences from some job descriptions.
 
 \begin{table}[ht]
 \caption{Some sentences of Job Descriptions} % title of Table
@@ -191,5 +168,55 @@ The matrix in Table~\ref{tab:dismatrix1} show the similarity values among of som
  \hline
 \end{tabular}
 \label{tab:dismatrix2}
+\end{table}
+
+
+\subsection{Experiments of Ontology Similarity}
+
+We selected some common skills from 500 job descriptions; table~\ref{tab:dismatrix3} shows similarity values between these skills. Higher values correspond to greater similarities, so the similarity between one skill and itself is 1. We selected one concept and ranked the other concepts by their similarity values to this concept. Human judges helped rank these concepts by assigning them "relevance scores" so that we can use NDCG to evaluate the effectiveness of our approach.
+
+We use the $ Normalized~Discounted~Cumulative~Gain ( NDCG )$ ~\cite{manning2008introduction} to evaluate the statistical-based similarity. NDCG is an important measure to evaluate the ranked retrieval results, which is the ratio of  Discounted Cumulative Gain ( DCG ) to Ideal Discounted Cumulative Gain ( IDCG ).
+ $$ NDCG = \frac {DCG}{IDCG} $$
+
+DCG is the measure of how documents are ranked according to their relevance scores, and IDCG is the DCG value that the documents are strictly sorted by their relevance values.
+$$DCG =  \sum_{i=1}^{p} \frac {2^{rel_i} - 1}{\log_2(i+1)} $$
+
+Table~\ref{tab:simcompare1} shows how we evaluate the similarity between the concept ``Javascript'' and other concepts. The first column is a skill name, the second column is its similarity value to ``Javascript'', the third column is its position ranked by the similarity value, and the fourth column is its relevance value given by the judges. The NDCG value for concept Javascript is 0.94, and in Table~\ref{tab:simcompare2},  NDCG value for concept HTML is 0.97.
+
+\begin{table}
+\centering
+\caption{ Javascript Similarity Evaluation : NDCG = 0.94 }
+\begin{tabular}{ | c | c | c  | c |  }
+ \hline
+    Term     &  Similarity Value  &  Position   & Relevance     \\  \hline
+    jQuery   &  0.1981            &      4      &   8        \\
+     HTML    &  0.2087            &      3      &   4         \\
+     CSS     &  0.2439            &      2      &   3   \\
+     Java    &  0.0665            &      5      &   1   \\
+    Python   &  0.0189            &      8      &   1   \\
+     Ruby    &  0.023             &      7      &   1    \\
+     JSP     &  0.0253            &      6      &   2    \\
+ \hline
+\end{tabular}
+\label{tab:simcompare1}
+\end{table}
+
+
+\begin{table}
+\centering
+\caption{ HTML Similarity Evaluation : NDCG = 0.97 }
+\begin{tabular}{ | c | c | c  | c |  }
+ \hline
+    Term      &  Similarity Value  &  Position   & Relevance     \\  \hline
+  Javascript   &  0.2087           &      2      &   3        \\
+     jQuery    &  0.0979           &      3      &   3         \\
+     CSS     &  0.3569             &      1      &   5   \\
+     Java    &  0.0473             &      4      &   1   \\
+    Python   &  0.0175             &      6      &   1   \\
+     Ruby    &  0.023              &      5      &   1    \\
+     JSP     &  0.0103             &      7      &   3    \\
+ \hline
+\end{tabular}
+\label{tab:simcompare2}
 \end{table}
 

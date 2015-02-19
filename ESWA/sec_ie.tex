@@ -254,3 +254,27 @@ seqMatcher = SeqMatcher([matcher1, matcher2, matcher6, matcher5])
 \end{framed}
 
 The flexibility of the tool also comes from the fact that developers can determine which layer of the array should be matched, the original text, or labels in the first layer or labels in the second layer. Developers can assign a lambda expression to the matcher's catching function, which defines how to get the matching input strings from the sentences, as well as an out function, which defines what should be outputed. For example,  the labeled sentence is a sequence of arrays, each array includes the original text token and its labels in the other two layers, which is shown in table~\ref{tab:labeldsent}. To match the labeled sentence, we set the lambda expression for catching function to ``lambda x:x[2]'', and the out function to ``lambda x:x[1]'', which make the matcher match the label in second layer, and output the the value of semantic value in the first layer.
+
+\subsection{Evaluation}
+
+To evaluate the performance of the information extraction module, we extract sentence types through the use of sentence filters. To explain the process of our experiment, we use the sentences whose content pertains to the applicant's college degree information.
+
+In the experiment, we selected 100 sentences from existing job descriptions, and the content of these sentences were requirements of candidate degree and major. We labeled the values for "degree" and "major" manually. We use some content patterns that we can identify from these sentences to match and extract the degree information. When we used 6 patterns, the accuracy of "degree" became 94\%. We also compared our pattern matching method to the conditional random fields (CRFs) model~\cite{lafferty2001conditional}, which is a state of art machine learning model for sequence labeling. We used 200 labelled sentences to train the CRF model, and the features of the CRF model are words in the sentences and part of speech tags of the words. The accuracies of information extraction of the three fields with our two methods, pattern matching, and the application of the CRF model are shown in Table \ref{tab:ieaccura}.
+
+
+\begin{table}[ht]
+\caption{Information Extraction} % title of Table
+\centering % used for centering table
+\begin{tabular}{   | c | c | c | c |   }
+ \hline
+          Field   & Pattern Num & Accuracy of Pattern Matching  & Accuracy of CRF   \\
+ \hline
+          Degree  & 6           & 0.94       &  0.85  \\
+ \hline
+          Major   & 10          & 0.85       &  0.72  \\
+ \hline
+
+\end{tabular}
+\label{tab:ieaccura} % is used to refer this table in the text
+\\Our pattern matching approach can get higher accuracy.
+\end{table}
