@@ -3,10 +3,8 @@
 
 \subsection{Comparing with other models}
 
-In a traditional information retrieval systems, precision and NDCG are widely used measures~\cite{manning2008introduction}. Precision ($P$) is the fraction of retrieved documents that are relevant.
-       $$  Precision =  \frac{ \#(releveant~items~ retrieved)}{ \#(retrieved~items)}$$
-
-We first used Precision@K to compare the performance of our approach to the classical information retrieval models: Okapi BM25~\cite{robertson2009probabilistic}, Kullback-Leibler divergence, and the TF-IDF. Precision@K is the proportion of relevant documents in the first K positions and is given below:
+In a traditional information retrieval systems, Precision@K and NDCG are widely used measures. 
+Precision@K is the proportion of relevant documents in the first K positions and is given below:
 $$ P@k = \frac{1}{k} \sum^m_{i=1} l_i 1 \left(  r(i) \leq k  \right )  $$
 Where 1 is the indicator function: $1(A) = 1$ if A is true, 0 otherwise.
 
@@ -16,15 +14,14 @@ Kullback-Leibler divergence is a non-symmetric measure of the difference between
 \begin{equation}
     \begin{array}{rcl}
         s(D,Q) & = & -D( \theta_Q \parallel  \theta_D )\\
-               & = &- \sum_{ \omega \in V } p (\omega \mid \theta_Q) \log \frac{ p (\omega \mid \theta_Q )}{p(\omega \mid \theta_D)} \\
-               & = & \sum_{ \omega \in V } p (\omega \mid \theta_Q) \log p (\omega \mid \theta_D ) -  \sum_{ \omega \in V } p (\omega \mid \theta_Q) \log p (\omega \mid \theta_Q )  \\
+               & = &- \sum_{ \omega \in V } p (\omega \mid \theta_Q) \log \frac{ p (\omega \mid \theta_Q )}{p(\omega \mid \theta_D)} \\               
 
     \end{array}
 \end{equation}
 
 In the equation $\theta_Q$ is the language model for a query, and  $\theta_D$ is the language model for a document.
 
-TF-IDF is a Vector Space Model, which calculates the Cosine Similarity between the vectors of the query $q$ and the document $d$. In the equation, $tf$ is the term frequency, and $idf$ is the inverse document frequency. The TF-IDF weighting scheme assigned to term $t$ a weight in document $d$ given by:
+TF-IDF is a Vector Space Model, which calculates the similarity between the vectors of the query $q$ and the document $d$. In the equation, $tf$ is the term frequency, and $idf$ is the inverse document frequency. The TF-IDF weighting scheme assigned to term $t$ a weight in document $d$ given by:
 $$ tf\text{-}idf_{t,d} = tf_{t,d} \times idf_{t} $$
 The similarity between the query $q$ and the document $d$ given by:
 $$ score(q,d) =  \sum_{t \in q }  tf\text{-}idf_{t,d} $$

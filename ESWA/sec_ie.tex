@@ -2,7 +2,7 @@
 \section{Information Extraction}
 \label{sec1}
 
-The IE framework will be introduced by example of processing the job descriptions. The Finite-State Transducer(FST) library, which is used as pattern matching tools, will be introduced as well.
+The IE framework will be introduced by example of processing the job descriptions. We use rule based method to extract the information from r\'esum\'es and job descriptions. To achieve this, we proposed  a Finite-State Transducer(FST) based pattern matching library. 
 
 In natural language, a single concept often has multiple expressions to represent it. For example, the simple concept bachelor's degree,  can be expressed in many ways in job descriptions, e.g. B.S., BA/BS, 4-years-degree, and so on. Table \ref{tab:multispelling} shows the words that if followed with word ``degree'' have the semantic value of ``bachelor's degree''.
 
@@ -17,7 +17,7 @@ In natural language, a single concept often has multiple expressions to represen
 \label{tab:multispelling} % is used to refer this table in the text\section{Pipeline of Information Extraction}
 \end{table}
 
-To add labels to a sentence, we use regular expression over tokens. A regular expression over token transfer a patten to a Finite-State Transducer (FST), and every token of that will be transferred to an edge of FST. If we use all the expressions of a semantic value to create a pattern, the pattern will be very large, and there are too many states in the FST. For example, if we use some words in Table~\ref{tab:multispelling} to create the pattern of semantic value ``bachelor's degree'', the pattern will like below:
+To add labels to a sentence, we use token pattern matching library which support a regular expression over tokens. If we use all the expressions of a semantic value to create a pattern, the pattern will be very large, and there are too many states in the FST. For example, if we use some words in Table~\ref{tab:multispelling} to create the pattern of semantic value ``bachelor's degree'', the pattern will like below:
 $$ (~Baccalaureate~\mid~bachelors~\mid~bachelor~~\mid~B.S~\mid~BS~\mid~BA~)~~degree $$
 If all words in Table~\ref{tab:multispelling} are added to the pattern, the FST will have too many edges, and the matching process will be very slow because of the problem of combinatorial explosion.
 
@@ -145,17 +145,6 @@ After studying these tools, we found most of them to be powerful and complex, bu
   \item $F \subset Q$ is the set of final states.
   \item $E \subset  Q  \times \Sigma_1^* \times \Sigma_2^* \times Q$ is the set of edges.
 \end{itemize}
-
-
-For example, the FST $T_{d3} = \left(     \{ 0, 1 \} ,  \{ 0, 1 \} , \{ 0, 1 , 2 \} ,  E_{d3} \right ) $ where $E_{d3} = $ \{ ( 0, 0, 0, 0 ),   ( 0, 1, 0, 1 ), ( 1, 0, 0, 2 ), ( 1, 1, 1, 0 ), ( 2, 1, 1, 2 ), ( 2, 0, 1, 1 ) \}  is shown in Figure~\ref{fig:fst}.
-
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[scale=0.4]{images/fst.png}
-  \caption{Zero or one NFA}
-  \label{fig:fst}
-\end{figure}
 
 Regular expressions can be converted to automata \cite{aho1992foundations}, and FST is also an automata. To convert a regular expression over token to a FST we need two steps: The first is parsing the expression to a tree of matchers, the second is transfer the tree of matchers to the FST. We will introduce these two steps in next.
 

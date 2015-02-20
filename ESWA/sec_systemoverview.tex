@@ -1,9 +1,14 @@
 \section{System Overview}
 \label{sec1}
 
-The system uses information extraction technique to parse job descriptions and r\'esum\'es, and it gets information such as skills, job titles and education background. The information is used to create the models of job openings and job seekers. A domain specific ontology is used to construct the knowledge base, which includes the taxonomies that support r\'esum\'e-job matching.
+The system uses information extraction technique to parse job descriptions and r\'esum\'es, and it gets information such as skills, job titles and education background. The information is used to create the models of job openings and job seekers. A domain specific ontology is used to construct the knowledge base, which includes the taxonomies that support r\'esum\'e-job matching. When a job seeker searches the jobs by their r\'esum\'e, the system calculates the similarity between the r\'esum\'e model and job models, then gives every job model a similarity value. The jobs the system returned are ranked by their similarity values, as shown Figure~\ref{fig:result}.
 
-The models of r\'esum\'e includes job seekers' specialties, working experience and education background, and all the fields are extracted from their r\'esum\'es. The job models are extracted from job descriptions, and they have the same information fields as the r\'esum\'e models.  When a job seeker searches the jobs by their r\'esum\'e, the system calculates the similarity between the r\'esum\'e model and job models, then gives every job model a similarity value.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.5]{images/match_resume.png}
+  \caption{Jobs returned by the system}
+  \label{fig:result}
+\end{figure}
 
 \subsection{System Architecture}
 
@@ -26,7 +31,7 @@ Figure~\ref{fig:Pipeline} shows the architecture of the whole system, which incl
 
 \subsection{Text Processing Stages}
 
-Information Extraction is the task of automatically extracting structured information such as entities, relationships between entities, and attributes describing entities from unstructured sources~\cite{sarawagi2008information}. The IE framework in our system uses six stages in order to extract the information from job descriptions: HTML parsing, segmenting, preprocessing, tokenizing, labeling and pattern matching, which is show in Figure~\ref{fig:Pipeline}.
+The Information Extraction framework in our system uses six stages in order to extract the information from job descriptions: HTML parsing, segmenting, preprocessing, tokenizing, labeling and pattern matching, which is show in Figure~\ref{fig:Pipeline}.
 
 1) The \textbf{HTML Parsing} will parse the web pages that contain job descriptions, which are obtained from web crawler. The parser uses HTML tag template to extract attributes of the jobs, like job title, location, company name, content and so on. A job will be saved as a record with these attributes in the database. In the record, the content field contains the text part of the job description, which will be processed in later stages.
 

@@ -3,17 +3,9 @@
 
 In this paper we presented R\'esuMatcher, a personalized job-r\'esum\'e matching system that can help job seekers find appropriate jobs faster and more accurately by using their r\'esum\'e contents. The key components of the system are the information extraction procedure and the ontology matching module.
 
-In the system, job descriptions and r\'esum\'es are parsed into job models and r\'esum\'e models by the information extraction module. When searching the jobs by a r\'esum\'e, similarity values between the r\'esum\'e model and job description models are calculated in the ontology matching module. The result is sorted by the ontology similarity scores, which are the sum of similarities of different fields multiplied by their weights.
-We made such contributions in our works:
-
-\begin{enumerate}
-    \item  We developed a r\'esum\'e - job matching system.
-    \item  We developed a finite state transducer based matching tool to extract information from unstructured data source, which is a lightweight and flexible library, and can be extended in very easy ways.
-    \item  We developed a semi-automatic approach, which can collect technical terms from hr data sources, and by which we created a domain specific ontology for recruitment.
-    \item  We developed statistical-based ontology similarity measure, which can measure the similarities between technical terms .
-\end{enumerate}
-
-In the experiment phase, we evaluated the accuracy of information extraction. We calculated the ontology similarity with the NDCG. Finally, we also tested the performance of r\'esum\'e job matching algorithm via precision@k and NDCG, which showed that our algorithm can achieve a better searching result than other information retrieval models like TF-IDF and OKpai BM25. We also compared our system with the commercial job search engine www.indeed.com, and the results showed that our system can return jobs with a better ranking.
+In the system, job descriptions and r\'esum\'es are parsed into job models and r\'esum\'e models by the information extraction module. When searching the jobs by a r\'esum\'e, similarity values between the r\'esum\'e model and job description models are calculated in the ontology matching module. The result is sorted by the model similarity scores, which are the sum of similarities of different fields multiplied by their weights.
+ 
+We also evaluated the performance of r\'esum\'e job matching algorithm via precision@k and NDCG, which showed that our algorithm can achieve a better searching result than other information retrieval models like TF-IDF and OKpai BM25. We also compared our system with the commercial job search engine www.indeed.com, and the results showed that our system can return jobs with a better ranking.
 
 Finding a job is a complex process, affected by both explicit and implicit factors. Our work establishes the validity of using information extraction techniques to create a more personalized job matching system, with ample potential for improvement in the future.
 
