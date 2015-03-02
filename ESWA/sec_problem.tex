@@ -1,0 +1,45 @@
+
+\section{Problem Definition}
+The basic problem in this work is how to find appropriate job descriptions by user's r\'esum\'e, which means we need calculate the similarity between the user¡¯s r¨¦sum¨¦ and the job. If we take the r\'esum\'e as a query and the job descriptions as documents, we need to build an information retrieval model to get the most relevance documents.  The R\'esuMatcher will parse the job descriptions to the job models, and store them in the database. When a user searches the jobs by their r\'esum\'e in the system, the system will compare the similarity values between the r\'esum\'e and the job models, and return the jobs sorted by their similarity values.
+
+The core idea of our algorithm is calculate similarity between the r\'esum\'e model and job model.
+We give a formal definition of our problem. All of the notations will be used frequently throughout the thesis.
+
+We use $r$ to denote the user's r\'esum\'e model, which has some features $r_i$ like their academic degree, their major, their skills and so on. The symbol $J$ is the set of job models stored in the database, and $j$ is a job model in the set $J$. The similarity function $sim(r, j)$ gives the similarity values between r\'esum\'e $r$ and job $j$. The return list of search function $search(r,J)$ will calculate all the similarity value in the database, and the result of the function will be the job description list ranked by their similarity values. The equation of how to calculate similarity value is given below:
+
+$$ sim(r, j) = \sum_{i=1}^{n} simfun_i(r_i,j_i) \times w_i $$
+
+The value of $sim(r, j)$ is the summation of the similarity values of different fields times their corresponding weights. Different fields like major and skills,  may have different functions to calculate their similarity values. We will describe the similarity functions of individual fields in later parts.
+
+\section{Challenges}
+There are two challenges exist in our system. The first one is how to extract models of jobs and r\'esum\'es. To calculate the similarity between a job and a resume, the R\'esuMatcher system needs structured digital models of each document. To get the structured data, some JRSs ask the job seekers input their profiles in forms field by field, and the recruiter input their job descriptions in the same way. However, as we discussed in Chapter 2, the users are reluctant to take the tedious process~\cite{singh2010prospect}. Job seekers prefer upload their resumes directly, and recruiters prefer to post the whole job descriptions to web sites. So we need extract the structured information from un-structured data source, like r\'esum\'es and job descriptions.
+
+The other challenge is how to compute the similarity between r¨¦sum¨¦ and job models. We observed that simple keyword matching is not a good similarity measure, because job descriptions and r\'esum\'es both contain richer and more complex words that cannot be described simply by keywords. In these documents, some concepts can be written in different ways, and other concepts can have close relationships. For example, Table~\ref{tab:resume_jd} shows portions of a r\'esum\'e and a job description:
+
+\begin{table}[ht]
+\caption{Portions of Resume and Job Description} % title of Table
+\centering % used for centering table
+\begin{tabular}{ | p{8cm} | p{7cm} | }
+ \hline
+   \textbf{Resume Portion}                 &   \textbf{Job Description Portion}   \\ \hline
+
+    B.S. degree in computer science \newline
+    5+ years Java \newline
+    2+ year   C++  \newline
+    Some experience in Oracle database \newline
+    Other experience like: \newline
+    Hibernate, JBOSS, JUnit, Tomcat etc.
+  &
+  BS degree above   \newline
+  4+ years Java  \newline
+  Some experience of Python   \newline
+    Mysql, MS-SQL   \newline
+    Java web application Server   \newline
+    OOA/OOD   \\
+ \hline
+\end{tabular}
+\label{tab:resume_jd} % is used to refer this table in the text
+\end{table}
+
+If just looking at the text, we can find that the r\'esum\'e has very few common words with the job description. But from the view of an experienced engineer, the candidate is closely matches the job: the two relational databases Oracle and Mysql are very similar, OOA/OOD is the same meaning of many years of Java and C++ experience, and Tomcat and JBOSS are both Java web applications servers. If we use keyword matching, the system does not provide a strong matching result in very common cases such as this. So we need a better approach to calculate the similarity between different technical concepts.
+
