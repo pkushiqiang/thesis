@@ -20,10 +20,10 @@ In the experiment, we selected 100 sentences from existing job descriptions, and
  \hline
           Major   & 10          & 0.85       &  0.72  \\
  \hline
-    
+
 \end{tabular}
 \label{tab:ieaccura} % is used to refer this table in the text
-\\Our pattern matching approach can get higher accuracy. 
+\\Our pattern matching approach can get higher accuracy.
 \end{table}
 
 \section{Experiments of Ontology Similarity}
@@ -135,7 +135,7 @@ In the evaluation phase, we created a data set of 100 job descriptions that incl
 \centering % used for centering table
 \begin{tabular}{    | c | c | c | c | c |  }
  \hline
-       k     & Okapi BM25 & KL    & TF-IDF   & Our system  \\
+       k     & Okapi BM25 & KL    & TF-IDF   & R\'esuMatcher  \\
  \hline
        5     & 0.66       & 0.27  & 0.72     & 0.82   \\
  \hline
@@ -146,7 +146,7 @@ In the evaluation phase, we created a data set of 100 job descriptions that incl
 
 \end{tabular}
 \label{tab:job_precision} % is used to refer this table in the text
-\\Our system get the highest precision.
+\\R\'esuMatcher get the highest precision.
 \end{table}
 
 The other measure we used is NDCG, which is explained in last section. Table~\ref{tab:job_ndcg} shows the NDCG value get from different information retrieval models. The result shows that Ontology Similarity  performs the best.
@@ -156,7 +156,7 @@ The other measure we used is NDCG, which is explained in last section. Table~\re
 \centering % used for centering table
 \begin{tabular}{    | c | c | c | c | c |  }
  \hline
-       k    & Okapi BM25 & KL    & TF-IDF & Our system  \\
+       k    & Okapi BM25 & KL    & TF-IDF &  R\'esuMatcher  \\
  \hline
        5    & 0.15       & 0.34  & 0.45     & 0.78   \\
  \hline
@@ -180,18 +180,18 @@ We also made experiments to compare the quality of search results quality betwee
  \hline
   \multirow{2}{*}k    & \multicolumn{2}{c|}{Precision@K }    & \multicolumn{2}{c|}{DCG } \\
  \cline{2-5}
-            & Indeed  & Our System  & Indeed     & Our System   \\
+            & Indeed  & R\'esuMatcher  & Indeed     &  R\'esuMatcher     \\
  \hline
-       5    & 0.7     & 1               & 10.86       & 27.785   \\
+       5    & 0.73     & 1.00               & 10.86       & 27.80   \\
  \hline
-       10   & 0.65    & 0.95            & 24.85       & 47.06   \\
+       10   & 0.65     & 0.95            & 24.85       & 47.06   \\
  \hline
-       20   & 0.7     & 0.825           & 51.97       & 73.33   \\
+       20   & 0.72     & 0.83           & 51.97       & 73.33   \\
  \hline
 
 \end{tabular}
 \label{tab:comparison_java} % is used to refer this table in the text
-\\Our system can get better result.
+\\R\'esuMatcher can get better result.
 \end{table}
 
 
@@ -203,18 +203,18 @@ We also made experiments to compare the quality of search results quality betwee
  \hline
   \multirow{2}{*}k    & \multicolumn{2}{c|}{Precision@K }    & \multicolumn{2}{c|}{DCG } \\
  \cline{2-5}
-            & Indeed  & Our System  & Indeed     & Our System   \\
+            & Indeed  & R\'esuMatcher  & Indeed     & R\'esuMatcher   \\
  \hline
-       5    & 0.4    & 0.6               & 11.27       & 11.98   \\
+       5    & 0.45    & 0.63               & 11.27       & 11.98   \\
  \hline
-       10   & 0.3    & 0.6               & 13.43       & 15.79   \\
+       10   & 0.32    & 0.62               & 13.43       & 15.79   \\
  \hline
-       20   & 0.2    & 0.4               & 16.44       & 20.21   \\
+       20   & 0.22    & 0.42               & 16.44       & 20.21   \\
  \hline
 
 \end{tabular}
 \label{tab:comparison_python} % is used to refer this table in the text
-\\Our system can get better result.
+\\R\'esuMatcher can get better result.
 \end{table}
 
 \begin{table}[ht]
@@ -224,16 +224,16 @@ We also made experiments to compare the quality of search results quality betwee
  \hline
   \multirow{2}{*}k    & \multicolumn{2}{c|}{Precision@K }    & \multicolumn{2}{c|}{DCG } \\
  \cline{2-5}
-            & Indeed  & Our System  & Indeed     & Our System   \\
+            & Indeed  & R\'esuMatcher  & Indeed     & R\'esuMatcher   \\
  \hline
        5    & 0.84    & 0.87               & 23.87       & 32.97   \\
  \hline
        10   & 0.72    & 0.86               & 37.02       & 45.57   \\
  \hline
-       20   & 0.645   & 0.768              & 58.70       & 66.70   \\
+       20   & 0.65    & 0.76               & 58.70       & 66.70   \\
  \hline
 
 \end{tabular}
 \label{tab:comparison_avg} % is used to refer this table in the text
-\\Our system can get better result.
+\\R\'esuMatcher can get better result.
 \end{table}
