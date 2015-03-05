@@ -105,19 +105,9 @@ As we explained in section B, we mentioned matching tokens in the second layer t
 
 Finite-State Transducers~\cite{roche1997finite} have been used as a tool to match patterns and extract information for more than 20 years. This approach has been demonstrated to be very effective in extracting information from text like CIRCUS~\cite{lehnert1991university} and FASTUS~\cite{hobbs199713}.  In the widely used NLP toolkit GATE~\cite{cunningham2002framework}, the semantic tagger JAPE (Java Annotations Pattern Engine) could describe patterns that are used to match and annotate tokens. JAPE adopts a version of CPSL (Common Pattern  Specification Language)~\cite{appelt1998common}, which provides FST over annotations. Chang et al. presented cascaded regular expressions over tokens~\cite{chang2014tokensregex}, which proposed a cascaded pattern matching tool over token sequences.
 
-After studying these tools, we found most of them to be powerful and complex, but not very flexible. One reason is that developers need to learn some Domain specific Languages (DSLs) like CPSL. The other reason is the extra effort and time required to integrate the pattern matching tool into the system. So here we proposed a more flexible and lightweight FST framework, which can do regular expression matching over labeled tokens. We give the definition of Finite-State Transducer here. A Finite-State Transducer is a 6-tuple $(\Sigma_1, \Sigma_2, Q, i, F, E)$ where:
-\begin{itemize}
-  \item $\Sigma_1$ is a finite alphabet, called the input alphabet.
-  \item $\Sigma_2$ is a finite alphabet, called the output alphabet.
-  \item Q is a finite set of states.
-  \item $i \in Q$ is the initial state.
-  \item $F \subset Q$ is the set of final states.
-  \item $E \subset  Q  \times \Sigma_1^* \times \Sigma_2^* \times Q$ is the set of edges.
-\end{itemize}
+After studying these tools, we found most of them to be powerful and complex, but not very flexible. One reason is that developers need to learn some Domain specific Languages (DSLs) like CPSL. The other reason is the extra effort and time required to integrate the pattern matching tool into the system. So here we proposed a more flexible and lightweight FST framework, which can do regular expression matching over labeled tokens. To convert a regular expression over token to a FST we need two steps: The first is parsing the expression to a tree of matchers, the second is transfer the tree of matchers to the FST. We will introduce these two steps in next.
 
-Regular expressions can be converted to automata \cite{aho1992foundations}, and FST is also an automata. To convert a regular expression over token to a FST we need two steps: The first is parsing the expression to a tree of matchers, the second is transfer the tree of matchers to the FST. We will introduce these two steps in next.
-
-In our library, a ``matcher'' could be a token to be matched, or a composition of other matchers. Our library supports syntax used in traditional regular expressions over strings. We list the syntax that the library supports in Table~\ref{tab:matchers}. The first column is the names of the matchers, the second column is the explanation of the function of the matchers, and third column is the their counterpart syntaxes of traditional regular expression. The RegexMatcher in our library is constructed with a regular expression, and the matcher matches any string that matches the regular expression in the matcher. We give examples of the syntax of these matchers in Table \ref{tab:matchers_example}.
+In our library, a ``matcher'' could be a token to be matched, or a composition of other matchers. Our library supports syntax used in traditional regular expressions over strings. We list the syntax that the library supports in Table~\ref{tab:matchers}. The first column is the names of the matchers, the second column is the explanation of the function of the matchers, and third column is the their counterpart syntaxes of traditional regular expression. The RegexMatcher in our library is constructed with a regular expression, and the matcher matches any string that matches the regular expression in the matcher. 
 
 \begin{table}[ht]
 \caption{Matchers of our Library } % title of Table
@@ -145,34 +135,7 @@ In our library, a ``matcher'' could be a token to be matched, or a composition o
 \end{table}
 
 
-
-\begin{table}[ht]
-\caption{Matchers' Examples } % title of Table
-\centering % used for centering table
-\begin{tabular}{  | l |  l |  }
- \hline
- Matcher Name          & Example    \\
- \hline
- UnitMatcher         & DEGREE       \\
- \hline
- SequenceMatcher     & DE-LEVEL DEGREE       \\
-  \hline
- QuestionMatcher     & DE-LEVEL (OR DE-LEVEL)?  DEGREE       \\
-  \hline
- StarMatcher         & DE-LEVEL (, DE-LEVEL)*  DEGREE       \\
-  \hline
- PlusMatcher         & DEGREE IN MAJOR +      \\
-  \hline
- DotMatcher          & HAS . DEGREE      \\
-  \hline
- RegexMatcher        & r``d-d'' years  \\
-  \hline
-
-\end{tabular}
-\label{tab:matchers_example} % is used to refer this table in the text\section{Pipeline of Information Extraction}
-\end{table}
-
-The framework supports three styles of creating patterns: regular expression style, operator style and object style. The second and third styles are flexible because developers can create their own matcher class to extend the feature of the library. We use examples to show how the three styles work. The most common style is defining pattern expression in a string, which is much like traditional regular expression.
+The framework supports three styles of creating patterns: regular expression style, operator style and object-oriented style. The second and third styles are flexible because developers can create their own matcher class to extend the feature of the library. We use examples to show how the three styles work. The most common style is defining pattern expression in a string, which is much like traditional regular expression.
 
 \begin{framed}
 \small
