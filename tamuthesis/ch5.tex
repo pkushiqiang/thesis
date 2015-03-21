@@ -71,7 +71,7 @@ From the observation, we found that sentences with skill requirements in job des
 For example, we extract the token  ''XSL'', which currently is not in the terms list. We check the word on DBpedia by accessing the URL:http://dbpedia.org/page/XSL. If we can get the XML formatted description of XSL, and any element in ``dcterms:subject'' section has the value which is a technical category,  like ``Programming languages'', ``Markup languages'' and so on, we can indicate that the word is a technical term, and add it to the term list.
 
 \begin{figure}[htbp]
-  \includegraphics[scale=0.6]{images/genonto.png}
+  \includegraphics[scale=0.5]{images/genonto.png}
   \caption{Procedure of Finding Technical Terms}
   \label{fig:gen_onto}
 \end{figure}
@@ -81,13 +81,13 @@ But not all the extracted terms can be verified in DBpedia, because some terms h
 
 \begin{figure}[htbp]
 
-  \includegraphics[scale=0.5]{images/protege.png}
+  \includegraphics[scale=0.45]{images/protege.png}
   \caption{Interface of Protege}
   \label{fig:Protege}
 \end{figure}
 
 \begin{figure}[htbp]
-  \includegraphics[scale=0.6]{images/ontology_pro.png}
+  \includegraphics[scale=0.48]{images/ontology_pro.png}
   \caption{Part of Ontology}
   \label{fig:ontology_pro}
 \end{figure}
@@ -186,7 +186,7 @@ The matrix in Table~\ref{tab:dismatrix1} show the similarity values among of som
 \begin{table}
 
 \caption{Similarities of Skills List 1}
-\begin{tabular}{ c | c c c c c c   }
+\begin{tabular}{ c | c c c c c c  }
  \hline
   Term       &  Java  &  JDBC  & Spring & Hibernate & MySql  & Oracle   \\  \hline
   Java   &   1    & 0.0523 & 0.091  &   0.0458  & 0.0339 & 0.0608    \\  \hline
@@ -195,7 +195,7 @@ The matrix in Table~\ref{tab:dismatrix1} show the similarity values among of som
  Hibernate & 0.0458 & 0.0799 & 0.2008 &     1     & 0.0073 & 0.115    \\  \hline
    MySql   & 0.0339 & 0.006  & 0.0194 &   0.0073  &   1    & 0.049    \\  \hline
    Oracle  & 0.0608 & 0.0616 & 0.0878 &   0.115   & 0.049  &   1      \\  \hline
- \hline
+
 \end{tabular}
 \label{tab:dismatrix1}
 \end{table}

@@ -53,7 +53,7 @@ RichRelevance is an Equal Opportunity Employer and does not discriminate against
 In this section, we will introduce why and how we add two layers of labels to the tokenized sentences. In natural language, a single concept often has multiple expressions to represent it. For example, the simple concept bachelor's degree,  can be expressed in many ways in job descriptions, e.g. B.S., BA/BS, 4-years-degree, and so on. Table \ref{tab:multispelling} shows the words that if followed with word ``degree'' have the semantic value of ``bachelor's degree''.
 
 \begin{table}[ht]
-\caption{All words mean bachelors} % title of Table
+\caption{All Words Mean Bachelors} % title of Table
 \centering % used for centering table
 \begin{tabular}{  | p{15cm} |  }
  \hline
@@ -112,7 +112,7 @@ At first, we created two dictionaries, which are used to label the tokens. In th
 \small
 \begin{tabular}{  | l | l | l |    }
  \hline
- "Be", "be", "is", "are", "was", "were", "am"    &  ~BE          & ~BE     \\
+ "Be", "be", "is", "are", "am"                   &  ~BE          & ~BE     \\
  \hline
  "a", "A", "an", "An", "The", "the"              &  ~DE          & ~DE    \\
  \hline
@@ -120,7 +120,7 @@ At first, we created two dictionaries, which are used to label the tokens. In th
 
  "MSEE", "MSCE","MPH"     &   &  \\
  \hline
-  "practical experience" , "work experience" & \multirow{2}{*}~EXPERIENCE  & \multirow{2}{*} ~EXPERIENCE  \\
+  "practical experience", "work experience"& \multirow{2}{*}~EXPERIENCE  & \multirow{2}{*} ~EXPERIENCE  \\
   "professional experience", "experience¡°    &              &       \\
  \hline
  "preferred", "required", "desired"     &  ~PREFER-VBD  & ~PREFER-VBD    \\
@@ -141,7 +141,7 @@ With the two dictionaries, we can label the tokens with two layers. Table~\ref{t
 \caption{Labeled Sentence } % title of Table
 \centering % used for centering table
 \small
-\begin{tabular}{  | c | c | c | c | c |c | c |c | c | c |  }
+\begin{tabular}{  | c | c | c | c | c |c | c |c | p{1cm} | c |  }
  \hline
  layer 2 & DE-LEVEL   & DEGREE & IN & MAJOR            & OR & MAJOR  &.  \\
  \hline
@@ -212,7 +212,7 @@ In our library, a ``matcher'' could be a token to be matched, or a composition o
 \begin{table}[ht]
 \caption{Matchers of Our Library } % title of Table
 \centering % used for centering table
-\begin{tabular}{  | l | l | l |  }
+\begin{tabular}{  | l | p{6.3cm} | l |  }
  \hline
  Matcher Name      &  Function                                 & Counter Part of regex    \\
  \hline
@@ -237,7 +237,7 @@ In our library, a ``matcher'' could be a token to be matched, or a composition o
 
 
 \begin{table}[ht]
-\caption{Matchers' Examples } % title of Table
+\caption{Examples of Matcher } % title of Table
 \centering % used for centering table
 \begin{tabular}{  | l |  l |  }
  \hline
@@ -427,7 +427,7 @@ With the above rules, we can convert the expression ``DL (, DL)*  (or DL)? DEGRE
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[scale=0.6]{images/test_tokenre2_6.png}
+  \includegraphics[scale=0.5]{images/test_tokenre2_6.png}
   \caption{Finite Automata Transducers}
   \label{fig:fst_pattern}
 \end{figure}
