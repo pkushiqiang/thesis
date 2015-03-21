@@ -1,0 +1,239 @@
+\chapter{EVALUATION}
+
+In this section we will evaluate the performance of the key components of the system, the Information Extraction module, the Ontology Similarity module, and the overall system resulting from the combination of the components.
+
+\section{Experiments of Information Extraction }
+
+To evaluate the performance of the information extraction module, we extract sentence types through the use of sentence filters. To explain the process of our experiment, we use the sentences whose content pertains to the applicant's college degree information.
+
+In the experiment, we selected 100 sentences from existing job descriptions, and the content of these sentences were requirements of candidate degree and major. We labeled the values for "degree" and "major" manually. We use some content patterns that we can identify from these sentences to match and extract the degree information. When we used 6 patterns, the accuracy of "degree" became 94\%. We also compared our pattern matching method to the conditional random fields (CRFs) model~\cite{lafferty2001conditional}, which is a state of art machine learning model for sequence labeling. We used 200 labelled sentences to train the CRF model, and the features of the CRF model are words in the sentences and part of speech tags of the words. The accuracies of information extraction of the three fields with our two methods, pattern matching, and the application of the CRF model are shown in Table \ref{tab:ieaccura}.
+
+
+\begin{table}[ht]
+\caption{Information Extraction} % title of Table
+\centering % used for centering table
+\begin{tabular}{   | c | c | c | c |   }
+ \hline
+          Field   & Pattern Num & Accuracy of Pattern Matching  & Accuracy of CRF   \\
+ \hline
+          Degree  & 6           & 0.94       &  0.85  \\
+ \hline
+          Major   & 10          & 0.85       &  0.72  \\
+ \hline
+
+\end{tabular}
+\label{tab:ieaccura} % is used to refer this table in the text
+\\Our pattern matching approach can get higher accuracy.
+\end{table}
+
+\section{Experiments of Ontology Similarity}
+
+We selected some common skills from 500 job descriptions; table~\ref{tab:dismatrix3} shows similarity values between these skills. Higher values correspond to greater similarities, so the similarity between one skill and itself is 1. We selected one concept and ranked the other concepts by their similarity values to this concept. Human judges helped rank these concepts by assigning them "relevance scores" so that we can use NDCG to evaluate the effectiveness of our approach.
+
+\begin{table}
+
+\caption{Similarities of Skill List 1}
+\begin{tabular}{ c | c c c c c c   }
+ \hline
+  Term       &  Java  &  JDBC  & Spring & Hibernate & MySql  & Oracle   \\  \hline
+  Java   &   1    & 0.0523 & 0.091  &   0.0458  & 0.0339 & 0.0608    \\  \hline
+    JDBC   & 0.0523 &   1    & 0.0525 &   0.0799  & 0.006  & 0.0616   \\  \hline
+   Spring  & 0.091  & 0.0525 &   1    &   0.2008  & 0.0194 & 0.0878   \\  \hline
+ Hibernate & 0.0458 & 0.0799 & 0.2008 &     1     & 0.0073 & 0.115    \\  \hline
+   MySql   & 0.0339 & 0.006  & 0.0194 &   0.0073  &   1    & 0.049    \\  \hline
+   Oracle  & 0.0608 & 0.0616 & 0.0878 &   0.115   & 0.049  &   1      \\  \hline
+ \hline
+\end{tabular}
+\label{tab:dismatrix3}
+\end{table}
+
+We use the $ Normalized~Discounted~Cumulative~Gain ( NDCG )$ ~\cite{manning2008introduction} to evaluate the statistical-based similarity. NDCG is an important measure to evaluate the ranked retrieval results, which is the ratio of  Discounted Cumulative Gain ( DCG ) to Ideal Discounted Cumulative Gain ( IDCG ).
+ $$ NDCG = \frac {DCG}{IDCG} $$
+
+DCG is the measure of how documents are ranked according to their relevance scores, and IDCG is the DCG value that the documents are strictly sorted by their relevance values.
+$$DCG =  \sum_{i=1}^{p} \frac {2^{rel_i} - 1}{\log_2(i+1)} $$
+
+Table~\ref{tab:simcompare1} shows how we evaluate the similarity between the concept ``Javascript'' and other concepts. The first column is a skill name, the second column is its similarity value to ``Javascript'', the third column is its position ranked by the similarity value, and the fourth column is its relevance value given by the judges. The NDCG value for concept Javascript is 0.94, and in Table~\ref{tab:simcompare2},  NDCG value for concept HTML is 0.97.
+
+\begin{table}
+\centering
+\caption{ Javascript Similarity Evaluation : NDCG = 0.94 }
+\begin{tabular}{ | c | c | c  | c |  }
+ \hline
+    Term     &  Similarity Value  &  Position   & Relevance     \\  \hline
+    jQuery   &  0.1981            &      4      &   8        \\
+     HTML    &  0.2087            &      3      &   4         \\
+     CSS     &  0.2439            &      2      &   3   \\
+     Java    &  0.0665            &      5      &   1   \\
+    Python   &  0.0189            &      8      &   1   \\
+     Ruby    &  0.023             &      7      &   1    \\
+     JSP     &  0.0253            &      6      &   2    \\
+ \hline
+\end{tabular}
+\label{tab:simcompare1}
+\end{table}
+
+
+\begin{table}
+\centering
+\caption{ HTML Similarity Evaluation : NDCG = 0.97 }
+\begin{tabular}{ | c | c | c  | c |  }
+ \hline
+    Term      &  Similarity Value  &  Position   & Relevance     \\  \hline
+  Javascript   &  0.2087           &      2      &   3        \\
+     jQuery    &  0.0979           &      3      &   3         \\
+     CSS     &  0.3569             &      1      &   5   \\
+     Java    &  0.0473             &      4      &   1   \\
+    Python   &  0.0175             &      6      &   1   \\
+     Ruby    &  0.023              &      5      &   1    \\
+     JSP     &  0.0103             &      7      &   3    \\
+ \hline
+\end{tabular}
+\label{tab:simcompare2}
+\end{table}
+
+
+\section{Evaluation of the System}
+
+In a traditional information retrieval systems, precision and NDCG are widely used measures~\cite{manning2008introduction}. Precision ($P$) is the fraction of retrieved documents that are relevant.
+       $$  Precision =  \frac{ \#(releveant~items~ retrieved)}{ \#(retrieved~items)}$$
+
+We first used Precision@K to compare the performance of our approach to the classical information retrieval models: Okapi BM25~\cite{robertson2009probabilistic}, Kullback-Leibler divergence, and the TF-IDF. Precision@K is the proportion of relevant documents in the first K positions and is given below:
+$$ P@k = \frac{1}{k} \sum^m_{i=1} l_i 1 \left(  r(i) \leq k  \right )  $$
+Where 1 is the indicator function: $1(A) = 1$ if A is true, 0 otherwise.
+
+To evaluate a job finding, we compare the results of the system with three classical information retrieval models: Kullback-Leibler divergence~\cite{zhai2008statistical},  TF-IDF~\cite{manning2008introduction} and Okapi BM25~\cite{robertson1995okapi}. We give the definition of these measures below.
+
+Kullback-Leibler divergence is a non-symmetric measure of the difference between two probability distributions $P$ and $Q$. The score of a document $D$ with respect to query $Q$ is given by:
+\begin{equation}
+    \begin{array}{rcl}
+        s(D,Q) & = & -D( \theta_Q \parallel  \theta_D )\\
+               & = &- \sum_{ \omega \in V } p (\omega \mid \theta_Q) \log \frac{ p (\omega \mid \theta_Q )}{p(\omega \mid \theta_D)} \\
+               & = & \sum_{ \omega \in V } p (\omega \mid \theta_Q) \log p (\omega \mid \theta_D ) -  \sum_{ \omega \in V } p (\omega \mid \theta_Q) \log p (\omega \mid \theta_Q )  \\
+
+    \end{array}
+\end{equation}
+
+In the equation $\theta_Q$ is the language model for a query, and  $\theta_D$ is the language model for a document.
+
+TF-IDF is a Vector Space Model, which calculates the Cosine Similarity between the vectors of the query $q$ and the document $d$. In the equation, $tf$ is the term frequency, and $idf$ is the inverse document frequency. The TF-IDF weighting scheme assigned to term $t$ a weight in document $d$ given by:
+$$ tf\text{-}idf_{t,d} = tf_{t,d} \times idf_{t} $$
+The similarity between the query $q$ and the document $d$ given by:
+$$ score(q,d) =  \sum_{t \in q }  tf\text{-}idf_{t,d} $$
+
+Okapi BM25 is a bag-of-words retrieval model that ranks a set of documents based on the query terms appearing in each document. Given a query $q$, the BM25 score of a document $d$ is:
+
+$$ score(q,d) = \sum_{ t \in q  }  idf_t \frac {tf_{t,d} \cdot(k_1 +1) }  {tf_{t,d} +k_1 \cdot ( 1-b + b\cdot \frac { \left | D \right |}{avgdl})}  $$
+
+In the formula, $idf_t$ is IDF value of term $t$, $tf$ is the term frequency; $ |D|$ is the length of the document $D$; $avgdl$ is the average length of all the documents, and $k_1$ and $b$ are the free parameters.
+
+In the evaluation phase, we created a data set of 100 job descriptions that includes several kinds of jobs such as web developers, server back-end developers, mobile developers and so on. We used 5 candidate r\'esum\'es and retrieved the top 20 jobs.  The relevance value of the job descriptions to each r\'esum\'e were set manually by ten human judge. We created a query $q$ from the r\'esum\'e, treated the text of the job descriptions as documents $d$, and applied standard ad-hoc retrieval techniques to rank the jobs. We intended to return jobs that better matched the candidates' r\'esum\'es at the top. The result of Precision@k is in table~\ref{tab:job_precision}.
+
+
+\begin{table}[ht]
+\caption{Precision of Job Ranking } % title of Table
+\centering % used for centering table
+\begin{tabular}{    | c | c | c | c | c |  }
+ \hline
+       k     & Okapi BM25 & KL    & TF-IDF   & R\'esuMatcher  \\
+ \hline
+       5     & 0.66       & 0.27  & 0.72     & 0.82   \\
+ \hline
+       10    & 0.46       & 0.27  & 0.50     & 0.76   \\
+ \hline
+       20    & 0.33       & 0.21  & 0.35     & 0.77   \\
+ \hline
+
+\end{tabular}
+\label{tab:job_precision} % is used to refer this table in the text
+\\R\'esuMatcher get the highest precision.
+\end{table}
+
+The other measure we used is NDCG, which is explained in last section. Table~\ref{tab:job_ndcg} shows the NDCG value get from different information retrieval models. The result shows that Ontology Similarity  performs the best.
+
+\begin{table}[ht]
+\caption{NDCG of Job Ranking } % title of Table
+\centering % used for centering table
+\begin{tabular}{    | c | c | c | c | c |  }
+ \hline
+       k    & Okapi BM25 & KL    & TF-IDF &  R\'esuMatcher  \\
+ \hline
+       5    & 0.15       & 0.34  & 0.45     & 0.78   \\
+ \hline
+       10   & 0.18       & 0.44  & 0.47     & 0.72   \\
+ \hline
+       20   & 0.19       & 0.35  & 0.45     & 0.66   \\
+ \hline
+
+\end{tabular}
+\label{tab:job_ndcg} % is used to refer this table in the text
+\\Our sytem get the highest NDCG value.
+\end{table}
+
+\section{Comparing with the Keyword Searching}
+We also made experiments to compare the quality of search results quality between our system and the keyword searching approach. In one experiment, we first selected a r\'esum\'e, and picked a related keyword e.g. ``Java''  to search jobs in Indeed.com. We used this process to simulate how a job seeker searches jobs on Indeed.com. The top 100 jobs returned by Indeed.com were saved in our system, then we used the r\'esum\'e to match the 100 jobs. We compared the quality of the approaches by calculating the measures Precision@K  and  DCG. We use DCG not NDCG because we compare the two approaches on the same data set, and the IDCG is the same. Five judges gave the relevance values to the r\'esum\'es and jobs, and we used average values. Table~\ref{tab:comparison_java} shows comparison between the two approaches by using keyword ``Java'' and the r\'esum\'e of a Java developer. The comparison for  keyword ``Python'' and the r\'esum\'e of a Python developer is shown in Table~\ref{tab:comparison_python}, and the average comparison for five keywords and five r\'esum\'e is shown in Table~\ref{tab:comparison_avg}. We can see from the result that our system can get much better results than keyword searching approach.
+
+\begin{table}[ht]
+\caption{Comparison of the Two Approaches - Java Developer  } % title of Table
+\centering % used for centering table
+\begin{tabular}{    | c | c | c | c | c |  }
+ \hline
+  \multirow{2}{*}k    & \multicolumn{2}{c|}{Precision@K }    & \multicolumn{2}{c|}{DCG } \\
+ \cline{2-5}
+            & Indeed  & R\'esuMatcher  & Indeed     &  R\'esuMatcher     \\
+ \hline
+       5    & 0.73     & 1.00               & 10.86       & 27.80   \\
+ \hline
+       10   & 0.65     & 0.95            & 24.85       & 47.06   \\
+ \hline
+       20   & 0.72     & 0.83           & 51.97       & 73.33   \\
+ \hline
+
+\end{tabular}
+\label{tab:comparison_java} % is used to refer this table in the text
+\\R\'esuMatcher can get better result.
+\end{table}
+
+
+
+\begin{table}[ht]
+\caption{Comparison of the Two Approaches - Python Developer  } % title of Table
+\centering % used for centering table
+\begin{tabular}{    | c | c | c | c | c |  }
+ \hline
+  \multirow{2}{*}k    & \multicolumn{2}{c|}{Precision@K }    & \multicolumn{2}{c|}{DCG } \\
+ \cline{2-5}
+            & Indeed  & R\'esuMatcher  & Indeed     & R\'esuMatcher   \\
+ \hline
+       5    & 0.45    & 0.63               & 11.27       & 11.98   \\
+ \hline
+       10   & 0.32    & 0.62               & 13.43       & 15.79   \\
+ \hline
+       20   & 0.22    & 0.42               & 16.44       & 20.21   \\
+ \hline
+
+\end{tabular}
+\label{tab:comparison_python} % is used to refer this table in the text
+\\R\'esuMatcher can get better result.
+\end{table}
+
+\begin{table}[ht]
+\caption{Comparison of the Two Approaches - Average  } % title of Table
+\centering % used for centering table
+\begin{tabular}{    | c | c | c | c | c |  }
+ \hline
+  \multirow{2}{*}k    & \multicolumn{2}{c|}{Precision@K }    & \multicolumn{2}{c|}{DCG } \\
+ \cline{2-5}
+            & Indeed  & R\'esuMatcher  & Indeed     & R\'esuMatcher   \\
+ \hline
+       5    & 0.84    & 0.87               & 23.87       & 32.97   \\
+ \hline
+       10   & 0.72    & 0.86               & 37.02       & 45.57   \\
+ \hline
+       20   & 0.65    & 0.76               & 58.70       & 66.70   \\
+ \hline
+
+\end{tabular}
+\label{tab:comparison_avg} % is used to refer this table in the text
+\\R\'esuMatcher can get better result.
+\end{table}

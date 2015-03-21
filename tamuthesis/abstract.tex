@@ -1,0 +1,27 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  New template code for TAMU Theses and Dissertations starting Fall 2012.
+%  For more info about this template or the
+%  TAMU LaTeX User's Group, see http://www.howdy.me/.
+%
+%  Author: Wendy Lynn Turner
+%	 Version 1.0
+%  Last updated 8/5/2012
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                           ABSTRACT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{ABSTRACT}
+\addcontentsline{toc}{chapter}{ABSTRACT} % Needs to be set to part, so the TOC doesnt add 'CHAPTER ' prefix in the TOC.
+
+\pagestyle{plain} % No headers, just page numbers
+\pagenumbering{roman} % Roman numerals
+\setcounter{page}{2}
+
+\indent Today, online recruiting web sites such as Monster and Indeed.com have become one of the main channels for people to find jobs. These web platforms have provided their services for more than ten years, and have saved a lot of time and money for both job seekers and organizations who want to hire people. However, traditional information retrieval techniques may not be appropriate for users. The reason is because the number of results returned to a job seeker may be huge, so job seekers are required to spend a significant amount of time reading and reviewing their options. One popular approach to resolve this difficulty for users are recommender systems, which is a technology that has been studied for a long time.
+
+In this thesis we have made an effort to propose a personalized job-r\'esum\'e matching system, which could help job seekers to find appropriate jobs more easily. We create a finite state transducer based information extraction library to extract models from r\'esum\'es and job descriptions. We devised a new statistical-based ontology similarity measure to compare the r\'esum\'e models and the job models. Since the most appropriate jobs will be returned first, the users of the system may get a better result than current job finding web sites. To evaluate the system, we computed Normalized Discounted Cumulative Gain (NDCG) and precision@k of our system, and compared to three other existing models as well as the live result from Indeed.com.
+
+\pagebreak{}
