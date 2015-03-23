@@ -263,43 +263,36 @@ In our library, a ``matcher'' could be a token to be matched, or a composition o
 \end{table}
 
 The framework supports three styles of creating patterns: regular expression style, operator style and object style. The second and third styles are flexible because developers can create their own matcher class to extend the feature of the library. We use examples to show how the three styles work. The most common style is defining pattern expression in a string, which is much like traditional regular expression.
-
-\begin{framed}
-\small
-\noindent
+\\
+\\
 The pattern is:  DE-LEVEL DEGREE ( IN  $\vert$  OF ) DT? MAJOR \\
 The code is: \\
-seqMatcher =parser.parse("DE-LEVEL DEGREE ( IN  $\vert$  OF ) DT? MAJOR")
-
-\end{framed}
-
+\texttt{seqMatcher =parser.parse("DE-LEVEL DEGREE ( IN  $\vert$  OF ) DT? MAJOR")}
+\\
+\\
 The second style is using algebraic operators to connect matchers, which can help developer reuse previous patterns when the new patterns include old ones. It is shown in follows:
-\begin{framed}
-\small
-\noindent
+\\
+\\
 The pattern is:  "DE-LEVEL DEGREE (IN $\vert$ OF) MAJOR" \\
 The code is: \\
-seqMatcher =  UnitMatcher("DE-LEVEL") +  UnitMatcher("DEGREE") + \\
-\hspace{3cm} ( UnitMatcher("IN") $\vert$ UnitMatcher("OF" ) ) + UnitMatcher("MAJOR")
-
-\end{framed}
-
+\texttt{seqMatcher =  UnitMatcher("DE-LEVEL") +  UnitMatcher("DEGREE") +}\\
+\hspace{3cm} \texttt{( UnitMatcher("IN") $\vert$ UnitMatcher("OF" ) ) + UnitMatcher("MAJOR")}
+\\
+\\
 We also could create a complex matcher in object-oriented programming style.
-
-\begin{framed}
-\small
-\noindent
+\\
+\\
 The pattern is:  "DE-LEVEL DEGREE (IN $\vert$ OF) MAJOR" \\
 The code is: \\
-matcher1 = UnitMatcher("DE-LEVEL") \\
+\texttt{matcher1 = UnitMatcher("DE-LEVEL") \\
 matcher2 = UnitMatcher("DEGREE")  \\
 matcher3 = UnitMatcher("IN")   \\
 matcher4 = UnitMatcher("OF")   \\
 matcher5 = UnitMatcher("MAJOR")  \\
 matcher6 = AlternateMatcher([matcher3,matcher4])   \\
 seqMatcher = SeqMatcher([matcher1, matcher2, matcher6, matcher5])
-
-\end{framed}
+}
+\\
 
 The flexibility of the tool also comes from the fact that developers can determine which layer of the array should be matched, the original text, or labels in the first layer or labels in the second layer. Developers can assign a lambda expression to the matcher's catching function, which defines how to get the matching input strings from the sentences, as well as an out function, which defines what should be outputed. For example,  the labeled sentence is a sequence of arrays, each array includes the original text token and its labels in the other two layers, which is shown in table~\ref{tab:labeldsent}. To match the labeled sentence, we set the lambda expression for catching function to ``lambda x:x[2]'', and the out function to ``lambda x:x[1]'', which make the matcher match the label in second layer, and output the the value of semantic value in the first layer.
 

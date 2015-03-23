@@ -58,15 +58,7 @@ Big IT companies met the similar problem of information overflow when they recei
 
 Amit et al. in IBM presented a system, ``PROSPECT''~\cite{singh2010prospect}, to aid shortlisting candidates for jobs. The system uses a r\'esum\'e miner to extract the information from r\'esum\'es, which use a conditional random field (CRF) model to segment and label the r\'esum\'es. The CRF model used three kinds of features, they are: Lexicon, Visual, and Named Entity. The paper compared some algorithms to ranked the candidates applicants, such methods include: Okapi BM25, KL, Lucene Scoring, and Lucene Scoring + SkillBoost.
 
-HP also built a system to solve the similar problem, which is introduced in Gonzalez et al.'s paper~\cite{gonzalez2012adaptive}. The system also pays a lot of attention to information extraction. The information extraction (IE) architecture they used is shown in Figure~\ref{fig:hpie}.
-
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[scale=0.5]{images/hpie.png}
-  \caption{IE Framework}
-  \label{fig:hpie}
-\end{figure}
+HP also built a system to solve the similar problem, which is introduced in Gonzalez et al.'s paper~\cite{gonzalez2012adaptive}. The system also pays a lot of attention to information extraction. 
 
 The dictionaries which are used to tag entities need to be updated often since there always new terms appears. So an adaptive learning module is used to achieve two objectives: use semantic data to enhance the information extraction and to discover new terms.
 
